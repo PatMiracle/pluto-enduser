@@ -24,7 +24,9 @@ export async function POST(req: Request) {
     });
 
     return response;
-  } catch (error) {
-    return NextResponse.json(error);
+  } catch (error: any) {
+    const message = error?.response?.data?.error || error.message;
+
+    return NextResponse.json({ message }, { status: error.status });
   }
 }
