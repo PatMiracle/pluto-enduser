@@ -1,35 +1,38 @@
-import { useAuthContext } from "@/context/AuthContext";
+import useAuthStore from "@/store/AuthStore";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
   withCredentials: true,
 });
 
-// store access token in headers for every request
-api.interceptors.request.use(async (config) => {
-  const token = useAuthContext();
+// attach token to requests
+api.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// handle token refresh on 401 Unauthorized responses
+// refresh token on 401
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
-    if (error.response?.status === 401) {
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
       try {
-        const refreshRes = await fetch("/api/refresh");
-        const { accessToken } = await refreshRes.json();
-        useAuthContext().setAccessToken(accessToken);
+        const refreshRes = await axios.post("/api/refresh");
+        const { accessToken } = refreshRes.data;
+
+        useAuthStore.getState().setToken(accessToken);
 
         error.config.headers.Authorization = `Bearer ${accessToken}`;
-        return api.request(error.config);
-      } catch {
-        useAuthContext().setAccessToken("");
+        return api.request(originalRequest);
+      } catch (err) {
+        useAuthStore.getState().setToken(""); // logout
       }
     }
 

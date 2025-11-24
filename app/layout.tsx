@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import AuthProvider from "@/context/AuthContext";
+import { Toaster } from "@/components/ui/sonner";
+import Providers from "@/context/providers";
 
 const productSans = localFont({
   src: "../public/icons/Product-Sans-Regular.ttf",
@@ -24,7 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${productSans.className} antialiased`}>
-        <AuthProvider>{children}</AuthProvider>
+        <Providers>{children}</Providers>
+        <Toaster position="top-right" />
       </body>
     </html>
   );

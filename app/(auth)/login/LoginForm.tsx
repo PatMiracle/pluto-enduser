@@ -15,6 +15,9 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import useAuthStore from "@/store/AuthStore";
+import defaultErrorHandler from "@/lib/error-handler";
 
 const formSchema = z.object({
   email: z.email("Please enter a valid email"),
@@ -23,6 +26,8 @@ const formSchema = z.object({
 
 export default function LoginForm() {
   const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
+  const { setToken } = useAuthStore();
 
   const form = useForm({
     defaultValues: {
@@ -38,11 +43,13 @@ export default function LoginForm() {
         const res = await axios.post("/api/login", {
           ...value,
           role: "CLIENT",
+          rememberMe: true,
         });
         const data = await res.data;
-        console.log(data);
+        setToken(data.accessToken);
+        router.replace("/");
       } catch (e) {
-        console.log(e);
+        defaultErrorHandler(e);
       } finally {
         setSubmitting(false);
       }
