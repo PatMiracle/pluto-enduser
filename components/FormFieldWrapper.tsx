@@ -108,7 +108,7 @@ export default function FormFieldWrapper({
           />
         </>
       ) : as == "selectable" ? (
-        <Select value={state.value}>
+        <Select value={state.value} onValueChange={(v) => handleChange(v)}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>

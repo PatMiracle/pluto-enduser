@@ -9,7 +9,7 @@ export async function POST(req: Request) {
       body,
     );
 
-    const data = await res.data;
+    const data = res.data;
 
     const refreshToken = data.refreshToken;
 
