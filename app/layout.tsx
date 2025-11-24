@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import AuthProvider from "@/context/AuthContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const productSans = localFont({
+  src: "../public/icons/Product-Sans-Regular.ttf",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const slackey = localFont({
+  src: "../public/icons/Slackey-Regular.ttf",
 });
 
 export const metadata: Metadata = {
@@ -24,10 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${productSans.className} antialiased`}>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
