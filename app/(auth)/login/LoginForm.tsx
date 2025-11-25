@@ -18,6 +18,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/AuthStore";
 import defaultErrorHandler from "@/lib/error-handler";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.email("Please enter a valid email"),
@@ -44,6 +45,7 @@ export default function LoginForm() {
           rememberMe: true,
         });
         const data = res.data;
+        toast.success("Logged in successfully!");
         setToken(data.accessToken);
         router.replace("/dashboard");
       } catch (e) {
