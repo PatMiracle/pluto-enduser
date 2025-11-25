@@ -1,4 +1,5 @@
 import AuthLayout from "@/components/auth/AuthLayout";
+import ResetPasswordForm from "./ResetPasswordForm";
 
 export default function ResetPasswordPage() {
   return (
@@ -7,10 +8,10 @@ export default function ResetPasswordPage() {
       sideTitle="Don’t have an Account?"
       sideSubtitle="Enter your personal details to start with us today"
       sideButtonLabel="Register Me"
-      sideButtonHref="/register"
+      sideButtonHref="/signup"
       reverse
     >
-      <></>
+      <ResetPasswordForm />
     </AuthLayout>
   );
 }

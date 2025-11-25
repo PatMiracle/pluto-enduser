@@ -4,7 +4,7 @@ import GoogleBtn from "@/components/auth/GoogleBtn";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldSeparator } from "@/components/ui/field";
 import * as z from "zod";
-import { useForm } from "@tanstack/react-form";
+import { useForm, useStore } from "@tanstack/react-form";
 import FormFieldWrapper from "@/components/FormFieldWrapper";
 import {
   MdLockOutline,
@@ -25,7 +25,6 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
-  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const { setToken } = useAuthStore();
 
@@ -38,7 +37,6 @@ export default function LoginForm() {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      setSubmitting(true);
       try {
         const res = await axios.post("/api/login", {
           ...value,
@@ -47,15 +45,13 @@ export default function LoginForm() {
         });
         const data = res.data;
         setToken(data.accessToken);
-        router.replace("/");
+        router.replace("/dashboard");
       } catch (e) {
         defaultErrorHandler(e);
-      } finally {
-        setSubmitting(false);
       }
     },
   });
-
+  const submitting = useStore(form.store, (state) => state.isSubmitting);
   const [showPsw, setShowPsw] = useState(false);
 
   return (

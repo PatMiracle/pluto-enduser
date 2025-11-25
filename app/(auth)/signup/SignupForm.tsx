@@ -43,8 +43,6 @@ function validatePassword(password: string) {
 }
 
 export default function SignupForm() {
-  const [submitting, setSubmitting] = useState(false);
-
   const form = useForm({
     defaultValues: {
       email: "",
@@ -54,11 +52,11 @@ export default function SignupForm() {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      setSubmitting(true);
       try {
         await api.post("/auth/register", {
           ...value,
         });
+        form.reset();
         toast.success(
           "Registration successful. Check for verification email.",
           {
@@ -67,12 +65,12 @@ export default function SignupForm() {
         );
       } catch (e) {
         defaultErrorHandler(e);
-      } finally {
-        setSubmitting(false);
       }
     },
   });
   const password = useStore(form.store, (state) => state.values.password);
+
+  const submitting = useStore(form.store, (state) => state.isSubmitting);
 
   const [showPsw, setShowPsw] = useState(false);
 
