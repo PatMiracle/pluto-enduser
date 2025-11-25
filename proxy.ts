@@ -34,7 +34,7 @@ export function proxy(request: NextRequest) {
   // If user IS authenticated and trying to access auth routes (login/register)
   // Redirect them to dashboard or home
   if (isAuthRoute && isAuthenticated) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();

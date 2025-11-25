@@ -11,7 +11,9 @@ export default function Home() {
     logout().then(() => redirect("/login"));
   }
 
-  if (user) {
+  if (user?.needsAccountSetup) {
+    redirect("/onbodarding");
+  } else if (user) {
     redirect("/dashboard");
   }
 
