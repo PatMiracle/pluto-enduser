@@ -1,14 +1,17 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   MdContactSupport,
   MdDashboard,
   MdLocationOn,
+  MdLogout,
   MdOutlineContactSupport,
   MdOutlineDashboard,
   MdOutlineLocationOn,
+  MdOutlineQuiz,
   MdOutlineStorefront,
+  MdQuiz,
   MdStorefront,
 } from "react-icons/md";
 import orderActive from "@/public/icons/orders-active.svg";
@@ -27,6 +30,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { NAVBAR_HEIGHT } from "./navbar";
+import useAuthStore from "@/store/AuthStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 const items = [
   {
@@ -73,6 +78,10 @@ type Props = {};
 
 export default function AppSidebar({}: Props) {
   const pathname = usePathname();
+  const { logout } = useAuthStore();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
   return (
     <Sidebar collapsible="icon" style={{ top: NAVBAR_HEIGHT }}>
       <SidebarContent>
@@ -99,6 +108,34 @@ export default function AppSidebar({}: Props) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter style={{ paddingBottom: NAVBAR_HEIGHT }}>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname == "/faqs"}>
+              <Link href="/faqs">
+                <span className="text-green-normal shrink-0 text-2xl">
+                  {pathname == "/faqs" ? <MdQuiz /> : <MdOutlineQuiz />}
+                </span>
+                <span className="text-base">FAQs</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              onClick={() => {
+                logout();
+                queryClient.invalidateQueries();
+                router.replace("/login");
+              }}
+            >
+              <span className="text-green-normal shrink-0 text-2xl">
+                <MdLogout className="text-green-normal shrink-0 text-2xl" />
+              </span>
+              <span className="text-base">Logout</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }

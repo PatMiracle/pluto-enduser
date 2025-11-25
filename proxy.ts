@@ -10,12 +10,11 @@ const authRoutes = [
   "/create-new-password",
 ];
 
-const publicRoutes = ["/about", "/contact"];
-
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const token = request.cookies.get("refreshToken")?.value;
+
   const isAuthenticated = !!token;
 
   const isProtectedRoute = protectedRoutes.some((route) =>
@@ -31,10 +30,14 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  if (pathname == "/" && isAuthenticated) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
   // If user IS authenticated and trying to access auth routes (login/register)
   // Redirect them to dashboard or home
   if (isAuthRoute && isAuthenticated) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return NextResponse.next();

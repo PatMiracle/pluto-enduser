@@ -34,7 +34,14 @@ const AuthLayout = ({
       {/* Green Side */}
       <div className="bg-green-normal hidden flex-1 items-center justify-center px-10 text-white lg:sticky lg:top-0 lg:flex lg:h-screen">
         <div className="flex max-w-xl flex-col items-center text-center">
-          <Image src={hiGIF} alt="" loading="eager" width={275} height={189} />
+          <Image
+            src={hiGIF}
+            alt=""
+            loading="eager"
+            width={275}
+            height={189}
+            unoptimized
+          />
           <h2 className="mb-4 text-4xl font-bold md:mt-2">{sideTitle}</h2>
           <p className="mb-8">{sideSubtitle}</p>
           <Button variant={"white"} asChild>

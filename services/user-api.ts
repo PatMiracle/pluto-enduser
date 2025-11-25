@@ -1,7 +1,7 @@
-import api from "./api";
-import { useQuery } from "@tanstack/react-query";
+import { useApiQuery } from "@/hooks/useApiQuery";
+import axios from "axios";
 
-interface User {
+export interface User {
   accountType: "personal" | "business" | "government";
   //   profilePhoto:  | null;
   stateWasteManagementBoardId: number | null;
@@ -25,10 +25,10 @@ interface User {
   streetAddress: string;
 }
 
-const getUser = async () => {
-  const res = await api.get<User>("/users/me");
+// get user from server
+export const getUser = async () => {
+  const res = await axios.get<User>("/api/user");
   return res.data;
 };
 
-export const useUserQuery = () =>
-  useQuery({ queryKey: ["user"], queryFn: getUser, staleTime: 5 * 60 * 1000 });
+export const useUserQuery = () => useApiQuery<User>("user-info", "/users/me");

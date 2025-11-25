@@ -15,7 +15,7 @@ import {
   MdVisibilityOff,
 } from "react-icons/md";
 import { useState } from "react";
-import api from "@/services/api";
+import api from "@/lib/api";
 import defaultErrorHandler from "@/lib/error-handler";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";

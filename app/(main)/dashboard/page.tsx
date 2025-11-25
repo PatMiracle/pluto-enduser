@@ -1,43 +1,17 @@
-import StatCard from "@/components/dashboard/stat-card";
-import { MdOutlineLocationOn } from "react-icons/md";
+"use client";
 
-const dummyData = {
-  locations: {
-    value: 4,
-  },
-  requests: {
-    value: 127,
-    percentageIncrease: "+12.5%",
-  },
-};
+import { useCalenderEvents } from "@/services/calendar-events-api";
+import { useDashboard } from "@/services/dashboard-api";
+import { useServiceRequests } from "@/services/service-requests-api";
+import { useUserQuery } from "@/services/user-api";
 
-export default async function Dashboard() {
+export default function Dashboard() {
+  const { data: user } = useUserQuery();
+  const { data: dashboardData } = useDashboard();
+  const { data: calenderEvents } = useCalenderEvents({ pageSize: 9 });
+  const { data: serviceRequests } = useServiceRequests({ pageSize: 7 });
+
   return (
-    <div className="grid max-w-2xl grid-cols-2 gap-3 px-5 py-4 lg:gap-5">
-      <StatCard
-        title="Locations"
-        value={dummyData?.locations?.value || 0}
-        subtitle="Total Registered"
-        icon={<MdOutlineLocationOn />}
-      />
-      <StatCard
-        title="Locations"
-        value={dummyData?.locations?.value || 0}
-        subtitle="Total Registered"
-        icon={<MdOutlineLocationOn />}
-      />
-      <StatCard
-        title="Locations"
-        value={dummyData?.locations?.value || 0}
-        subtitle="Total Registered"
-        icon={<MdOutlineLocationOn />}
-      />
-      <StatCard
-        title="Locations"
-        value={dummyData?.locations?.value || 0}
-        subtitle="Total Registered"
-        icon={<MdOutlineLocationOn />}
-      />
-    </div>
+    <div className="grid max-w-2xl grid-cols-2 gap-3 px-5 py-4 lg:gap-5"></div>
   );
 }

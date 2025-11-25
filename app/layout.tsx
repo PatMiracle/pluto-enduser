@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import ReactQueryProvider from "@/context/ReactQueryProvider";
+import Providers from "./providers";
 
 const productSans = localFont({
   src: "../public/icons/Product-Sans-Regular.ttf",
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${productSans.className} bg-white-normal antialiased`}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <Providers>{children}</Providers>
         <Toaster position="top-right" />
       </body>
     </html>
