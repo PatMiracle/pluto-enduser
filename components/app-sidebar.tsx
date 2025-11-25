@@ -16,18 +16,17 @@ import orderInactive from "@/public/icons/orders-inactive.svg";
 import personRaisedHand from "@/public/icons/person-raised-hand.svg";
 import Link from "next/link";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { NAVBAR_HEIGHT } from "./navbar";
 
 const items = [
   {
@@ -74,9 +73,8 @@ type Props = {};
 
 export default function AppSidebar({}: Props) {
   const pathname = usePathname();
-
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" style={{ top: NAVBAR_HEIGHT }}>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
