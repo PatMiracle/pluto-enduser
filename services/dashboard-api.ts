@@ -35,4 +35,4 @@ export interface DashboardData {
 }
 
 export const useDashboard = () =>
-  useApiQuery<DashboardData>("dashboard", "/api/dashboard");
+  useApiQuery<DashboardData>("dashboard", "/user/dashboard");

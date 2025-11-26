@@ -1,4 +1,4 @@
-import api from "@/lib/api";
+import api from "@/lib/apiClient";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
 export const fetcher = async <T, TParams extends Record<string, any> = {}>(

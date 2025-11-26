@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { STORAGE_KEYS } from "./constants/storage-keys";
 
 const protectedRoutes = ["/dashboard", "/profile", "/settings"];
 
@@ -13,9 +14,7 @@ const authRoutes = [
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const token = request.cookies.get("refreshToken")?.value;
-
-  const isAuthenticated = !!token;
+  const isAuthenticated = request.cookies.has(STORAGE_KEYS.REFRESH_TOKEN);
 
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route),

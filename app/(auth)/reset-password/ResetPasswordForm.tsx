@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useForm, useStore } from "@tanstack/react-form";
 import FormFieldWrapper from "@/components/FormFieldWrapper";
 import { MdMailOutline } from "react-icons/md";
-import api from "@/lib/api";
+import api from "@/lib/apiClient";
 import defaultErrorHandler from "@/lib/error-handler";
 import { toast } from "sonner";
 import Link from "next/link";

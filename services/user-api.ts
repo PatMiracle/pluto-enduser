@@ -25,10 +25,4 @@ export interface User {
   streetAddress: string;
 }
 
-// get user from server
-export const getUser = async () => {
-  const res = await axios.get<User>("/api/user");
-  return res.data;
-};
-
 export const useUserQuery = () => useApiQuery<User>("user-info", "/users/me");
