@@ -5,18 +5,24 @@ import { Skeleton } from "../ui/skeleton";
 import { MdChevronLeft, MdKeyboardArrowRight } from "react-icons/md";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import greenTruck from "@/public/icons/green-truck.svg";
+import Image from "next/image";
 
 type Props = {
   data: CalendarEvent[] | undefined;
 };
 
 export default function PickupSchedules({ data }: Props) {
+  const isMobile = useIsMobile();
+
   function chunkArray() {
     if (!Array.isArray(data)) return []; // safety check
 
+    const n = isMobile ? 3 : 2;
     const result = [];
-    for (let i = 0; i < data.length; i += 2) {
-      result.push(data.slice(i, i + 2));
+    for (let i = 0; i < data.length; i += n) {
+      result.push(data.slice(i, i + n));
     }
     return result;
   }
@@ -38,7 +44,7 @@ export default function PickupSchedules({ data }: Props) {
 
   return (
     <div className="flex w-full flex-col">
-      <div className="border-white-dark rounded-lg border px-3 py-4">
+      <div className="border-white-dark min-h-64 rounded-lg border px-3 py-4">
         <h2 className="text-white-darker text-lg font-medium">
           Pickup Schedule
         </h2>
@@ -55,7 +61,7 @@ export default function PickupSchedules({ data }: Props) {
 
         <Link
           href="/pickup-schedules"
-          className="mt-2.5 ml-auto block text-right text-base underline"
+          className="mt-2.5 ml-auto block self-end text-right text-base underline"
         >
           View all
         </Link>
@@ -122,13 +128,7 @@ const PickupItems = ({ data }: { data: CalendarEvent[] }) => {
           </div>
           <div className="bg-green-normal flex flex-1 items-center gap-2.5 rounded-lg px-3 py-2.5">
             <div className="bg-white-normal flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
-              <svg
-                className="text-green-normal h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M18 18.5a1.5 1.5 0 0 1-1 1.5H3a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 3 8h14a1.5 1.5 0 0 1 1.5 1.5v9h.5zm-1-9H3v9h14v-9zm5-4v9a1.5 1.5 0 0 1-1.5 1.5H20v-9h.5zm-2-1H19V4a1.5 1.5 0 0 0-1.5-1.5h-14A1.5 1.5 0 0 0 2 4v.5h18z" />
-              </svg>
+              <Image src={greenTruck} alt="" width={17} />
             </div>
             <span className="text-white-normal text-sm font-medium">
               {landmark.landmarkName} Pickup
