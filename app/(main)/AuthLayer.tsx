@@ -27,7 +27,7 @@ export default function AuthLayer({ children }: Props) {
 
       if (userError.status === 401) {
         toast.error("User session expired, redirecting to login.", {
-          duration: 10000,
+          duration: 5000,
         });
         logout();
         router.replace("/login");
