@@ -1,5 +1,6 @@
 "use client";
 
+import PickupSchedules from "@/components/dashboard/pickup-schedules";
 import StatCards from "@/components/dashboard/stat-cards";
 import { useCalenderEvents } from "@/services/calendar-events-api";
 import { useDashboard } from "@/services/dashboard-api";
@@ -18,9 +19,12 @@ export default function Dashboard() {
       <p className="text-lg">
         Welcome Back, {user?.firstName} {user?.lastName}!
       </p>
-      <div className="flex flex-row py-4">
-        <div className="w-full lg:max-w-2xl">
+      <div className="flex flex-col gap-4 py-4 lg:flex-row">
+        <div className="w-full lg:max-w-[60%]">
           <StatCards data={dashboardData} />
+        </div>
+        <div className="lg:max-[40%] flex-1">
+          <PickupSchedules data={calenderEvents?.data} />
         </div>
       </div>
     </div>

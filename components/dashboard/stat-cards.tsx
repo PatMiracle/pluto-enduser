@@ -35,7 +35,7 @@ export default function StatCards({ data }: Props) {
           <PointCard pointsEarned={data.pointsEarned} />
         </>
       ) : (
-        Array.from({ length: 4 }).map((_, j) => <StatSkeleton />)
+        Array.from({ length: 4 }).map((_, j) => <StatSkeleton key={j} />)
       )}
     </div>
   );

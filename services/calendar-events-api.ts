@@ -37,7 +37,7 @@ interface ServiceRequest {
 }
 
 // A single event record
-interface Event {
+export interface CalendarEvent {
   dateCreated: string;
   lastModified: string;
   title: string;
@@ -69,7 +69,7 @@ interface EventsResponse {
   count: number;
   total: string;
   done: boolean;
-  data: Event[];
+  data: CalendarEvent[];
   pagination: Pagination;
 }
 
