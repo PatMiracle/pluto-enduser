@@ -123,8 +123,8 @@ const PickupItems = ({ data }: { data: CalendarEvent[] }) => {
       {data?.map(({ startDateTime, eventId, landmark }) => (
         <div key={eventId} className="flex items-center gap-4">
           <div className="min-w-10 text-center">
-            <div className="text-sm">{formatDate(startDateTime, "EEE")}</div>
-            <div className="text-sm">{formatDate(startDateTime, "do")}</div>
+            <p className="text-xs">{formatDate(startDateTime, "EEE")}</p>
+            <p className="text-xs">{formatDate(startDateTime, "do")}</p>
           </div>
           <div className="bg-green-normal flex flex-1 items-center gap-2.5 rounded-lg px-3 py-2.5">
             <div className="bg-white-normal flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
