@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/components/dashboard/footer";
 import PickupSchedules from "@/components/dashboard/pickup-schedules";
 import StatCards from "@/components/dashboard/stat-cards";
 import { useCalenderEvents } from "@/services/calendar-events-api";
@@ -15,18 +16,22 @@ export default function Dashboard() {
   const { data: serviceRequests } = useServiceRequests({ pageSize: 7 });
 
   return (
-    <div className="gap-4 p-4">
-      <p className="text-lg">
-        Welcome Back, {user?.firstName} {user?.lastName}!
-      </p>
-      <div className="flex flex-col gap-4 py-4 lg:flex-row">
-        <div className="w-full lg:max-w-[60%]">
-          <StatCards data={dashboardData} />
+    <>
+      <div className="gap-4 p-4">
+        <p className="text-lg">
+          Welcome Back, {user?.firstName} {user?.lastName}!
+        </p>
+        <div className="flex flex-col gap-4 py-4 lg:flex-row">
+          <div className="w-full lg:max-w-[60%]">
+            <StatCards data={dashboardData} />
+          </div>
+          <div className="lg:max-[40%] flex-1">
+            <PickupSchedules data={calenderEvents?.data} />
+          </div>
         </div>
-        <div className="lg:max-[40%] flex-1">
-          <PickupSchedules data={calenderEvents?.data} />
-        </div>
+        {/*  */}
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

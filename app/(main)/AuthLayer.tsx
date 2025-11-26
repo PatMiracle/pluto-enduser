@@ -13,29 +13,35 @@ export default function AuthLayer({ children }: Props) {
   const [mounted, setMounted] = useState(false);
   const { logout } = useAuthStore();
 
-  const {
-    // data: user,
-    isPending,
-    isError,
-    // error
-  } = useApiQuery("user-info", "/users/me", {});
+  const { isPending, isError, error } = useApiQuery(
+    "user-info",
+    "/users/me",
+    {},
+  );
 
   useEffect(() => {
     if (isError && !mounted) {
       setMounted(true);
-      toast.error("User session expired, redirecting to login.", {
-        duration: 1000000,
-      });
-      logout();
-      router.replace("/login");
+
+      const userError = error as any;
+
+      if (userError.status === 401) {
+        toast.error("User session expired, redirecting to login.", {
+          duration: 10000,
+        });
+        logout();
+        router.replace("/login");
+      }
     }
   }, [isError, mounted]);
 
   if (isPending) {
-    <div className="flex h-screen w-full flex-col items-center justify-center gap-4">
-      <div className="border-green-normal h-14 w-14 animate-spin rounded-full border-0 border-y-2"></div>
-      <p>Loading Application...</p>
-    </div>;
+    return (
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-4">
+        <div className="border-green-normal h-14 w-14 animate-spin rounded-full border-0 border-y-2"></div>
+        <p>Loading Application...</p>
+      </div>
+    );
   }
 
   return <>{children}</>;
