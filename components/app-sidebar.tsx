@@ -6,6 +6,7 @@ import {
   MdDashboard,
   MdLocationOn,
   MdLogout,
+  MdMenu,
   MdOutlineContactSupport,
   MdOutlineDashboard,
   MdOutlineLocationOn,
@@ -28,12 +29,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { NAVBAR_HEIGHT } from "./navbar";
 import useAuthStore from "@/store/AuthStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
+import menuIcon from "@/public/icons/menu.svg";
 
 const items = [
   {
@@ -94,6 +97,11 @@ export default function AppSidebar({}: Props) {
     <Sidebar collapsible="icon" style={{ top: NAVBAR_HEIGHT }}>
       <SidebarContent>
         <SidebarGroup>
+          {isMobile && (
+            <SidebarTrigger className="mx-auto block">
+              <MdMenu className="text-primary hover:text-primary size-7" />
+            </SidebarTrigger>
+          )}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
