@@ -14,12 +14,10 @@ type Props = {
 };
 
 export default function PickupSchedules({ data }: Props) {
-  const isMobile = useIsMobile();
-
   function chunkArray() {
-    if (!Array.isArray(data)) return []; // safety check
+    if (!Array.isArray(data)) return [];
 
-    const n = isMobile ? 3 : 2;
+    const n = 3;
     const result = [];
     for (let i = 0; i < data.length; i += n) {
       result.push(data.slice(i, i + n));
