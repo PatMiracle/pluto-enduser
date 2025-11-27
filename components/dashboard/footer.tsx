@@ -47,7 +47,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-green-normal text-white-normal w-full rounded-t-3xl py-10 xl:rounded-b-3xl xl:pt-6">
+    <footer className="bg-green-normal text-white-normal w-full rounded-t-3xl py-10 xl:w-[400px] xl:rounded-b-3xl xl:pt-6">
       <div className="mx-auto flex w-11/12 flex-col gap-6 text-center sm:flex-row sm:text-left lg:gap-24 xl:flex-col xl:gap-4 xl:text-center">
         <div>
           <p className="mb-6 text-2xl font-bold xl:mb-4">Promotions</p>

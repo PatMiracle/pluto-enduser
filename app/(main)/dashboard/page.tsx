@@ -10,7 +10,6 @@ import { useUserQuery } from "@/services/user-api";
 import { DataTable, TableSkeleton } from "@/components/data-table";
 import { requestColumns } from "../requests/columns";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Dashboard() {
   const { data: user } = useUserQuery();
@@ -34,7 +33,7 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="flex flex-col xl:mx-4 xl:flex-row xl:gap-4 xl:pb-6">
-        <section className="xl:w-[calc(100%-116px)]">
+        <section className="xl:w-full">
           <div className="border-white-dark m-4 grid gap-4 rounded-lg border px-4 py-5 xl:m-0">
             <p>Requests & Special Orders</p>
             {serviceRequests ? (
@@ -53,11 +52,8 @@ export default function Dashboard() {
             </Link>
           </div>
         </section>
-        <div className="xl:w-96">
-          <Footer />
-        </div>
+        <Footer />
       </div>
-      {/*  */}
     </>
   );
 }

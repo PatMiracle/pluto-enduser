@@ -62,6 +62,8 @@ export interface ServiceRequestsResponse {
 
 interface Params {
   pageSize?: number;
+  status?: ServiceRequest["orderStatus"];
+  search?: string;
 }
 export const useServiceRequests = (p: Params) =>
   useApiQuery<ServiceRequestsResponse>(

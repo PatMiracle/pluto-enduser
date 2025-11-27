@@ -18,9 +18,12 @@ export default function Navbar() {
       <div className="flex items-center gap-5">
         <SidebarTrigger asChild>
           {open ? (
-            <MdMenu className="text-primary hover:text-primary size-7" />
+            <MdMenu
+              title="CTRL + B"
+              className="text-primary hover:text-primary size-7"
+            />
           ) : (
-            <div>
+            <div title="CTRL + B">
               <Image src={menuIcon} alt="" className="size-6" />
             </div>
           )}

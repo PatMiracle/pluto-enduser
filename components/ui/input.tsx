@@ -13,7 +13,7 @@ function Input({
   iconRight?: React.ReactNode;
 }) {
   return (
-    <div className="relative">
+    <div className={cn("relative", className)}>
       <span className="text-green-normal absolute top-1/2 left-3 -translate-y-1/2 text-xl">
         {iconLeft}
       </span>
@@ -26,7 +26,6 @@ function Input({
           iconRight ? "pr-10" : "pr-3",
           "rounded-3xl rounded-tl-none",
           "focus-visible:border-primary",
-          className,
         )}
         {...props}
       />
