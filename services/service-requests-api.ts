@@ -10,7 +10,7 @@ interface Landmark {
   stateName: string;
 }
 
-interface ServiceRequest {
+export interface ServiceRequest {
   dateCreated: string; // ISO date string
   lastModified: string; // ISO date string
   clientId: string; // UUID
@@ -30,14 +30,12 @@ interface ServiceRequest {
   pickupAddress: string;
   orderStatus:
     | "NEW"
-    | "CONFIRMED"
-    | "ASSIGNED"
-    | "ONGOING"
+    | "PENDING"
+    | "APPROVED"
     | "COMPLETED"
     | "CANCELLED"
-    | "REJECTED"
-    | "CLOSED"
-    | string;
+    | "OVER_DUE"
+    | "CLIENT_CANCELLED";
   paymentId: number;
   serviceRequestId: number;
   landmark: Landmark;

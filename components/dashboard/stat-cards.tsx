@@ -17,7 +17,7 @@ export default function StatCards({ data }: Props) {
           <StatCard
             title="Location"
             value={data.locations.value}
-            subtitle=" Total Registered"
+            subtitle="Total Registered"
             icon={<MdOutlineLocationOn />}
           />
           <StatCard
@@ -76,7 +76,7 @@ const StatCard = ({ title, value, subtitle, icon }: StatCardProps) => {
 const PointCard = ({ pointsEarned }: { pointsEarned: number }) => {
   return (
     <div className="bg-black-normal relative flex flex-1 flex-col justify-between rounded-lg border p-4">
-      <p className="text-white-normal text-lg">Points Earned</p>
+      <p className="text-white-normal text-[15px]">Points Earned</p>
       <p className="text-white-normal text-3xl">{pointsEarned}</p>
     </div>
   );
