@@ -7,7 +7,7 @@ import { useCalenderEvents } from "@/services/calendar-events-api";
 import { useDashboard } from "@/services/dashboard-api";
 import { useServiceRequests } from "@/services/service-requests-api";
 import { useUserQuery } from "@/services/user-api";
-import { DataTable } from "@/components/data-table";
+import { DataTable, TableSkeleton } from "@/components/data-table";
 import { requestColumns } from "../requests/columns";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -43,11 +43,7 @@ export default function Dashboard() {
                 data={serviceRequests?.data}
               />
             ) : (
-              <div className="grid gap-4">
-                {Array.from({ length: 8 }).map((_, j) => (
-                  <Skeleton key={j} className="bg-white-normal-hover h-10" />
-                ))}
-              </div>
+              <TableSkeleton rows={8} />
             )}
             <Link
               href="/requests"

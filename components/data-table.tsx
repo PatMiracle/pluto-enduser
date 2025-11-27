@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Skeleton } from "./ui/skeleton";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,6 +76,16 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+    </div>
+  );
+}
+
+export function TableSkeleton({ rows }: { rows: number }) {
+  return (
+    <div className="grid gap-4">
+      {Array.from({ length: rows }).map((_, j) => (
+        <Skeleton key={j} className="bg-white-normal-hover h-10" />
+      ))}
     </div>
   );
 }
