@@ -47,15 +47,15 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-green-normal text-white-normal w-full rounded-t-3xl py-10">
-      <div className="mx-auto flex w-11/12 flex-col gap-6 text-center sm:flex-row sm:text-left">
+    <footer className="bg-green-normal text-white-normal w-full rounded-t-3xl py-10 xl:rounded-b-3xl xl:pt-6">
+      <div className="mx-auto flex w-11/12 flex-col gap-6 text-center sm:flex-row sm:text-left lg:gap-24 xl:flex-col xl:gap-4 xl:text-center">
         <div>
-          <p className="mb-6 text-2xl font-bold">Promotions</p>
+          <p className="mb-6 text-2xl font-bold xl:mb-4">Promotions</p>
 
-          <div className="mx-auto w-xs">
+          <div className="mx-auto w-xs xl:w-2xs">
             <Carousel
               setApi={setApi}
-              className="h-full w-xs"
+              className="h-full w-full"
               opts={{ loop: true }}
             >
               <CarouselContent>
@@ -64,14 +64,14 @@ export default function Footer() {
                     <Image
                       src={image}
                       alt={`Promotion ${idx + 1}`}
-                      className="h-44 w-xs rounded-lg object-cover"
+                      className="h-44 w-full rounded-lg object-cover"
                     />
                   </CarouselItem>
                 ))}
               </CarouselContent>
             </Carousel>
 
-            <div className="mt-2 flex w-xs justify-center gap-1">
+            <div className="mt-2 flex w-full justify-center gap-1">
               {promoImages.map((_, i) => (
                 <button
                   key={i}
@@ -86,8 +86,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid gap-10">
-          <div className="flex flex-col gap-6">
+        <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-1 xl:gap-7">
+          <div className="flex flex-col gap-6 xl:gap-3">
             <p className="text-2xl font-bold">Education</p>
             <div className="flex flex-col gap-3">
               <Link href="#" className="text-lg underline">
@@ -98,7 +98,7 @@ export default function Footer() {
               </Link>
             </div>
           </div>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 xl:gap-3">
             <p className="text-2xl font-bold">Policies</p>
             <div className="flex flex-col gap-3">
               <Link href="#" className="text-lg underline">

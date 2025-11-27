@@ -32,28 +32,36 @@ export default function Dashboard() {
             <PickupSchedules data={calenderEvents?.data} />
           </section>
         </div>
-
-        <section className="border-white-dark grid gap-4 rounded-lg border px-4 py-5">
-          <p>Requests & Special Orders</p>
-          {serviceRequests ? (
-            <DataTable columns={requestColumns} data={serviceRequests?.data} />
-          ) : (
-            <div className="grid gap-4">
-              {Array.from({ length: 8 }).map((_, j) => (
-                <Skeleton key={j} className="bg-white-normal-hover h-10" />
-              ))}
-            </div>
-          )}
-          <Link
-            href="/requests"
-            className="mt-2.5 ml-auto block self-end text-right text-base underline"
-          >
-            View all
-          </Link>
-        </section>
-        {/*  */}
       </div>
-      <Footer />
+      <div className="flex flex-col xl:mx-4 xl:flex-row xl:gap-4 xl:pb-6">
+        <section className="xl:w-[calc(100%-116px)]">
+          <div className="border-white-dark m-4 grid gap-4 rounded-lg border px-4 py-5 xl:m-0">
+            <p>Requests & Special Orders</p>
+            {serviceRequests ? (
+              <DataTable
+                columns={requestColumns}
+                data={serviceRequests?.data}
+              />
+            ) : (
+              <div className="grid gap-4">
+                {Array.from({ length: 8 }).map((_, j) => (
+                  <Skeleton key={j} className="bg-white-normal-hover h-10" />
+                ))}
+              </div>
+            )}
+            <Link
+              href="/requests"
+              className="mt-2.5 ml-auto block self-end text-right text-base underline"
+            >
+              View all
+            </Link>
+          </div>
+        </section>
+        <div className="xl:w-96">
+          <Footer />
+        </div>
+      </div>
+      {/*  */}
     </>
   );
 }
