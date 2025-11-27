@@ -28,10 +28,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { NAVBAR_HEIGHT } from "./navbar";
 import useAuthStore from "@/store/AuthStore";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const items = [
   {
@@ -81,6 +83,12 @@ export default function AppSidebar({}: Props) {
   const { logout } = useAuthStore();
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  const { setOpenMobile, isMobile } = useSidebar();
+
+  useEffect(() => {
+    if (isMobile) setOpenMobile(false);
+  }, [pathname, isMobile, setOpenMobile]);
 
   return (
     <Sidebar collapsible="icon" style={{ top: NAVBAR_HEIGHT }}>
