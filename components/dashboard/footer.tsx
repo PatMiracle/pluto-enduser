@@ -52,7 +52,7 @@ export default function Footer() {
         <div>
           <p className="mb-6 text-2xl font-bold xl:mb-4">Promotions</p>
 
-          <div className="mx-auto w-xs xl:w-2xs">
+          <div className="mx-auto w-xs xl:w-full">
             <Carousel
               setApi={setApi}
               className="h-full w-full"
