@@ -23,7 +23,7 @@ export const requestColumns: ColumnDef<ServiceRequest>[] = [
       return (
         <span
           className={cn(
-            "block max-w-16 rounded-sm border py-1 text-center text-[10px] md:text-xs",
+            "block w-16 rounded-sm border py-1 text-center text-[10px] md:text-xs",
             getRequestStatusStyle(v as "NEW").style,
           )}
         >
