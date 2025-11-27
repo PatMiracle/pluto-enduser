@@ -1,6 +1,6 @@
 "use client";
 
-import Footer from "@/components/dashboard/footer";
+import Footer from "@/components/footer";
 import PickupSchedules from "@/components/dashboard/pickup-schedules";
 import StatCards from "@/components/dashboard/stat-cards";
 import { useCalenderEvents } from "@/services/calendar-events-api";

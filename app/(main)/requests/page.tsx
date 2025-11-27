@@ -6,7 +6,7 @@ import {
   useServiceRequests,
 } from "@/services/service-requests-api";
 import { requestColumns } from "./columns";
-import Footer from "@/components/dashboard/footer";
+import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";

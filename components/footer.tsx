@@ -47,10 +47,10 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-green-normal text-white-normal w-full rounded-t-3xl py-10 xl:w-[400px] xl:rounded-b-3xl xl:pt-6">
-      <div className="mx-auto flex w-11/12 flex-col gap-6 text-center sm:flex-row sm:text-left lg:gap-24 xl:flex-col xl:gap-4 xl:text-center">
+    <footer className="bg-green-normal text-white-normal h-max w-full shrink-0 grow-0 rounded-t-3xl py-9 xl:w-[383px] xl:rounded-b-3xl">
+      <div className="mx-auto flex w-11/12 flex-col gap-6 text-center sm:flex-row sm:text-left lg:gap-24 xl:w-10/12 xl:flex-col xl:gap-16 xl:text-center">
         <div>
-          <p className="mb-6 text-2xl font-bold xl:mb-4">Promotions</p>
+          <p className="mb-6 text-2xl font-bold">Promotions</p>
 
           <div className="mx-auto w-xs xl:w-full">
             <Carousel
@@ -86,14 +86,14 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-1 xl:gap-7">
+        <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-1">
           <div className="flex flex-col gap-6 xl:gap-3">
             <p className="text-2xl font-bold">Education</p>
             <div className="flex flex-col gap-3">
-              <Link href="#" className="text-lg underline">
+              <Link href="#" className="text-lg underline underline-offset-8">
                 Bill & Rates
               </Link>
-              <Link href="#" className="text-lg underline">
+              <Link href="#" className="text-lg underline underline-offset-8">
                 Waste Education
               </Link>
             </div>
@@ -101,10 +101,10 @@ export default function Footer() {
           <div className="flex flex-col gap-6 xl:gap-3">
             <p className="text-2xl font-bold">Policies</p>
             <div className="flex flex-col gap-3">
-              <Link href="#" className="text-lg underline">
+              <Link href="#" className="text-lg underline underline-offset-8">
                 Pluto’s Terms
               </Link>
-              <Link href="#" className="text-lg underline">
+              <Link href="#" className="text-lg underline underline-offset-8">
                 Federal Waste Mgt. Laws
               </Link>
             </div>
