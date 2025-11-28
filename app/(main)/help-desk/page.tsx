@@ -18,7 +18,7 @@ export default function HelpDesk() {
   return (
     <div className="px-5">
       <p className="text-lg">Help Desk</p>
-      <div className="flex flex-row gap-5 pt-5">
+      <div className="flex flex-row gap-4 pt-5">
         <Button
           onClick={() => setActiveTab("query-ticket")}
           className={cn(
@@ -39,7 +39,7 @@ export default function HelpDesk() {
           My Tickets
         </Button>
       </div>
-      <div className="py-5">
+      <div className="py-6">
         {activeTab == "query-ticket" ? (
           <QueryTickets />
         ) : (
