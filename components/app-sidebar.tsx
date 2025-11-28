@@ -98,8 +98,8 @@ export default function AppSidebar({}: Props) {
       <SidebarContent>
         <SidebarGroup>
           {isMobile && (
-            <SidebarTrigger className="mx-auto block">
-              <MdMenu className="text-primary hover:text-primary size-7" />
+            <SidebarTrigger asChild>
+              <MdMenu className="text-primary hover:text-primary mx-auto block size-7" />
             </SidebarTrigger>
           )}
           <SidebarGroupContent>
