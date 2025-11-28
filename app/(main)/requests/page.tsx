@@ -5,7 +5,7 @@ import {
   ServiceRequest,
   useServiceRequests,
 } from "@/services/service-requests-api";
-import { requestColumns } from "./columns";
+import { requestColumns } from "./requestColumns";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

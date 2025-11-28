@@ -1,6 +1,6 @@
 import { DashboardData } from "@/services/dashboard-api";
 import React from "react";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../../components/ui/skeleton";
 import { MdOutlineLocationOn, MdStorefront } from "react-icons/md";
 import Image from "next/image";
 import orderInactiveIcon from "@/public/icons/orders-inactive.svg";

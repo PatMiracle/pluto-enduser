@@ -1,14 +1,14 @@
 "use client";
 
 import Footer from "@/components/footer";
-import PickupSchedules from "@/components/dashboard/pickup-schedules";
-import StatCards from "@/components/dashboard/stat-cards";
+import PickupSchedules from "@/app/(main)/dashboard/pickup-schedules";
+import StatCards from "@/app/(main)/dashboard/stat-cards";
 import { useCalenderEvents } from "@/services/calendar-events-api";
 import { useDashboard } from "@/services/dashboard-api";
 import { useServiceRequests } from "@/services/service-requests-api";
 import { useUserQuery } from "@/services/user-api";
 import { DataTable, TableSkeleton } from "@/components/data-table";
-import { requestColumns } from "../requests/columns";
+import { requestColumns } from "../requests/requestColumns";
 import Link from "next/link";
 
 export default function Dashboard() {

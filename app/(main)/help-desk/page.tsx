@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import QueryTickets from "./query-tickets";
-import { DataTable, TableSkeleton } from "@/components/data-table";
+import { DataTable } from "@/components/data-table";
 import { useTickets } from "@/services/ticket";
-import { ticketColumns } from "./columns";
+import { ticketColumns } from "./ticketColumns";
 
 export default function HelpDesk() {
   const [activeTab, setActiveTab] = useState<"query-ticket" | "my-tickets">(

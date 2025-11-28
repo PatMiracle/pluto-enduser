@@ -1,6 +1,6 @@
 "use client";
 
-import GoogleBtn from "@/components/auth/GoogleBtn";
+import GoogleBtn from "@/app/(auth)/GoogleBtn";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldSeparator } from "@/components/ui/field";
 import * as z from "zod";

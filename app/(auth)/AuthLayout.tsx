@@ -2,7 +2,7 @@ import React from "react";
 import logo from "@/public/images/logo.svg";
 import hiGIF from "@/public/images/hi.gif";
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "../../components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface Props {
