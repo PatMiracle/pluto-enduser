@@ -1,7 +1,7 @@
 import { CalendarEvent } from "@/services/calendar-events-api";
 import { useEffect, useState } from "react";
 import { formatDate } from "date-fns";
-import { Skeleton } from "../../../components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MdChevronLeft, MdKeyboardArrowRight } from "react-icons/md";
 import Link from "next/link";
 import { cn } from "@/lib/utils";

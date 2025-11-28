@@ -7,7 +7,7 @@ import { useCalenderEvents } from "@/services/calendar-events-api";
 import { useDashboard } from "@/services/dashboard-api";
 import { useServiceRequests } from "@/services/service-requests-api";
 import { useUserQuery } from "@/services/user-api";
-import { DataTable, TableSkeleton } from "@/components/data-table";
+import { DataTable } from "@/components/data-table";
 import { requestColumns } from "../requests/requestColumns";
 import Link from "next/link";
 
