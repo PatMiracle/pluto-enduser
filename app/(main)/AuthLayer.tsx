@@ -13,11 +13,12 @@ export default function AuthLayer({ children }: Props) {
   const [mounted, setMounted] = useState(false);
   const { logout } = useAuthStore();
 
-  const { isPending, isError, error } = useApiQuery(
-    "user-info",
-    "/users/me",
-    {},
-  );
+  const {
+    isPending,
+    isError,
+    error,
+    data: user,
+  } = useApiQuery("user-info", "/users/me", {});
 
   useEffect(() => {
     if (isError && !mounted) {
@@ -35,7 +36,7 @@ export default function AuthLayer({ children }: Props) {
     }
   }, [isError, mounted]);
 
-  if (isPending) {
+  if (isPending && !user) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center gap-4">
         <div className="border-green-normal h-14 w-14 animate-spin rounded-full border-0 border-y-2"></div>
