@@ -16,7 +16,7 @@ export default async function layout({ children }: Props) {
       <Navbar />
       <AppSidebar />
       <SidebarInset>
-        <div className="bg-white-normal w-full overflow-y-auto pt-14">
+        <div className="bg-white-normal w-full overflow-y-auto pt-16">
           <AuthLayer>{children}</AuthLayer>
         </div>
       </SidebarInset>

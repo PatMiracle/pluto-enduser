@@ -19,7 +19,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="gap-4 p-4">
+      <div className="gap-4 px-5">
         <p className="text-lg">
           Welcome Back, {user?.firstName} {user?.lastName}!
         </p>
@@ -32,7 +32,7 @@ export default function Dashboard() {
           </section>
         </div>
       </div>
-      <div className="flex flex-col xl:mx-4 xl:flex-row xl:gap-4 xl:pb-6">
+      <div className="flex flex-col xl:mx-5 xl:flex-row xl:gap-4 xl:pb-6">
         <section className="xl:w-full">
           <div className="border-white-dark m-4 grid gap-4 rounded-lg border px-4 py-5 xl:m-0">
             <p>Requests & Special Orders</p>
