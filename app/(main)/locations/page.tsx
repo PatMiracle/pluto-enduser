@@ -1,5 +1,10 @@
 import React from "react";
+import { AddLocation } from "./location-card";
 
 export default function Locations() {
-  return <div>Locations</div>;
+  return (
+    <div className="grid grid-cols-4">
+      <AddLocation />
+    </div>
+  );
 }
