@@ -17,15 +17,15 @@ type Props = {
 };
 
 export default function Modal({
+  children,
   trigger,
   title,
   description,
-  children,
 }: Props) {
   return (
     <Dialog modal={true}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-sm">
+      <DialogTrigger>{trigger}</DialogTrigger>
+      <DialogContent className="max-h-full overflow-auto sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

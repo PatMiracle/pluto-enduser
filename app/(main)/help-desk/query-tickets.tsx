@@ -7,14 +7,26 @@ import {
   MdTakeoutDining,
 } from "react-icons/md";
 import { GiBiohazard } from "react-icons/gi";
+import Modal from "@/components/modal";
+import AppProblemForm from "./app-problem-form";
 
 export default function QueryTickets() {
   return (
     <div className="grid gap-4">
-      <QueryButton
-        icon={<MdAppSettingsAlt />}
+      <Modal
         title="Having a problem with the app"
-      />
+        description="Kindly complete this form with the required information describing
+            your problem. We will look into it an assist you immediately"
+        trigger={
+          <QueryButton
+            icon={<MdAppSettingsAlt />}
+            title="Having a problem with the app"
+          />
+        }
+      >
+        <AppProblemForm />
+      </Modal>
+
       <QueryButton icon={<MdLocalShipping />} title="Report a missed Pickup" />
       <QueryButton
         icon={<MdTakeoutDining />}

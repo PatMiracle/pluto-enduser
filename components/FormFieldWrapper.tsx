@@ -74,7 +74,7 @@ export default function FormFieldWrapper({
   name,
   label,
   placeholder,
-  disabled,
+  disabled = false,
   className,
   state,
   as,
@@ -86,7 +86,7 @@ export default function FormFieldWrapper({
   return (
     <Field data-invalid={isInvalid} className="w-full space-y-1">
       {label && (
-        <Label htmlFor={name} className="font-normal">
+        <Label htmlFor={name} className="text-xs font-normal">
           {label}
         </Label>
       )}
@@ -105,12 +105,13 @@ export default function FormFieldWrapper({
             iconRight={(rest as InputProps).iconRight}
             placeholder={placeholder}
             autoComplete="off"
+            disabled={disabled}
           />
         </>
       ) : as == "selectable" ? (
         <Select value={state.value} onValueChange={(v) => handleChange(v)}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder={placeholder} />
+          <SelectTrigger className="w-full" disabled={disabled}>
+            <SelectValue className="text-xs" placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -134,15 +135,17 @@ export default function FormFieldWrapper({
             placeholder={placeholder}
             rows={6}
             disabled={disabled}
-            className="min-h-24 resize-none"
+            className="min-h-24 resize-none text-xs"
             aria-invalid={isInvalid}
             maxLength={(rest as TextareaProps).maxLength}
           />
           {(rest as TextareaProps).maxLength && (
             <InputGroupAddon className="bg-green-light" align="block-end">
               <InputGroupText className="text-primary ml-auto tabular-nums">
-                {state.value.length}/{(rest as TextareaProps).maxLength} words
-                max
+                <span className="text-xs">
+                  {state.value.length}/{(rest as TextareaProps).maxLength} words
+                  max
+                </span>
               </InputGroupText>
             </InputGroupAddon>
           )}
