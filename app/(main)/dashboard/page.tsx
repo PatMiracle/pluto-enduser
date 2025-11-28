@@ -23,7 +23,7 @@ export default function Dashboard() {
         <p className="text-lg">
           Welcome Back, {user?.firstName} {user?.lastName}!
         </p>
-        <div className="flex flex-col gap-4 py-4 lg:flex-row">
+        <div className="flex flex-col gap-4 py-5 lg:flex-row">
           <section className="w-full lg:max-w-[60%]">
             <StatCards data={dashboardData} />
           </section>
@@ -34,7 +34,7 @@ export default function Dashboard() {
       </div>
       <div className="flex flex-col xl:mx-5 xl:flex-row xl:gap-4 xl:pb-6">
         <section className="xl:w-full">
-          <div className="border-white-dark m-4 grid gap-4 rounded-lg border px-4 py-5 xl:m-0">
+          <div className="border-white-dark m-5 grid gap-4 rounded-lg border p-5 xl:m-0">
             <p>Requests & Special Orders</p>
             {serviceRequests ? (
               <DataTable
