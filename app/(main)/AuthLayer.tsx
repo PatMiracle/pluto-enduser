@@ -1,5 +1,6 @@
 "use client";
 import { useApiQuery } from "@/hooks/useApiQuery";
+import { useUserQuery } from "@/services/user-api";
 import useAuthStore from "@/store/AuthStore";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
@@ -13,12 +14,7 @@ export default function AuthLayer({ children }: Props) {
   const [mounted, setMounted] = useState(false);
   const { logout } = useAuthStore();
 
-  const {
-    isPending,
-    isError,
-    error,
-    data: user,
-  } = useApiQuery("user-info", "/users/me", {});
+  const { isPending, isError, error, data: user } = useUserQuery();
 
   useEffect(() => {
     if (isError && !mounted) {

@@ -19,13 +19,17 @@ import { Skeleton } from "./ui/skeleton";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data?: TData[];
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  if (!data) {
+    return <TableSkeleton rows={8} />;
+  }
+
   const table = useReactTable({
     data,
     columns,

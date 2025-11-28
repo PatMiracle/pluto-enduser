@@ -36,14 +36,7 @@ export default function Dashboard() {
         <section className="xl:w-full">
           <div className="border-white-dark m-5 grid gap-4 rounded-lg border p-5 xl:m-0">
             <p>Requests & Special Orders</p>
-            {serviceRequests ? (
-              <DataTable
-                columns={requestColumns}
-                data={serviceRequests?.data}
-              />
-            ) : (
-              <TableSkeleton rows={8} />
-            )}
+            <DataTable columns={requestColumns} data={serviceRequests?.data} />
             <Link
               href="/requests"
               className="mt-2.5 ml-auto block self-end text-right text-base underline"

@@ -4,12 +4,16 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import QueryTickets from "./query-tickets";
-import MyTickets from "./my-tickets";
+import { DataTable, TableSkeleton } from "@/components/data-table";
+import { useTickets } from "@/services/ticket";
+import { ticketColumns } from "./columns";
 
 export default function HelpDesk() {
   const [activeTab, setActiveTab] = useState<"query-ticket" | "my-tickets">(
     "query-ticket",
   );
+
+  const { data: tickets } = useTickets({ pageSize: 10 });
 
   return (
     <div className="px-5">
@@ -35,8 +39,13 @@ export default function HelpDesk() {
           My Tickets
         </Button>
       </div>
-
-      {activeTab == "query-ticket" ? <QueryTickets /> : <MyTickets />}
+      <div className="py-5">
+        {activeTab == "query-ticket" ? (
+          <QueryTickets />
+        ) : (
+          <DataTable columns={ticketColumns} data={tickets?.data} />
+        )}
+      </div>
     </div>
   );
 }

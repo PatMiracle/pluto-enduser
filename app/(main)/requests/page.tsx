@@ -59,14 +59,7 @@ export default function Requests() {
             }
           />
           <div>
-            {serviceRequests ? (
-              <DataTable
-                columns={requestColumns}
-                data={serviceRequests?.data}
-              />
-            ) : (
-              <TableSkeleton rows={8} />
-            )}
+            <DataTable columns={requestColumns} data={serviceRequests?.data} />
           </div>
         </div>
         <Footer />
