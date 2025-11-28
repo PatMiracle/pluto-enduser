@@ -30,9 +30,10 @@ export async function POST(req: Request) {
 
     return response;
   } catch (error: any) {
-    console.log(error);
-
-    const message = error?.response?.data?.error || error.message;
+    const message =
+      error?.response?.data?.error || error.status == 500
+        ? "Network Error"
+        : error.message;
 
     return NextResponse.json({ message }, { status: error.status || 500 });
   }
