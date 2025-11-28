@@ -23,7 +23,7 @@ export default function Dashboard() {
         <p className="text-lg">
           Welcome Back, {user?.firstName} {user?.lastName}!
         </p>
-        <div className="flex flex-col gap-4 py-5 lg:flex-row">
+        <div className="flex flex-col gap-4 pt-5 lg:flex-row">
           <section className="w-full lg:max-w-[60%]">
             <StatCards data={dashboardData} />
           </section>
