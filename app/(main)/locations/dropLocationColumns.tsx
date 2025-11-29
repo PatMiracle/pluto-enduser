@@ -5,13 +5,29 @@ import { DropLocation } from "@/services/drop-locations";
 import { ColumnDef } from "@tanstack/react-table";
 import { ReactNode } from "react";
 
-export const requestColumns: ColumnDef<DropLocation>[] = [
+export const dropLocationColumns: ColumnDef<DropLocation>[] = [
   {
-    accessorKey: "dropLocationId",
     header: "Contact",
-    cell: ({ cell }) => {
-      const v = cell.renderValue() as string;
-      return <span></span>;
+    cell: ({ row }) => {
+      const {
+        dropLocationId,
+        dropOffContactName,
+        dropOffContactEmail,
+        dropOffContactPhone,
+      } = row.original;
+      return (
+        <div>
+          <p className="bg-white-dark w-max rounded-t-sm p-1.5 text-xs">
+            Dropoff Site #{dropLocationId}
+          </p>
+
+          <CellBox>
+            <p>{dropOffContactName}</p>
+            <p>{dropOffContactEmail}</p>
+            <p>{dropOffContactPhone}</p>
+          </CellBox>
+        </div>
+      );
     },
   },
   {
@@ -19,19 +35,57 @@ export const requestColumns: ColumnDef<DropLocation>[] = [
     header: "Location Address",
     cell: ({ cell }) => {
       const v = cell.renderValue() as string;
-      return <div>{v}</div>;
+      return <CellBox>{v}</CellBox>;
     },
   },
   {
     accessorKey: "collectionTypeName",
     header: "Collection Type",
+    cell: ({ cell }) => {
+      const v = cell.renderValue() as string;
+      return <CellBox>{v}</CellBox>;
+    },
   },
   {
     accessorKey: "openingHours",
     header: "Operation Hours",
+    cell: ({ row }) => {
+      const { openingHours } = row.original;
+      return (
+        <CellBox>
+          {openingHours.map((e) => {
+            return (
+              <p className="text-wrap">
+                {sentenceCase(
+                  (e.dayOfWeek.includes("DAY")
+                    ? e.dayOfWeek
+                    : e.dayOfWeek + "day"
+                  ).toLocaleLowerCase() + "s",
+                ) +
+                  " " +
+                  e.openingTime +
+                  "-" +
+                  e.closingTime +
+                  " (" +
+                  e.timeZone +
+                  ")"}
+              </p>
+            );
+          })}
+        </CellBox>
+      );
+    },
   },
 ];
 
 const CellBox = ({ children }: { children: ReactNode }) => {
-  <div></div>;
+  return (
+    <div className="border-white-dark min-h-10 border p-2 text-sm">
+      {children}
+    </div>
+  );
 };
+
+function sentenceCase(a: string) {
+  return a && a.length ? a.charAt(0).toLocaleUpperCase() + a.slice(1) : a;
+}
