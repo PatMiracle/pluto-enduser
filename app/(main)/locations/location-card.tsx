@@ -64,7 +64,7 @@ export function LocationCard({ data }: LocationCardProps) {
       <div className="flex items-center justify-between">
         {/* Location Type */}
         <div className="border-green-light flex items-center gap-2 rounded-full border px-3 py-1.5">
-          <MdOutlineCottage size={12} />
+          <MdOutlineCottage size={12} className="text-green-normal" />
           <p className="text-[10px] capitalize">{data.locationTypeName}</p>
         </div>
 
