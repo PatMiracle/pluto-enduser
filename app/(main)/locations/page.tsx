@@ -22,8 +22,8 @@ export default function Locations() {
   return (
     <div>
       <p className="pl-5 text-lg">Locations</p>
-      <div className="xl:flex xl:w-11/12 xl:gap-5">
-        <div className="p-5">
+      <div className="py-5 xl:flex xl:w-11/12 xl:gap-5">
+        <div className="px-5 pb-5">
           <div className="flex flex-row gap-4 pb-5">
             <Button
               onClick={() => setActiveTab("pickup")}
