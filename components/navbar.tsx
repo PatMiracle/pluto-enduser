@@ -47,12 +47,12 @@ export default function Navbar() {
         >
           <MdNotificationsNone />
         </Button>
-        <div className="bg-green-light flex h-8 w-14 items-center gap-1 rounded-full pr-2">
+        <div className="bg-green-light hover:bg-green-normal group flex h-8 w-14 cursor-pointer items-center gap-1 rounded-full pr-2">
           <Avatar>
             {user?.photoURL ? (
               <>
                 <AvatarImage src={user?.photoURL} />
-                <AvatarFallback>
+                <AvatarFallback className="">
                   {user?.firstName.slice(0, 1)}
                   {user?.lastName.slice(0, 1)}
                 </AvatarFallback>
@@ -65,7 +65,7 @@ export default function Navbar() {
           </Avatar>
 
           <MdKeyboardArrowDown
-            className="text-green-normal shrink-0"
+            className="text-green-normal group-hover:text-white-normal shrink-0 transition-colors duration-200"
             size={16}
           />
         </div>

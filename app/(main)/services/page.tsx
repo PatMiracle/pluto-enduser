@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import consultingImg from "@/public/images/consulting.svg";
 import wasteEducationImg from "@/public/images/waste-education.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Services() {
   return (
@@ -19,7 +20,9 @@ export default function Services() {
               waste management solutions
             </p>
           </div>
-          <Button>Consult With Us</Button>
+          <Button asChild>
+            <Link href="/services/consult">Consult With Us</Link>
+          </Button>
         </div>
         <div className="border-white-dark grid gap-2 rounded-2xl border p-4">
           <Image src={wasteEducationImg} alt="" className="w-full" />

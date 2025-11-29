@@ -64,7 +64,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
   },
 ];
 
-const getTicketStatusStyle = (status: Ticket["status"]) => {
+export const getTicketStatusStyle = (status: Ticket["status"]) => {
   switch (status) {
     case "PENDING":
       return {
