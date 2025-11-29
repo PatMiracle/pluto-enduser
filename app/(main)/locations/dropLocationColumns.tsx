@@ -80,7 +80,7 @@ export const dropLocationColumns: ColumnDef<DropLocation>[] = [
 
 const CellBox = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="border-white-dark min-h-10 border p-2 text-sm">
+    <div className="border-white-dark min-h-10 border p-2 text-xs">
       {children}
     </div>
   );
