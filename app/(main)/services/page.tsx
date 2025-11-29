@@ -8,7 +8,7 @@ export default function Services() {
   return (
     <div className="px-5">
       <p className="text-lg">Services</p>
-      <div className="grid w-full max-w-[600px] gap-4 py-5 md:grid-cols-2">
+      <div className="grid w-full max-w-2xl gap-4 py-5 md:grid-cols-2">
         <div className="border-white-dark grid gap-2 rounded-2xl border p-5">
           <Image src={consultingImg} alt="" className="w-full" />
           <div>
@@ -31,7 +31,7 @@ export default function Services() {
               contribute to a sustainable future
             </p>
           </div>
-          <Button>Learn More"</Button>
+          <Button>Learn More</Button>
         </div>
       </div>
     </div>
