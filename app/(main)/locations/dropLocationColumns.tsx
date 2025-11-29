@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { DropLocation } from "@/services/drop-locations";
 import { ColumnDef } from "@tanstack/react-table";
 import { ReactNode } from "react";
