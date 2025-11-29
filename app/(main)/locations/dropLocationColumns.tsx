@@ -17,7 +17,7 @@ export const dropLocationColumns: ColumnDef<DropLocation>[] = [
       } = row.original;
       return (
         <div>
-          <p className="bg-white-dark w-max rounded-t-sm p-1.5 text-xs">
+          <p className="bg-white-dark w-max rounded-t-sm p-1.5 text-[10px]">
             Dropoff Site #{dropLocationId}
           </p>
 
