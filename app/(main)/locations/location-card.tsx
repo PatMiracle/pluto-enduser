@@ -36,7 +36,7 @@ export function LocationCard({ data }: LocationCardProps) {
         <div
           className={cn(
             "bg-end rounded px-2 py-0.5",
-            data.locationStatus && "ACTIVE" && "bg-primary",
+            data.locationStatus == "ACTIVE" && "bg-primary",
           )}
         >
           <p className="text-[8px] text-white">{data.locationStatus}</p>
