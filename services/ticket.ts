@@ -174,4 +174,4 @@ interface Params {
 }
 
 export const useTickets = (p: Params) =>
-  useApiQuery<TicketResponse>("issues", "/user/issues", p);
+  useApiQuery<TicketResponse>("tickets", "/user/issues", p);
