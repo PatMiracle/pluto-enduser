@@ -35,8 +35,6 @@ export async function POST(req: Request) {
         ? "Network Error"
         : error?.response?.data?.error || error.message;
 
-    console.log(message);
-
     return NextResponse.json({ message }, { status: error.status || 500 });
   }
 }

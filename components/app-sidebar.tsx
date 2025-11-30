@@ -36,7 +36,6 @@ import { NAVBAR_HEIGHT } from "./navbar";
 import useAuthStore from "@/store/AuthStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import menuIcon from "@/public/icons/menu.svg";
 
 const items = [
   {
