@@ -43,9 +43,7 @@ export default function PickupSchedules({ data }: Props) {
   return (
     <div className="flex w-full flex-col">
       <div className="border-white-dark min-h-64 rounded-lg border px-3 py-4">
-        <h2 className="text-white-darker text-lg font-medium">
-          Pickup Schedule
-        </h2>
+        <h2 className="text-white-darker font-medium">Pickup Schedule</h2>
 
         {!data ? (
           <PickupItemsSkeleton />
@@ -59,7 +57,7 @@ export default function PickupSchedules({ data }: Props) {
 
         <Link
           href="/pickup-schedules"
-          className="mt-2.5 ml-auto block self-end text-right text-base underline"
+          className="mt-1.5 ml-auto block self-end text-right text-base underline"
         >
           View all
         </Link>
@@ -117,7 +115,7 @@ export default function PickupSchedules({ data }: Props) {
 
 const PickupItems = ({ data }: { data: CalendarEvent[] }) => {
   return (
-    <div className="space-y-2.5 py-5">
+    <div className="space-y-2.5 py-4">
       {data?.map(({ startDateTime, eventId, landmark }) => (
         <div key={eventId} className="flex items-center gap-4">
           <div className="min-w-10 text-center">

@@ -1,5 +1,4 @@
 "use client";
-import { useApiQuery } from "@/hooks/useApiQuery";
 import { useUserQuery } from "@/services/user-api";
 import useAuthStore from "@/store/AuthStore";
 import { useRouter } from "next/navigation";
@@ -34,7 +33,7 @@ export default function AuthLayer({ children }: Props) {
 
   if (isPending || !user) {
     return (
-      <div className="flex h-screen w-full flex-col items-center justify-center gap-4">
+      <div className="flex h-[calc(100vh-3.5rem)] w-full flex-col items-center justify-center gap-4">
         <div className="border-green-normal h-14 w-14 animate-spin rounded-full border-0 border-y-2"></div>
         <p>Loading Application...</p>
       </div>

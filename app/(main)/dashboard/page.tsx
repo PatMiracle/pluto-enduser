@@ -20,7 +20,7 @@ export default function Dashboard() {
   return (
     <>
       <div className="gap-4 px-5">
-        <p className="text-lg">
+        <p className="text-xl">
           Welcome Back, {user?.firstName} {user?.lastName}!
         </p>
         <div className="flex flex-col gap-4 py-5 lg:flex-row">
@@ -35,7 +35,7 @@ export default function Dashboard() {
       <div className="flex flex-col xl:mx-5 xl:flex-row xl:gap-4 xl:pb-6">
         <section className="xl:w-full">
           <div className="border-white-dark m-5 grid gap-4 rounded-lg border p-5 xl:m-0">
-            <p>Requests & Special Orders</p>
+            <p className="text-white-darker">Requests & Special Orders</p>
             <DataTable columns={requestColumns} data={serviceRequests?.data} />
             <Link
               href="/requests"

@@ -24,7 +24,7 @@ function Input({
         type={type}
         data-slot="input"
         className={cn(
-          "file:text-foreground selection:bg-primary/20 placeholder:text-primary/70 border-green-light bg-green-light file:bg-green-light text-primary disabled:text-green-dark h-10 w-full min-w-0 border py-1 text-xs shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-80",
+          "file:text-foreground selection:bg-primary/20 placeholder:text-primary/70 border-green-light bg-green-light file:bg-green-light text-primary disabled:text-green-dark h-10 w-full min-w-0 border py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-80",
           iconLeft ? "pl-10" : "pl-3",
           iconRight ? "pr-10" : "pr-3",
           "rounded-3xl rounded-tl-none",
