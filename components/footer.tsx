@@ -12,6 +12,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Alert, AlertAction, AlertCancel } from "./modal";
 
 const promoImages = [promotion1, promotion2, promotion3, promotion4];
 
@@ -89,10 +90,17 @@ export default function Footer() {
         <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-1">
           <div className="flex flex-col gap-6 xl:gap-3">
             <p className="text-2xl font-bold">Education</p>
-            <div className="flex flex-col gap-3">
-              <Link href="#" className="text-lg underline underline-offset-8">
-                Bill & Rates
-              </Link>
+            <div className="flex flex-col gap-3 sm:items-start">
+              <Alert
+                trigger={
+                  <p className="text-lg underline underline-offset-8">
+                    Bill & Rates
+                  </p>
+                }
+                description="Contact your State or Area Waste Management Office"
+              >
+                <AlertCancel>See Contact List</AlertCancel>
+              </Alert>
               <Link href="#" className="text-lg underline underline-offset-8">
                 Waste Education
               </Link>
@@ -104,9 +112,24 @@ export default function Footer() {
               <Link href="#" className="text-lg underline underline-offset-8">
                 Pluto’s Terms
               </Link>
-              <Link href="#" className="text-lg underline underline-offset-8">
-                Federal Waste Mgt. Laws
-              </Link>
+              <Alert
+                trigger={
+                  <p className="text-lg underline underline-offset-8">
+                    Federal Waste Mgt. Laws
+                  </p>
+                }
+                description="You are about to visit an external link from our platform"
+              >
+                <AlertAction>
+                  <a
+                    href="https://nesrea.gov.ng/laws-regulations/"
+                    target="_blank"
+                  >
+                    Proceed
+                  </a>
+                </AlertAction>
+                <AlertCancel>Cancel</AlertCancel>
+              </Alert>
             </div>
           </div>
         </div>

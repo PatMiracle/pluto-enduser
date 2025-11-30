@@ -52,7 +52,7 @@ export default function Navbar() {
             {user?.photoURL ? (
               <>
                 <AvatarImage src={user?.photoURL} />
-                <AvatarFallback className="">
+                <AvatarFallback>
                   {user?.firstName.slice(0, 1)}
                   {user?.lastName.slice(0, 1)}
                 </AvatarFallback>

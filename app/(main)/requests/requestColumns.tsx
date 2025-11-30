@@ -1,10 +1,12 @@
 "use client";
 
+import Modal from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ServiceRequest } from "@/services/service-requests-api";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import EventPickup from "./EventPickup";
 
 export const requestColumns: ColumnDef<ServiceRequest>[] = [
   {
@@ -44,19 +46,24 @@ export const requestColumns: ColumnDef<ServiceRequest>[] = [
     header: "Action",
     cell: ({ row }) => {
       return (
-        <Button
-          size={"sm"}
-          className="px-5"
-          onClick={() => console.log(row.original)}
+        <Modal
+          trigger={
+            <Button size={"sm"} className="px-5">
+              View
+            </Button>
+          }
+          title="Event Pickup Request Details"
         >
-          View
-        </Button>
+          <EventPickup data={row.original} />
+        </Modal>
       );
     },
   },
 ];
 
-const getRequestStatusStyle = (status: ServiceRequest["orderStatus"]) => {
+export const getRequestStatusStyle = (
+  status: ServiceRequest["orderStatus"],
+) => {
   switch (status) {
     case "NEW":
       return {
