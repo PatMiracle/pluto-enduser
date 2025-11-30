@@ -31,9 +31,11 @@ export async function POST(req: Request) {
     return response;
   } catch (error: any) {
     const message =
-      error?.response?.data?.error || error.status == 500
+      error.status == 500
         ? "Network Error"
-        : error.message;
+        : error?.response?.data?.error || error.message;
+
+    console.log(message);
 
     return NextResponse.json({ message }, { status: error.status || 500 });
   }
