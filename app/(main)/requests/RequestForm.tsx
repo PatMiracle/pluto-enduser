@@ -1,8 +1,16 @@
 import FormFieldWrapper from "@/components/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
+import useOptions from "@/hooks/use-options";
 import api from "@/lib/apiClient";
 import defaultErrorHandler from "@/lib/error-handler";
+import {
+  useServiceRequestTypes,
+  useTrackedLandmarks,
+  useTrackedLGAs,
+  useTrackedStates,
+  useWasteTypes,
+} from "@/services/enum-api";
 import {
   ServiceRequest,
   useCreateRequest,
@@ -68,8 +76,31 @@ export default function RequestForm({ data }: Props) {
     },
   });
 
+  const stateId = useStore(form.store, (s) => s.values.state);
   const lga = useStore(form.store, (s) => s.values.lga);
   const submitting = useStore(form.store, (state) => state.isSubmitting);
+
+  const { data: rawStates } = useTrackedStates();
+  const states = useOptions(rawStates?.data, "stateId", "stateName");
+  const { data: rawLGAs } = useTrackedLGAs({ stateId: stateId as number });
+  const lgas = useOptions(rawLGAs?.data, "lgaId", "lgaName");
+  const { data: rawLandmarks } = useTrackedLandmarks({
+    stateId: stateId as number,
+  });
+  const landmarks = useOptions(
+    rawLandmarks?.data,
+    "postalCodeId",
+    "landmarkName",
+  );
+  const { data: eventTypes } = useServiceRequestTypes();
+  const serviceRequestTypes = useOptions(eventTypes?.data, "name", "label");
+
+  const { data: wTypes } = useWasteTypes();
+  const wasteTypes = useOptions(
+    wTypes?.data,
+    "wasteClassCode",
+    "wasteClassName",
+  );
 
   return (
     <>
@@ -80,7 +111,7 @@ export default function RequestForm({ data }: Props) {
           form.handleSubmit();
         }}
       >
-        <FieldGroup className="gap-3">
+        <FieldGroup>
           <div className="flex gap-3">
             <form.Field
               name="state"
@@ -88,7 +119,8 @@ export default function RequestForm({ data }: Props) {
                 return (
                   <FormFieldWrapper
                     label="State"
-                    as="input"
+                    as="selectable"
+                    option={states}
                     {...field}
                     state={field.state}
                     iconLeft={<MdApartment />}
@@ -103,7 +135,7 @@ export default function RequestForm({ data }: Props) {
                 return (
                   <FormFieldWrapper
                     label="LGA"
-                    option={[]}
+                    option={lgas}
                     as="selectable"
                     placeholder="LGA"
                     {...field}
@@ -123,7 +155,7 @@ export default function RequestForm({ data }: Props) {
                     label="Landmark"
                     as="selectable"
                     placeholder="Landmark"
-                    option={[]}
+                    option={landmarks}
                     {...field}
                     state={field.state}
                     iconLeft={<MdFlag />}
@@ -156,7 +188,7 @@ export default function RequestForm({ data }: Props) {
                   label="Event Type"
                   placeholder="Select Event Type"
                   as="selectable"
-                  option={[]}
+                  option={serviceRequestTypes}
                   {...field}
                   state={field.state}
                 />
@@ -171,7 +203,7 @@ export default function RequestForm({ data }: Props) {
                   label="Waste Type"
                   placeholder="Select Waste Type"
                   as="selectable"
-                  option={[]}
+                  option={wasteTypes}
                   {...field}
                   state={field.state}
                 />

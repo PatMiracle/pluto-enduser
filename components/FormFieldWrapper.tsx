@@ -43,7 +43,7 @@ interface BaseProps {
 ------------------------------ */
 export interface SelectProps extends BaseProps {
   as: "selectable";
-  option: { value: string; label: string }[];
+  option: { value: string | number; label: string }[];
   iconLeft?: ReactNode;
 }
 
@@ -83,6 +83,7 @@ export default function FormFieldWrapper({
   ...rest
 }: FormFieldWrapperProps) {
   const isInvalid = state?.meta?.isTouched && !state?.meta?.isValid;
+
   return (
     <Field data-invalid={isInvalid} className="w-full space-y-0.5">
       {label && (
@@ -109,15 +110,22 @@ export default function FormFieldWrapper({
           />
         </>
       ) : as == "selectable" ? (
-        <Select value={state.value} onValueChange={(v) => handleChange(v)}>
-          <SelectTrigger className="w-full" disabled={disabled}>
-            <SelectValue className="text-xs" placeholder={placeholder} />
+        <Select
+          value={state.value ? String(state.value) : ""}
+          onValueChange={(v) => handleChange(+v)}
+        >
+          <SelectTrigger className="w-full capitalize" disabled={disabled}>
+            <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>{label}</SelectLabel>
+              <SelectLabel className="capitalize">{label}</SelectLabel>
               {(rest as SelectProps).option.map((opt) => (
-                <SelectItem key={opt.value} value={opt.value}>
+                <SelectItem
+                  key={String(opt.value)}
+                  value={String(opt.value)}
+                  className="cursor-pointer capitalize"
+                >
                   {opt.label}
                 </SelectItem>
               ))}
