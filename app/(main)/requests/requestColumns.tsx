@@ -7,6 +7,7 @@ import { ServiceRequest } from "@/services/service-requests-api";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import EventPickup from "./EventPickup";
+import { trimText } from "@/utils/format";
 
 export const requestColumns: ColumnDef<ServiceRequest>[] = [
   {
@@ -37,6 +38,10 @@ export const requestColumns: ColumnDef<ServiceRequest>[] = [
   {
     accessorKey: "pickupAddress",
     header: "Target Location",
+    cell: ({ cell }) => {
+      const v = cell.renderValue() as string;
+      return <span>{trimText(v, 30)}</span>;
+    },
   },
   {
     accessorKey: "serviceRequestType",
