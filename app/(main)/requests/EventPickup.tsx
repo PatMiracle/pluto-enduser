@@ -16,7 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { AlertAction, AlertCancel } from "@/components/modal";
+import { AlertCancel } from "@/components/modal";
 
 type Props = {
   data: ServiceRequest;

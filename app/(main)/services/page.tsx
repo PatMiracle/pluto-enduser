@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function Services() {
   return (
     <div className="px-5">
-      <p className="text-lg">Services</p>
+      <p className="text-lg font-semibold">Services</p>
       <div className="grid w-full max-w-2xl gap-4 py-5 md:grid-cols-2">
         <div className="border-white-dark grid gap-2 rounded-2xl border p-5">
           <Image src={consultingImg} alt="" className="w-full" />

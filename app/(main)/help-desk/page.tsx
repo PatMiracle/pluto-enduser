@@ -17,7 +17,7 @@ export default function HelpDesk() {
 
   return (
     <div className="px-5">
-      <p className="text-lg">Help Desk</p>
+      <p className="text-lg font-semibold">Help Desk</p>
       <div className="flex flex-row gap-4 pt-5">
         <Button
           onClick={() => setActiveTab("query-ticket")}

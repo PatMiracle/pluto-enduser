@@ -25,7 +25,7 @@ export default function Requests() {
 
   return (
     <div>
-      <p className="pl-5 text-lg">Request & Special Orders</p>
+      <p className="pl-5 text-lg font-semibold">Request & Special Orders</p>
       <div className="mt-5 flex flex-col gap-10 xl:flex-row xl:gap-5 xl:px-5 xl:pb-6">
         <div className="flex flex-col gap-5 px-5 xl:px-0">
           {/* Create Request */}

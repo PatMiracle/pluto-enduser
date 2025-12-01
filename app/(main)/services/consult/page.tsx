@@ -9,7 +9,7 @@ const Consult = () => {
   const { data } = useConsultation({ pageSize: 9 });
   return (
     <div className="grid gap-4 px-5">
-      <p className="text-lg">Consult With Us!</p>
+      <p className="text-lg font-semibold">Consult With Us!</p>
 
       <div className="border-white-dark rounded-xl rounded-tl-none border p-4">
         <p>Need Expert Advice?</p>
