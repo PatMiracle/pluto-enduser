@@ -84,7 +84,7 @@ export default function FormFieldWrapper({
 }: FormFieldWrapperProps) {
   const isInvalid = state?.meta?.isTouched && !state?.meta?.isValid;
   return (
-    <Field data-invalid={isInvalid} className="w-full space-y-1">
+    <Field data-invalid={isInvalid} className="w-full space-y-0.5">
       {label && (
         <Label htmlFor={name} className="text-xs font-normal">
           {label}
@@ -135,7 +135,7 @@ export default function FormFieldWrapper({
             placeholder={placeholder}
             rows={6}
             disabled={disabled}
-            className="min-h-24 resize-none text-xs"
+            className="min-h-24 resize-none"
             aria-invalid={isInvalid}
             maxLength={(rest as TextareaProps).maxLength}
           />

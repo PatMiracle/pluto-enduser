@@ -82,3 +82,26 @@ export const useCancelRequest = () => {
     },
   });
 };
+
+type CreateRequestData = Partial<ServiceRequest> & {
+  state?: number;
+  lga?: number;
+  key?: number;
+};
+
+export const useCreateRequest = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreateRequestData) =>
+      api
+        .post(`/user/service-requests/`, data)
+        .then((response) => response.data)
+        .catch(defaultErrorHandler),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["service-requests"],
+      });
+    },
+  });
+};

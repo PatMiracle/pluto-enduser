@@ -73,7 +73,7 @@ const AppProblemForm = () => {
               return (
                 <FormFieldWrapper
                   as="input"
-                  type="number"
+                  type="tel"
                   label="Contact Number"
                   placeholder="Contact Number"
                   {...field}

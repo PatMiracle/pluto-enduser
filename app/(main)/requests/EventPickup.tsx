@@ -16,7 +16,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { AlertCancel } from "@/components/modal";
+import Modal, { AlertCancel } from "@/components/modal";
+import RequestForm from "./RequestForm";
 
 type Props = {
   data: ServiceRequest;
@@ -74,13 +75,20 @@ export default function EventPickup({ data }: Props) {
             eventType={data.serviceRequestType}
           />
 
-          <Button
-            size={"icon"}
-            variant={"ghost"}
-            className="text-green-normal border-green-light-active size-8 rounded-full border"
+          <Modal
+            trigger={
+              <Button
+                size={"icon"}
+                variant={"ghost"}
+                className="text-green-normal border-green-light-active size-8 rounded-full border"
+              >
+                <MdEdit />
+              </Button>
+            }
+            title="Edit Request"
           >
-            <MdEdit />
-          </Button>
+            <RequestForm data={data} />
+          </Modal>
         </div>
       )}
     </div>
