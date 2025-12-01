@@ -105,3 +105,24 @@ export const useCreateRequest = () => {
     },
   });
 };
+
+type UpdateRequestData = CreateRequestData & {
+  id: number;
+};
+
+export const useUpdateRequest = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, ...data }: UpdateRequestData) =>
+      api
+        .patch(`/user/service-requests/${id}`, data)
+        .then((response) => response.data)
+        .catch(defaultErrorHandler),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["service-requests"],
+      });
+    },
+  });
+};

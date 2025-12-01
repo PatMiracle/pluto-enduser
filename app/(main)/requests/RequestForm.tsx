@@ -4,6 +4,7 @@ import { Field, FieldGroup } from "@/components/ui/field";
 import useOptions from "@/hooks/use-options";
 import api from "@/lib/apiClient";
 import defaultErrorHandler from "@/lib/error-handler";
+import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import {
   useServiceRequestTypes,
   useTrackedLandmarks,
@@ -14,6 +15,7 @@ import {
 import {
   ServiceRequest,
   useCreateRequest,
+  useUpdateRequest,
 } from "@/services/service-requests-api";
 import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
@@ -36,40 +38,64 @@ const formSchema = z.object({
   state: z.number("State is required"),
   lga: z.number("LGA is required"),
   postalId: z.number("Landmark is required"),
-  startDate: z.string("Pickup date is required"),
 
-  serviceRequestType: z.string(),
-  wasteType: z.string(),
-  contactNumber: z.string(),
+  startDate: z.string().min(1, "Pickup date is required"),
+
+  serviceRequestType: z.string().min(1, "Event Type is required"),
+  wasteType: z.string().min(1, "Waste type is required"),
+
+  contactNumber: z
+    .string()
+    .refine((val) => !!toNigeriaIntlFormat(val), {
+      message: "Invalid Nigerian phone number",
+    })
+    .transform((val) => toNigeriaIntlFormat(val)!),
+
   contactEmail: z.email("Enter a valid email"),
-  pickupAddress: z.string(),
-  description: z.string(),
-  contactName: z.string(),
+
+  pickupAddress: z.string().min(1, "Pickup address is required"),
+  description: z.string().min(1, "Description is required"),
+  contactName: z.string().min(1, "Contact name is required"),
 });
 
 export default function RequestForm({ data }: Props) {
   const { data: user } = useUserQuery();
-  const { mutate } = useCreateRequest();
+  const { mutate: createRequest } = useCreateRequest();
+  const { mutate: updateRequest } = useUpdateRequest();
 
   const form = useForm({
     defaultValues: {
-      state: data?.landmark.stateId || user?.stateWasteManagementBoardId,
-      lga: data?.landmark.lgaId,
-      postalId: data?.paymentId,
-      startDate: data?.startDate,
-      serviceRequestType: data?.serviceRequestType,
-      wasteType: data?.wasteType,
-      contactNumber: data?.contactNumber,
-      contactEmail: data?.contactEmail,
-      pickupAddress: data?.pickupAddress,
-      description: data?.description || "",
-      contactName: data?.contactName,
+      state: data?.landmark?.stateId ?? user?.stateWasteManagementBoardId!,
+      lga: data?.landmark?.lgaId ?? 0,
+      postalId: data?.landmark?.postalCodeId ?? 0,
+
+      startDate: data?.startDate ?? "",
+
+      serviceRequestType: data?.serviceRequestType ?? "",
+      wasteType: data?.wasteType ?? "",
+
+      contactNumber: data?.contactNumber ?? "",
+      contactEmail: data?.contactEmail ?? "",
+
+      pickupAddress: data?.pickupAddress ?? "",
+      description: data?.description ?? "",
+      contactName: data?.contactName ?? "",
     },
     validators: {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
+      if (!value.state || !value.lga || !value.postalId) {
+        return toast.error("Please complete all location fields");
+      }
       try {
+        if (data) {
+          updateRequest({ id: data.serviceRequestId, ...value });
+          toast.success("Request Updated");
+        } else {
+          createRequest(value);
+          toast.success("Request Created!");
+        }
       } catch (e) {
         defaultErrorHandler(e);
       }
@@ -82,11 +108,15 @@ export default function RequestForm({ data }: Props) {
 
   const { data: rawStates } = useTrackedStates();
   const states = useOptions(rawStates?.data, "stateId", "stateName");
-  const { data: rawLGAs } = useTrackedLGAs({ stateId: stateId as number });
+  const { data: rawLGAs } = useTrackedLGAs({ stateId });
   const lgas = useOptions(rawLGAs?.data, "lgaId", "lgaName");
-  const { data: rawLandmarks } = useTrackedLandmarks({
-    stateId: stateId as number,
-  });
+  const { data: rawLandmarks } = useTrackedLandmarks(
+    {
+      stateId,
+      lgaId: lga,
+    },
+    { enabled: !lga },
+  );
   const landmarks = useOptions(
     rawLandmarks?.data,
     "postalCodeId",
@@ -171,6 +201,7 @@ export default function RequestForm({ data }: Props) {
                   <FormFieldWrapper
                     label="Pickup Date"
                     as="input"
+                    type="date"
                     {...field}
                     state={field.state}
                     iconLeft={<MdCalendarMonth />}
