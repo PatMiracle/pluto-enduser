@@ -90,7 +90,7 @@ export default function Footer() {
         <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-1">
           <div className="flex flex-col gap-6 xl:gap-3">
             <p className="text-2xl font-bold">Education</p>
-            <div className="flex flex-col gap-3 sm:items-start">
+            <div className="flex flex-col gap-3 sm:items-start xl:items-center">
               <Alert
                 trigger={
                   <p className="text-lg underline underline-offset-8">
