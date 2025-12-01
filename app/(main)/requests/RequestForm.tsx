@@ -2,7 +2,6 @@ import FormFieldWrapper from "@/components/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import useOptions from "@/hooks/use-options";
-import api from "@/lib/apiClient";
 import defaultErrorHandler from "@/lib/error-handler";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import {
@@ -28,7 +27,10 @@ import {
   MdOutlineMail,
 } from "react-icons/md";
 import { toast } from "sonner";
+import NigeriaFlag from "@/public/icons/nigerian-flag.svg";
 import * as z from "zod";
+import Image from "next/image";
+import { Label } from "@/components/ui/label";
 
 type Props = {
   data?: ServiceRequest;
@@ -38,24 +40,18 @@ const formSchema = z.object({
   state: z.number("State is required"),
   lga: z.number("LGA is required"),
   postalId: z.number("Landmark is required"),
-
   startDate: z.string().min(1, "Pickup date is required"),
-
   serviceRequestType: z.string().min(1, "Event Type is required"),
   wasteType: z.string().min(1, "Waste type is required"),
-
   contactNumber: z
     .string()
     .refine((val) => !!toNigeriaIntlFormat(val), {
       message: "Invalid Nigerian phone number",
     })
     .transform((val) => toNigeriaIntlFormat(val)!),
-
   contactEmail: z.email("Enter a valid email"),
-
   pickupAddress: z.string().min(1, "Pickup address is required"),
   description: z.string().min(1, "Description is required"),
-  contactName: z.string().min(1, "Contact name is required"),
 });
 
 export default function RequestForm({ data }: Props) {
@@ -79,7 +75,6 @@ export default function RequestForm({ data }: Props) {
 
       pickupAddress: data?.pickupAddress ?? "",
       description: data?.description ?? "",
-      contactName: data?.contactName ?? "",
     },
     validators: {
       onSubmit: formSchema,
@@ -115,7 +110,7 @@ export default function RequestForm({ data }: Props) {
       stateId,
       lgaId: lga,
     },
-    { enabled: !lga },
+    { enabled: !!lga },
   );
   const landmarks = useOptions(
     rawLandmarks?.data,
@@ -241,21 +236,29 @@ export default function RequestForm({ data }: Props) {
               );
             }}
           />
-          <form.Field
-            name="contactNumber"
-            children={(field) => {
-              return (
-                <FormFieldWrapper
-                  label="Phone number"
-                  placeholder="Contact Number"
-                  as="input"
-                  type="tel"
-                  {...field}
-                  state={field.state}
-                />
-              );
-            }}
-          />
+          <div>
+            <Label className="mb-1.5">Phone Number</Label>
+            <div className="flex gap-2">
+              <span className="bg-green-light text-green-normal flex h-9 min-w-16 items-center justify-center gap-1 rounded-3xl rounded-tl-none px-4 text-xs">
+                <Image src={NigeriaFlag} alt="" width={20} height={20} />
+                <span>+234</span>
+              </span>
+              <form.Field
+                name="contactNumber"
+                children={(field) => {
+                  return (
+                    <FormFieldWrapper
+                      placeholder="Contact Number"
+                      as="input"
+                      type="tel"
+                      {...field}
+                      state={field.state}
+                    />
+                  );
+                }}
+              />
+            </div>
+          </div>
           <form.Field
             name="contactEmail"
             children={(field) => {
