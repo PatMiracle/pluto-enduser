@@ -1,5 +1,8 @@
 import { cn } from "@/lib/utils";
-import { ServiceRequest } from "@/services/service-requests-api";
+import {
+  ServiceRequest,
+  useCancelRequest,
+} from "@/services/service-requests-api";
 import { format } from "date-fns";
 import { getRequestStatusStyle } from "./requestColumns";
 import { Button } from "@/components/ui/button";
@@ -105,9 +108,11 @@ function CancelRequest({
   requestId: number;
   eventType: string;
 }) {
+  const { mutate, isPending, isError } = useCancelRequest();
+
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button variant={"destructive"}>Cancel Request</Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="border-red-normal justify-center rounded-sm rounded-bl-3xl border-[1.5px] sm:max-w-md">
@@ -125,7 +130,13 @@ function CancelRequest({
         </AlertDialogHeader>
         <AlertDialogFooter className="w-full flex-row justify-center gap-4 sm:justify-center">
           <AlertCancel>No</AlertCancel>
-          <AlertAction>Delete</AlertAction>
+          <Button
+            variant={"destructive"}
+            disabled={isPending}
+            onClick={() => mutate(requestId)}
+          >
+            Cancel
+          </Button>
         </AlertDialogFooter>
         <div className="flex gap-2 rounded-lg border border-[#FFE5CC] bg-[#FFF8F0] p-2">
           <MdInfoOutline className="text-red-normal" size={17} />

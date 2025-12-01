@@ -43,7 +43,7 @@ export default function Modal({
       <DialogTrigger>{trigger}</DialogTrigger>
       <DialogContent
         className="max-h-11/12 overflow-auto"
-        onPointerDownOutside={(e) => e.preventDefault()}
+        // onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

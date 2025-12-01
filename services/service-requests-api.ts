@@ -1,4 +1,7 @@
 import { useApiQuery } from "@/hooks/useApiQuery";
+import api from "@/lib/apiClient";
+import defaultErrorHandler from "@/lib/error-handler";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Landmark {
   postalCodeId: number;
@@ -41,15 +44,6 @@ export interface ServiceRequest {
   landmark: Landmark;
 }
 
-// Pagination metadata
-interface Pagination {
-  pages: number[];
-  currentPage: number;
-  totalPages: string;
-  hasPrev: boolean;
-  hasNext: boolean;
-}
-
 // Full API response
 export interface ServiceRequestsResponse {
   start: number;
@@ -71,3 +65,20 @@ export const useServiceRequests = (p: Params) =>
     "/user/service-requests",
     p,
   );
+
+export const useCancelRequest = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: number) =>
+      api
+        .post(`/user/service-requests/${id}/cancel`)
+        .then((response) => response.data)
+        .catch(defaultErrorHandler),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["service-requests"],
+      });
+    },
+  });
+};

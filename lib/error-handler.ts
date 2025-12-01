@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 
 export default function defaultErrorHandler(error: unknown) {
-  let message = "An unexpected error occurred";
+  let message = "";
   let detail = "";
 
   // Axios error (network or API error)
