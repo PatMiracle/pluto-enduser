@@ -40,7 +40,7 @@ export default function Modal({
 }: Props) {
   return (
     <Dialog modal={true}>
-      <DialogTrigger>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent
         className="max-h-11/12 overflow-auto"
         // onPointerDownOutside={(e) => e.preventDefault()}
@@ -65,7 +65,7 @@ interface AlertProps {
 export function Alert({ title, children, trigger, description }: AlertProps) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>{trigger}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
       <AlertDialogContent className="border-red-normal justify-center rounded-sm rounded-bl-3xl border-[1.5px] sm:max-w-md">
         <AlertDialogHeader className="items-center justify-center">
           <MdInfoOutline className="text-red-normal" size={24} />

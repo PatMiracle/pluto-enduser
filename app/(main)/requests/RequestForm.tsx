@@ -54,7 +54,7 @@ export default function RequestForm({ data }: Props) {
       contactNumber: data?.contactNumber,
       contactEmail: data?.contactEmail,
       pickupAddress: data?.pickupAddress,
-      description: data?.description,
+      description: data?.description || "",
       contactName: data?.contactName,
     },
     validators: {

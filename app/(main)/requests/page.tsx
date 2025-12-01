@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { MdSearch } from "react-icons/md";
 import { FaSliders } from "react-icons/fa6";
+import RequestForm from "./RequestForm";
+import Modal from "@/components/modal";
 
 export default function Requests() {
   const [status, setOrderStatus] = useState<ServiceRequest["orderStatus"]>();
@@ -43,7 +45,14 @@ export default function Requests() {
                   Click <span className="font-bold text-black">Create Now</span>{" "}
                   to schedule today!
                 </p>
-                <Button className="mt-2 max-w-[136px]">Create Now</Button>
+                <Modal
+                  trigger={
+                    <Button className="mt-2 max-w-[136px]">Create Now</Button>
+                  }
+                  title="Create Request"
+                >
+                  <RequestForm />
+                </Modal>
               </div>
             </div>
           </div>
@@ -54,7 +63,7 @@ export default function Requests() {
             iconLeft={<MdSearch />}
             iconRight={
               <button className="mt-1">
-                <FaSliders />
+                <FaSliders size={16} />
               </button>
             }
           />
