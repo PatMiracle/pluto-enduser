@@ -104,6 +104,8 @@ function Input({
         )}
         {...props}
         disabled={disabled}
+        value={value}
+        onChange={onChange}
       />
 
       <span className="text-green-normal absolute top-1/2 right-3 -translate-y-1/2 text-xl">
