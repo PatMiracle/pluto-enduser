@@ -91,6 +91,7 @@ export default function RequestForm({ data }: Props) {
           createRequest(value);
           toast.success("Request Created!");
         }
+        form.reset();
       } catch (e) {
         defaultErrorHandler(e);
       }
