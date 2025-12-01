@@ -108,7 +108,7 @@ function CancelRequest({
   requestId: number;
   eventType: string;
 }) {
-  const { mutate, isPending, isError } = useCancelRequest();
+  const { mutate, isPending } = useCancelRequest();
 
   return (
     <AlertDialog>
