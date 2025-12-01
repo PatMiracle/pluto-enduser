@@ -3,7 +3,17 @@ import { ServiceRequest } from "@/services/service-requests-api";
 import { format } from "date-fns";
 import { getRequestStatusStyle } from "./requestColumns";
 import { Button } from "@/components/ui/button";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdInfoOutline } from "react-icons/md";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { AlertAction, AlertCancel } from "@/components/modal";
 
 type Props = {
   data: ServiceRequest;
@@ -56,7 +66,11 @@ export default function EventPickup({ data }: Props) {
       </div>
       {editable && (
         <div className="flex items-center justify-between">
-          <Button variant={"destructive"}>Cancel Request</Button>
+          <CancelRequest
+            requestId={data.serviceRequestId}
+            eventType={data.serviceRequestType}
+          />
+
           <Button
             size={"icon"}
             variant={"ghost"}
@@ -81,5 +95,46 @@ function Field({ label, value }: FieldProps) {
       <p className="text-white-darker mb-0.5 text-xs">{label}</p>
       <p className="capitalize">{value}</p>
     </div>
+  );
+}
+
+function CancelRequest({
+  requestId,
+  eventType,
+}: {
+  requestId: number;
+  eventType: string;
+}) {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger>
+        <Button variant={"destructive"}>Cancel Request</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="border-red-normal justify-center rounded-sm rounded-bl-3xl border-[1.5px] sm:max-w-md">
+        <AlertDialogHeader className="items-center justify-center">
+          <MdInfoOutline className="text-red-normal" size={24} />
+          <AlertDialogTitle className="font-normal">
+            Cancel Request
+          </AlertDialogTitle>
+          <p className="text-white-darker -mt-2 text-[11px]">
+            ID #{requestId} - {eventType}
+          </p>
+          <AlertDialogDescription className="text-white-darker text-sm">
+            Are you sure you want to cancel your pickup request?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="w-full flex-row justify-center gap-4 sm:justify-center">
+          <AlertCancel>No</AlertCancel>
+          <AlertAction>Delete</AlertAction>
+        </AlertDialogFooter>
+        <div className="flex gap-2 rounded-lg border border-[#FFE5CC] bg-[#FFF8F0] p-2">
+          <MdInfoOutline className="text-red-normal" size={17} />
+          <p className="text-[11px] text-[#8B4513]">
+            If you cancel this booking, it cannot be rescheduled and your refund
+            will be processed according to the terms and Conditions.
+          </p>
+        </div>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

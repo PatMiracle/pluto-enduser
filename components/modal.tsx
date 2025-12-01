@@ -41,7 +41,10 @@ export default function Modal({
   return (
     <Dialog modal={true}>
       <DialogTrigger>{trigger}</DialogTrigger>
-      <DialogContent className="max-h-11/12 overflow-auto">
+      <DialogContent
+        className="max-h-11/12 overflow-auto"
+        onPointerDownOutside={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
@@ -53,19 +56,22 @@ export default function Modal({
 }
 
 interface AlertProps {
+  title?: string;
   description: string;
   children: React.ReactNode;
   trigger: React.ReactNode;
 }
 
-export function Alert({ children, trigger, description }: AlertProps) {
+export function Alert({ title, children, trigger, description }: AlertProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger>{trigger}</AlertDialogTrigger>
       <AlertDialogContent className="border-red-normal justify-center rounded-sm rounded-bl-3xl border-[1.5px] sm:max-w-md">
         <AlertDialogHeader className="items-center justify-center">
           <MdInfoOutline className="text-red-normal" size={24} />
-          <AlertDialogTitle className="font-normal">Alert</AlertDialogTitle>
+          <AlertDialogTitle className="font-normal">
+            {title || "Alert"}
+          </AlertDialogTitle>
           <AlertDialogDescription className="text-white-darker text-sm">
             {description}
           </AlertDialogDescription>
@@ -84,7 +90,7 @@ export function AlertAction({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Action>) {
   return (
     <AlertDialogPrimitive.Action
-      className={cn(buttonVariants(), className)}
+      className={cn(buttonVariants({ variant: "destructive" }), className)}
       {...props}
     />
   );
@@ -96,7 +102,7 @@ export function AlertCancel({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Cancel>) {
   return (
     <AlertDialogPrimitive.Cancel
-      className={cn(buttonVariants({ variant: "destructive" }), className)}
+      className={cn(buttonVariants(), className)}
       {...props}
     />
   );
