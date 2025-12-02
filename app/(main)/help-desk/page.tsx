@@ -13,7 +13,7 @@ export default function HelpDesk() {
     "query-ticket",
   );
 
-  const { data: tickets } = useTickets({ pageSize: 10 });
+  const { data: tickets, pagination } = useTickets({ pageSize: 10 });
 
   return (
     <div className="px-5">
@@ -43,7 +43,11 @@ export default function HelpDesk() {
         {activeTab == "query-ticket" ? (
           <QueryTickets />
         ) : (
-          <DataTable columns={ticketColumns} data={tickets?.data} />
+          <DataTable
+            columns={ticketColumns}
+            data={tickets}
+            pagination={pagination}
+          />
         )}
       </div>
     </div>

@@ -23,14 +23,7 @@ export default function Requests() {
   const [status, setOrderStatus] = useState<ServiceRequest["orderStatus"]>();
   const [search, setSearch] = useState("");
 
-  const {
-    data: serviceRequests,
-    currentPage,
-    pagination,
-    fetchPage,
-    fetchNext,
-    fetchPrev,
-  } = useServiceRequests({
+  const { data: serviceRequests, pagination } = useServiceRequests({
     pageSize: 10,
     status,
     search,
@@ -92,14 +85,9 @@ export default function Requests() {
             }
           />
           <div>
-            <DataTable columns={requestColumns} data={serviceRequests} />
-            <PaginationControl
-              currentPage={currentPage}
-              fetchNext={fetchNext}
-              fetchPrev={fetchPrev}
-              // onPageChange={fetchPage}
-              // totalPages={pagination?.totalPages}
-              fetchPage={fetchPage}
+            <DataTable
+              columns={requestColumns}
+              data={serviceRequests}
               pagination={pagination}
             />
           </div>

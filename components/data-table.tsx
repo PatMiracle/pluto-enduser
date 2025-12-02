@@ -16,25 +16,111 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "./ui/skeleton";
-
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data?: TData[];
+  pagination?: PaginationControlProps;
+}
+
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  pagination,
+}: DataTableProps<TData, TValue>) {
+  if (!data) {
+    return <TableSkeleton rows={8} />;
+  }
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  return (
+    <>
+      <div className="overflow-hidden rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      {pagination && <PaginationControl {...pagination} />}
+    </>
+  );
+}
+
+export function TableSkeleton({ rows }: { rows: number }) {
+  return (
+    <div className="grid gap-4">
+      {Array.from({ length: rows }).map((_, j) => (
+        <Skeleton key={j} className="bg-white-normal-hover h-10" />
+      ))}
+    </div>
+  );
+}
+
 interface PaginationControlProps {
-  pagination?: Pagination;
   currentPage: number;
   fetchNext: () => void;
   fetchPrev: () => void;
   fetchPage: (page: number) => void;
+  totalPages: number;
 }
 
 export default function PaginationControl({
-  pagination,
+  totalPages,
   currentPage,
   fetchNext,
   fetchPrev,
   fetchPage,
 }: PaginationControlProps) {
-  const totalPages = Number(pagination?.totalPages ?? 1);
   const maxShown = 5;
 
   if (totalPages <= 1) return null;
@@ -105,83 +191,6 @@ export default function PaginationControl({
       >
         <MdKeyboardArrowRight size={28} />
       </button>
-    </div>
-  );
-}
-
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data?: TData[];
-}
-
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  if (!data) {
-    return <TableSkeleton rows={8} />;
-  }
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  return (
-    <div className="overflow-hidden rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
-  );
-}
-
-export function TableSkeleton({ rows }: { rows: number }) {
-  return (
-    <div className="grid gap-4">
-      {Array.from({ length: rows }).map((_, j) => (
-        <Skeleton key={j} className="bg-white-normal-hover h-10" />
-      ))}
     </div>
   );
 }

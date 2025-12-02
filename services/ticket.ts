@@ -1,4 +1,4 @@
-import { useApiQuery } from "@/hooks/useApiQuery";
+import { usePaginatedQuery } from "@/hooks/useApiQuery";
 
 type TicketStatus = "PENDING" | "UNDER_REVIEW" | "CLOSED" | "RESOLVED";
 
@@ -174,4 +174,4 @@ interface Params {
 }
 
 export const useTickets = (p: Params) =>
-  useApiQuery<TicketResponse>("tickets", "/user/issues", p);
+  usePaginatedQuery<TicketResponse>("tickets", "/user/issues", p);
