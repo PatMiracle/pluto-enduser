@@ -82,7 +82,7 @@ export default function Navbar() {
               />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-green-light-hover mr-5 min-w-[200px]">
+          <DropdownMenuContent className="bg-green-light-hover mr-5 min-w-[200px] rounded-sm rounded-tr-2xl">
             <DropDownItem>
               <div className="flex gap-1">
                 <Avatar>
