@@ -56,7 +56,7 @@ export const usePaginatedQuery = <
 
   const fetchNext = useCallback(() => setPage((p) => p + 1), []);
   const fetchPrev = useCallback(() => setPage((p) => Math.max(0, p - 1)), []);
-  const fetchPage = useCallback((p: number) => p && setPage(p), []);
+  const fetchPage = useCallback((p: number) => setPage(p), []);
 
   const isPaginated = query.data && "pagination" in query.data;
 
