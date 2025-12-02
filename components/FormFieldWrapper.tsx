@@ -115,7 +115,12 @@ export default function FormFieldWrapper({
           onValueChange={(v) => handleChange(+v || v)}
         >
           <SelectTrigger className="w-full capitalize" disabled={disabled}>
-            <SelectValue placeholder={placeholder} />
+            <div className="flex items-center gap-2">
+              <span className="text-primary">
+                {(rest as InputProps).iconLeft}
+              </span>
+              <SelectValue placeholder={placeholder} />
+            </div>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>

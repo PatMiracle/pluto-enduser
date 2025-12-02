@@ -33,7 +33,6 @@ function Input({
   );
   const [open, setOpen] = React.useState(false);
 
-  // ✅ When type is "date", show shadcn Calendar
   if (type === "date") {
     return (
       <Popover open={open} onOpenChange={setOpen}>
@@ -68,7 +67,7 @@ function Input({
             onSelect={(selected) => {
               setDate(selected);
 
-              // 👇 fake event to behave like input change
+              // fake event to behave like input change
               onChange?.({
                 target: {
                   value: selected ? selected.toISOString().split("T")[0] : "",
@@ -83,7 +82,7 @@ function Input({
     );
   }
 
-  // ✅ Normal input for other types
+  // Normal input for other types
   return (
     <div
       className={cn("relative", disabled && "cursor-not-allowed", className)}

@@ -20,7 +20,7 @@ export default async function layout({ children }: Props) {
   return (
     <SidebarProvider>
       <div
-        className="fixed top-0 z-20 flex h-14 w-full items-center justify-between px-5"
+        className="bg-white-normal fixed top-0 z-20 flex h-14 w-full items-center justify-between px-5"
         style={{
           boxShadow: "0px 4px 4px 0px #00000040",
           height: NAVBAR_HEIGHT,

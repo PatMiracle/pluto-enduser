@@ -101,8 +101,7 @@ export default function RequestForm({ data }: Props) {
     },
   });
 
-  const stateId = useStore(form.store, (s) => s.values.state);
-  const lga = useStore(form.store, (s) => s.values.lga);
+  const { state: stateId, lga } = useStore(form.store, (s) => s.values);
   const submitting = useStore(form.store, (state) => state.isSubmitting);
 
   const { data: rawStates } = useTrackedStates();
@@ -152,7 +151,7 @@ export default function RequestForm({ data }: Props) {
                     option={states}
                     {...field}
                     state={field.state}
-                    iconLeft={<MdApartment />}
+                    iconLeft={<MdApartment className="text-primary" />}
                     disabled
                   />
                 );
@@ -169,7 +168,7 @@ export default function RequestForm({ data }: Props) {
                     placeholder="LGA"
                     {...field}
                     state={field.state}
-                    iconLeft={<MdOutlineCottage />}
+                    iconLeft={<MdOutlineCottage className="text-primary" />}
                   />
                 );
               }}
@@ -187,7 +186,7 @@ export default function RequestForm({ data }: Props) {
                     option={landmarks}
                     {...field}
                     state={field.state}
-                    iconLeft={<MdFlag />}
+                    iconLeft={<MdFlag className="text-primary" />}
                     disabled={!lga}
                   />
                 );
