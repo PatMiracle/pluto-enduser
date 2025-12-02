@@ -107,7 +107,7 @@ export default function Navbar() {
               </div>
             </DropDownItem>
             <DropdownMenuSeparator className="bg-green-normal h-[0.5px]" />
-            <DropDownItem href="account-settings/profile">
+            <DropDownItem href="/account-settings/profile">
               My Profile
             </DropDownItem>
             <DropDownItem>Account & Payment</DropDownItem>

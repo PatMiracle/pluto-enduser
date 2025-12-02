@@ -3,8 +3,8 @@ import Navbar from "@/components/navbar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
-import AuthLayer from "./AuthLayer";
 import { ModalProvider } from "@/context/ModalProvider";
+import AuthLayer from "../(main)/AuthLayer";
 
 type Props = { children: ReactNode };
 
@@ -18,7 +18,9 @@ export default async function layout({ children }: Props) {
       <AppSidebar />
       <SidebarInset>
         <div className="bg-white-normal w-full overflow-y-auto pt-20">
-          <AuthLayer>{children}</AuthLayer>
+          <AuthLayer>
+            <ModalProvider>{children}</ModalProvider>
+          </AuthLayer>
         </div>
       </SidebarInset>
     </SidebarProvider>

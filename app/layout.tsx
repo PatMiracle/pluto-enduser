@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
+import { ModalProvider } from "@/context/ModalProvider";
 
 const productSans = localFont({
   src: "../public/icons/Product-Sans-Regular.ttf",
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${productSans.className} bg-white-normal antialiased`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <ModalProvider>{children}</ModalProvider>
+        </Providers>
         <Toaster position="top-right" />
       </body>
     </html>
