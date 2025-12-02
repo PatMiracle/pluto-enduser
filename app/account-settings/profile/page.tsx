@@ -5,10 +5,11 @@ import { useUserQuery } from "@/services/user-api";
 import { useState } from "react";
 import { MdClose, MdEdit } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
+import { useTrackedStates } from "@/services/enum-api";
 
 const Profile = () => {
   const { data: user } = useUserQuery();
-
+  const { data: rawStates } = useTrackedStates();
   const [isEditing, setIsEditing] = useState(false);
 
   return (
@@ -36,6 +37,23 @@ const Profile = () => {
             </button>
           )}
         </Avatar>
+        <div className="grid gap-1.5">
+          <div>
+            <p className="text-white-darker text-sm">Account Access Type</p>
+            <p className="bg-green-light mt-1 rounded-sm p-1.5 text-sm capitalize">
+              {user?.accountType} Account
+            </p>
+          </div>
+          <div>
+            <p className="text-white-darker text-sm">Waste Management Board</p>
+            <p className="bg-green-light mt-1 rounded-sm p-1.5 text-sm capitalize">
+              {rawStates &&
+                rawStates.data.find(
+                  (v) => v.stateId == user?.stateWasteManagementBoardId,
+                )?.stateName}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
