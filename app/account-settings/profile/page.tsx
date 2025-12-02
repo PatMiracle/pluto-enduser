@@ -3,13 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUserQuery } from "@/services/user-api";
 import { useEffect, useState } from "react";
-import {
-  MdApartment,
-  MdClose,
-  MdCottage,
-  MdEdit,
-  MdOutlineCottage,
-} from "react-icons/md";
+import { MdApartment, MdClose, MdEdit, MdOutlineCottage } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
 import { useLGAs, useStates } from "@/services/enum-api";
 

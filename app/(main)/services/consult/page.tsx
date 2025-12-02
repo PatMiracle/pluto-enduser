@@ -6,7 +6,7 @@ import { consultColumns } from "./consultColumns";
 import { Button } from "@/components/ui/button";
 
 const Consult = () => {
-  const { data } = useConsultation({ pageSize: 9 });
+  const { data, pagination } = useConsultation({ pageSize: 9 });
   return (
     <div className="grid gap-4 px-5">
       <p className="text-lg font-semibold">Consult With Us!</p>
@@ -22,7 +22,7 @@ const Consult = () => {
         </div>
       </div>
 
-      <DataTable columns={consultColumns} data={data?.data} />
+      <DataTable columns={consultColumns} data={data} pagination={pagination} />
     </div>
   );
 };

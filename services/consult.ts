@@ -1,4 +1,4 @@
-import { useApiQuery } from "@/hooks/useApiQuery";
+import { usePaginatedQuery } from "@/hooks/useApiQuery";
 import { TicketResponse } from "./ticket";
 
 interface Params {
@@ -6,4 +6,4 @@ interface Params {
 }
 
 export const useConsultation = (p: Params) =>
-  useApiQuery<TicketResponse>("consultation", "/user/consultations", p);
+  usePaginatedQuery<TicketResponse>("consultation", "/user/consultations", p);
