@@ -110,11 +110,19 @@ export default function Navbar() {
             <DropDownItem href="/account-settings/profile">
               My Profile
             </DropDownItem>
-            <DropDownItem>Account & Payment</DropDownItem>
-            <DropDownItem>Security</DropDownItem>
+            <DropDownItem href="/account-settings/payments">
+              Account & Payment
+            </DropDownItem>
+            <DropDownItem href="/account-settings/security">
+              Security
+            </DropDownItem>
             <DropdownMenuSeparator className="bg-green-normal" />
-            <DropDownItem>Legal Agreements</DropDownItem>
-            <DropDownItem>Contact Us</DropDownItem>
+            <DropDownItem href="/account-settings/legal-agreements">
+              Legal Agreements
+            </DropDownItem>
+            <DropDownItem href="/account-settings/contact-us">
+              Contact Us
+            </DropDownItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -131,7 +139,13 @@ function DropDownItem({
 }) {
   return (
     <DropdownMenuItem className="focus:text-white-darker focus:bg-transparent">
-      {href ? <Link href={href}>{children}</Link> : children}
+      {href ? (
+        <Link href={href} className="w-full">
+          {children}
+        </Link>
+      ) : (
+        children
+      )}
     </DropdownMenuItem>
   );
 }

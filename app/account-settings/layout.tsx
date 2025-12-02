@@ -1,4 +1,3 @@
-import AppSidebar from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
 import { ModalProvider } from "@/context/ModalProvider";
@@ -7,6 +6,7 @@ import { NAVBAR_HEIGHT } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
+import AccountSettingsSidebar from "./Sidebar";
 
 type Props = { children: ReactNode };
 
@@ -31,7 +31,7 @@ export default async function layout({ children }: Props) {
           </Button>
         </Link>
       </div>
-      <AppSidebar />
+      <AccountSettingsSidebar />
       <SidebarInset>
         <div className="bg-white-normal w-full overflow-y-auto pt-20">
           <AuthLayer>
