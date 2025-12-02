@@ -1,7 +1,7 @@
 interface Pagination {
   pages: number[];
   currentPage: number;
-  totalPages: string;
+  totalPages: number;
   hasPrev: boolean;
   hasNext: boolean;
 }

@@ -17,6 +17,98 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "./ui/skeleton";
 
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+
+interface PaginationControlProps {
+  pagination?: Pagination;
+  currentPage: number;
+  fetchNext: () => void;
+  fetchPrev: () => void;
+  fetchPage: (page: number) => void;
+}
+
+export default function PaginationControl({
+  pagination,
+  currentPage,
+  fetchNext,
+  fetchPrev,
+  fetchPage,
+}: PaginationControlProps) {
+  const totalPages = Number(pagination?.totalPages ?? 1);
+  const maxShown = 5;
+
+  if (totalPages <= 1) return null;
+
+  const pages: (number | string)[] = [];
+
+  if (totalPages <= maxShown + 2) {
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+  } else {
+    pages.push(1);
+
+    if (currentPage > 3) pages.push("...");
+
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages - 1, currentPage + 1);
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (currentPage < totalPages - 2) pages.push("...");
+
+    pages.push(totalPages);
+  }
+
+  return (
+    <div className="mt-6 flex items-center justify-center gap-3">
+      {/* Prev */}
+      <button
+        disabled={currentPage === 0}
+        onClick={() => {
+          fetchPrev();
+          console.log(currentPage);
+        }}
+        className="disabled:opacity-40"
+      >
+        <MdKeyboardArrowLeft size={28} />
+      </button>
+
+      {/* Numbers */}
+      {pages.map((item, idx) =>
+        typeof item === "number" ? (
+          <button
+            key={idx}
+            onClick={() => fetchPage(idx)}
+            className={`px-2 text-base ${
+              idx === currentPage
+                ? "font-semibold text-black"
+                : "text-gray-400 hover:text-black"
+            }`}
+          >
+            {item}
+          </button>
+        ) : (
+          <span key={idx} className="text-white-dark px-2">
+            …
+          </span>
+        ),
+      )}
+
+      {/* Next */}
+      <button
+        disabled={currentPage == totalPages - 1}
+        onClick={fetchNext}
+        className="disabled:opacity-40"
+      >
+        <MdKeyboardArrowRight size={28} />
+      </button>
+    </div>
+  );
+}
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data?: TData[];

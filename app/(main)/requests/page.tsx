@@ -1,6 +1,9 @@
 "use client";
 
-import { DataTable, TableSkeleton } from "@/components/data-table";
+import PaginationControl, {
+  DataTable,
+  TableSkeleton,
+} from "@/components/data-table";
 import {
   ServiceRequest,
   useServiceRequests,
@@ -24,6 +27,9 @@ export default function Requests() {
     data: serviceRequests,
     currentPage,
     pagination,
+    fetchPage,
+    fetchNext,
+    fetchPrev,
   } = useServiceRequests({
     pageSize: 10,
     status,
@@ -32,15 +38,15 @@ export default function Requests() {
 
   const { openModal, getModalProps } = useModal();
 
-  const statuses = [
-    "NEW",
-    "PENDING",
-    "APPROVED",
-    "COMPLETED",
-    "CANCELLED",
-    "OVER_DUE",
-    "CLIENT_CANCELLED",
-  ];
+  // const statuses = [
+  //   "NEW",
+  //   "PENDING",
+  //   "APPROVED",
+  //   "COMPLETED",
+  //   "CANCELLED",
+  //   "OVER_DUE",
+  //   "CLIENT_CANCELLED",
+  // ];
 
   return (
     <div>
@@ -87,6 +93,15 @@ export default function Requests() {
           />
           <div>
             <DataTable columns={requestColumns} data={serviceRequests} />
+            <PaginationControl
+              currentPage={currentPage}
+              fetchNext={fetchNext}
+              fetchPrev={fetchPrev}
+              // onPageChange={fetchPage}
+              // totalPages={pagination?.totalPages}
+              fetchPage={fetchPage}
+              pagination={pagination}
+            />
           </div>
         </div>
         <Footer />
