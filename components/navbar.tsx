@@ -34,7 +34,7 @@ export default function Navbar() {
       style={{ boxShadow: "0px 4px 4px 0px #00000040", height: NAVBAR_HEIGHT }}
     >
       <div className="flex items-center gap-5">
-        <SidebarTrigger asChild>
+        <SidebarTrigger asChild title="CTRL + B">
           {open ? (
             <MdMenu
               title="CTRL + B"
