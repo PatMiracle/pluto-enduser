@@ -18,6 +18,7 @@ import { NAVBAR_HEIGHT } from "@/components/navbar";
 import useAuthStore from "@/store/AuthStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { MdMenu } from "react-icons/md";
 
 const items = [
   {
@@ -60,11 +61,11 @@ export default function AccountSettingsSidebar() {
     <Sidebar style={{ top: NAVBAR_HEIGHT }}>
       <SidebarContent>
         <SidebarGroup>
-          {/* {isMobile && (
+          {isMobile && (
             <SidebarTrigger asChild>
               <MdMenu className="text-primary hover:text-primary mx-auto block size-7" />
             </SidebarTrigger>
-          )} */}
+          )}
           <SidebarGroupContent>
             <SidebarMenu className="gap-5 pt-5">
               {items.map((item) => {

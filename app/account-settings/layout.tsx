@@ -1,4 +1,8 @@
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { ReactNode } from "react";
 import { ModalProvider } from "@/context/ModalProvider";
 import AuthLayer from "../(main)/AuthLayer";
@@ -7,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
 import AccountSettingsSidebar from "./Sidebar";
+import Image from "next/image";
+import menuIcon from "@/public/icons/menu.svg";
 
 type Props = { children: ReactNode };
 
@@ -20,7 +26,12 @@ export default async function layout({ children }: Props) {
           height: NAVBAR_HEIGHT,
         }}
       >
-        <p className="text-xl">Account Settings</p>
+        <div className="flex items-center gap-2">
+          <SidebarTrigger className="md:hidden">
+            <Image src={menuIcon} alt="" className="size-6" />
+          </SidebarTrigger>
+          <p className="text-xl">Account Settings</p>
+        </div>
         <Link href="/dashboard">
           <Button
             size={"icon"}
