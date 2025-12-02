@@ -1,9 +1,6 @@
 "use client";
 
-import PaginationControl, {
-  DataTable,
-  TableSkeleton,
-} from "@/components/data-table";
+import { DataTable } from "@/components/data-table";
 import {
   ServiceRequest,
   useServiceRequests,

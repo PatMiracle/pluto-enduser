@@ -12,6 +12,15 @@ import logo from "@/public/images/logo.svg";
 import { useUserQuery } from "@/services/user-api";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { ReactNode } from "react";
+import Link from "next/link";
 
 export const NAVBAR_HEIGHT = "3.5rem";
 
@@ -47,29 +56,82 @@ export default function Navbar() {
         >
           <MdNotificationsNone />
         </Button>
-        <div className="bg-green-light hover:bg-green-normal group flex h-8 w-14 cursor-pointer items-center gap-1 rounded-full pr-2">
-          <Avatar>
-            {user?.photoURL ? (
-              <>
-                <AvatarImage src={user?.photoURL} />
-                <AvatarFallback>
-                  {user?.firstName.slice(0, 1)}
-                  {user?.lastName.slice(0, 1)}
-                </AvatarFallback>
-              </>
-            ) : (
-              <AvatarFallback>
-                {user?.firstName.slice(0, 1)} {user?.lastName.slice(0, 1)}
-              </AvatarFallback>
-            )}
-          </Avatar>
 
-          <MdKeyboardArrowDown
-            className="text-green-normal group-hover:text-white-normal shrink-0 transition-colors duration-200"
-            size={16}
-          />
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <div className="bg-green-light hover:bg-green-normal group flex h-8 w-14 cursor-pointer items-center gap-1 rounded-full pr-2">
+              <Avatar>
+                {user?.photoURL ? (
+                  <>
+                    <AvatarImage src={user?.photoURL} />
+                    <AvatarFallback>
+                      {user?.firstName.slice(0, 1)}
+                      {user?.lastName.slice(0, 1)}
+                    </AvatarFallback>
+                  </>
+                ) : (
+                  <AvatarFallback>
+                    {user?.firstName.slice(0, 1)} {user?.lastName.slice(0, 1)}
+                  </AvatarFallback>
+                )}
+              </Avatar>
+
+              <MdKeyboardArrowDown
+                className="text-green-normal group-hover:text-white-normal shrink-0 transition-colors duration-200"
+                size={16}
+              />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-green-light-hover mr-5 min-w-[200px]">
+            <DropDownItem>
+              <div className="flex gap-1">
+                <Avatar>
+                  {user?.photoURL ? (
+                    <>
+                      <AvatarImage src={user?.photoURL} />
+                      <AvatarFallback>
+                        {user?.firstName.slice(0, 1)}
+                        {user?.lastName.slice(0, 1)}
+                      </AvatarFallback>
+                    </>
+                  ) : (
+                    <AvatarFallback>
+                      {user?.firstName.slice(0, 1)} {user?.lastName.slice(0, 1)}
+                    </AvatarFallback>
+                  )}
+                </Avatar>
+                <div>
+                  <p className="text-[13px]">{`${user?.firstName} ${user?.lastName}`}</p>
+                  <p className="text-white-darker text-xs">{user?.email}</p>
+                </div>
+              </div>
+            </DropDownItem>
+            <DropdownMenuSeparator className="bg-green-normal h-[0.5px]" />
+            <DropDownItem href="account-settings/profile">
+              My Profile
+            </DropDownItem>
+            <DropDownItem>Account & Payment</DropDownItem>
+            <DropDownItem>Security</DropDownItem>
+            <DropdownMenuSeparator className="bg-green-normal" />
+            <DropDownItem>Legal Agreements</DropDownItem>
+            <DropDownItem>Contact Us</DropDownItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
+  );
+}
+
+function DropDownItem({
+  href,
+  children,
+}: {
+  href?: string;
+  children: ReactNode;
+}) {
+  return (
+    <DropdownMenuItem className="focus:text-white-darker focus:bg-transparent">
+      {href ? <Link href={href}>{children}</Link> : children}
+    </DropdownMenuItem>
   );
 }
