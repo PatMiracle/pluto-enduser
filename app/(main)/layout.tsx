@@ -4,7 +4,6 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 import AuthLayer from "./AuthLayer";
-import { ModalProvider } from "@/context/ModalProvider";
 
 type Props = { children: ReactNode };
 
