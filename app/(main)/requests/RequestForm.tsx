@@ -38,8 +38,8 @@ type Props = {
 };
 
 const formSchema = z.object({
-  state: z.number("State is required"),
-  lga: z.number("LGA is required"),
+  state: z.number().min(0, "State is required"),
+  lga: z.number().min(0, "LGA is required"),
   postalId: z.number("Landmark is required"),
   startDate: z.string().min(1, "Pickup date is required"),
   serviceRequestType: z.string().min(1, "Event Type is required"),
