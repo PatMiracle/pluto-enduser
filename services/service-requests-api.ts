@@ -1,4 +1,4 @@
-import { useApiQuery } from "@/hooks/useApiQuery";
+import { usePaginatedQuery } from "@/hooks/useApiQuery";
 import api from "@/lib/apiClient";
 import defaultErrorHandler from "@/lib/error-handler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -60,7 +60,7 @@ interface Params {
   search?: string;
 }
 export const useServiceRequests = (p: Params) =>
-  useApiQuery<ServiceRequestsResponse>(
+  usePaginatedQuery<ServiceRequestsResponse>(
     "service-requests",
     "/user/service-requests",
     p,

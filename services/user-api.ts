@@ -1,5 +1,4 @@
 import { useApiQuery } from "@/hooks/useApiQuery";
-import axios from "axios";
 
 export interface User {
   accountType: "personal" | "business" | "government";

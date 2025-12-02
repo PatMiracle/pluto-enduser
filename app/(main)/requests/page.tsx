@@ -20,13 +20,27 @@ export default function Requests() {
   const [status, setOrderStatus] = useState<ServiceRequest["orderStatus"]>();
   const [search, setSearch] = useState("");
 
-  const { data: serviceRequests } = useServiceRequests({
+  const {
+    data: serviceRequests,
+    currentPage,
+    pagination,
+  } = useServiceRequests({
     pageSize: 10,
     status,
     search,
   });
 
   const { openModal, getModalProps } = useModal();
+
+  const statuses = [
+    "NEW",
+    "PENDING",
+    "APPROVED",
+    "COMPLETED",
+    "CANCELLED",
+    "OVER_DUE",
+    "CLIENT_CANCELLED",
+  ];
 
   return (
     <div>
@@ -72,7 +86,7 @@ export default function Requests() {
             }
           />
           <div>
-            <DataTable columns={requestColumns} data={serviceRequests?.data} />
+            <DataTable columns={requestColumns} data={serviceRequests} />
           </div>
         </div>
         <Footer />
