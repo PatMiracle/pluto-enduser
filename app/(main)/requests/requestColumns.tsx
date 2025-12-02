@@ -1,6 +1,5 @@
 "use client";
 
-import Modal from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ServiceRequest } from "@/services/service-requests-api";
@@ -8,6 +7,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import EventPickup from "./EventPickup";
 import { trimText } from "@/utils/format";
+import { Modal } from "@/components/modal";
+import { useModal } from "@/context/ModalProvider";
+import RequestForm from "./RequestForm";
 
 export const requestColumns: ColumnDef<ServiceRequest>[] = [
   {
@@ -50,17 +52,30 @@ export const requestColumns: ColumnDef<ServiceRequest>[] = [
   {
     header: "Action",
     cell: ({ row }) => {
+      const { getModalProps, openModal } = useModal();
       return (
-        <Modal
-          trigger={
-            <Button size={"sm"} className="px-5">
-              View
-            </Button>
-          }
-          title="Event Pickup Request Details"
-        >
-          <EventPickup data={row.original} />
-        </Modal>
+        <>
+          <Button
+            size={"sm"}
+            className="px-5"
+            onClick={() => openModal("" + row.original.serviceRequestId)}
+          >
+            View
+          </Button>
+
+          <Modal
+            title="Event Pickup Request Details"
+            {...getModalProps("" + row.original.serviceRequestId)}
+          >
+            <EventPickup data={row.original} />
+          </Modal>
+          <Modal
+            title="Edit Request"
+            {...getModalProps("edit" + row.original.serviceRequestId)}
+          >
+            <RequestForm data={row.original} />
+          </Modal>
+        </>
       );
     },
   },

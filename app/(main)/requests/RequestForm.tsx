@@ -31,6 +31,7 @@ import NigeriaFlag from "@/public/icons/nigerian-flag.svg";
 import * as z from "zod";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
+import { useModal } from "@/context/ModalProvider";
 
 type Props = {
   data?: ServiceRequest;
@@ -58,6 +59,7 @@ export default function RequestForm({ data }: Props) {
   const { data: user } = useUserQuery();
   const { mutate: createRequest } = useCreateRequest();
   const { mutate: updateRequest } = useUpdateRequest();
+  const { closeModal } = useModal();
 
   const form = useForm({
     defaultValues: {
@@ -92,6 +94,7 @@ export default function RequestForm({ data }: Props) {
           toast.success("Request Created!");
         }
         form.reset();
+        closeModal();
       } catch (e) {
         defaultErrorHandler(e);
       }

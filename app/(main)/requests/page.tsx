@@ -13,7 +13,8 @@ import { useState } from "react";
 import { MdSearch } from "react-icons/md";
 import { FaSliders } from "react-icons/fa6";
 import RequestForm from "./RequestForm";
-import Modal from "@/components/modal";
+import { Modal } from "@/components/modal";
+import { useModal } from "@/context/ModalProvider";
 
 export default function Requests() {
   const [status, setOrderStatus] = useState<ServiceRequest["orderStatus"]>();
@@ -25,8 +26,13 @@ export default function Requests() {
     search,
   });
 
+  const { openModal, getModalProps } = useModal();
+
   return (
     <div>
+      <Modal title="Create Request" {...getModalProps("create-request")}>
+        <RequestForm />
+      </Modal>
       <p className="pl-5 text-lg font-semibold">Request & Special Orders</p>
       <div className="mt-5 flex flex-col gap-10 xl:flex-row xl:gap-5 xl:px-5 xl:pb-6">
         <div className="flex flex-col gap-5 px-5 xl:px-0">
@@ -45,14 +51,12 @@ export default function Requests() {
                   Click <span className="font-bold text-black">Create Now</span>{" "}
                   to schedule today!
                 </p>
-                <Modal
-                  trigger={
-                    <Button className="mt-2 max-w-[136px]">Create Now</Button>
-                  }
-                  title="Create Request"
+                <Button
+                  className="mt-2 max-w-[136px]"
+                  onClick={() => openModal("create-request")}
                 >
-                  <RequestForm />
-                </Modal>
+                  Create Now
+                </Button>
               </div>
             </div>
           </div>

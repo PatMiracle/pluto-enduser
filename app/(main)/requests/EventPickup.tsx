@@ -16,8 +16,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import Modal, { AlertCancel } from "@/components/modal";
-import RequestForm from "./RequestForm";
+import { AlertCancel, Modal } from "@/components/modal";
+import { useModal } from "@/context/ModalProvider";
 
 type Props = {
   data: ServiceRequest;
@@ -26,11 +26,13 @@ type Props = {
 export default function EventPickup({ data }: Props) {
   const editable = data.orderStatus === "NEW" || data.orderStatus === "PENDING";
 
+  const { openModal } = useModal();
+
   return (
     <div className="grid gap-4">
       <div className="flex">
-        <Field label="State" value={data.landmark.stateName} />
-        <Field label="LGA" value={data.landmark.lgaName} />
+        <Field label="State" value={data.landmark.stateName} capitalize />
+        <Field label="LGA" value={data.landmark.lgaName} capitalize />
       </div>
       <div className="flex">
         <Field label="Landmark" value={data.landmark.landmarkName} />
@@ -51,10 +53,7 @@ export default function EventPickup({ data }: Props) {
         <Field label="Event Type" value={data.serviceRequestType} />
         <Field label="Contact Number" value={data.contactNumber} />
       </div>
-      <div>
-        <p className="text-white-darker mb-0.5 text-xs">Email Address</p>
-        <p className="lowercase">{data.contactEmail}</p>
-      </div>
+      <Field label="Email Address" value={data.contactEmail} />
       <Field label="Pickup Address" value={data.pickupAddress} />
       <Field label="Description" value={data.description} />
       <div>
@@ -75,20 +74,14 @@ export default function EventPickup({ data }: Props) {
             eventType={data.serviceRequestType}
           />
 
-          <Modal
-            trigger={
-              <Button
-                size={"icon"}
-                variant={"ghost"}
-                className="text-green-normal border-green-light-active size-8 rounded-full border"
-              >
-                <MdEdit />
-              </Button>
-            }
-            title="Edit Request"
+          <Button
+            onClick={() => openModal("edit" + data.serviceRequestId)}
+            size={"icon"}
+            variant={"ghost"}
+            className="text-green-normal border-green-light-active size-8 rounded-full border"
           >
-            <RequestForm data={data} />
-          </Modal>
+            <MdEdit />
+          </Button>
         </div>
       )}
     </div>
@@ -98,13 +91,14 @@ export default function EventPickup({ data }: Props) {
 type FieldProps = {
   label: string;
   value: string;
+  capitalize?: boolean;
 };
 
-function Field({ label, value }: FieldProps) {
+function Field({ label, value, capitalize = false }: FieldProps) {
   return (
     <div className="mr-4 flex-1">
       <p className="text-white-darker mb-0.5 text-xs">{label}</p>
-      <p className="capitalize">{value}</p>
+      <p className={cn(capitalize && "capitalize")}>{value}</p>
     </div>
   );
 }

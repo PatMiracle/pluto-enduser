@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Alert, AlertAction, AlertCancel } from "./modal";
+import { useModal } from "@/context/ModalProvider";
 
 const promoImages = [promotion1, promotion2, promotion3, promotion4];
 
@@ -46,6 +47,8 @@ export default function Footer() {
     if (!api) return;
     api.scrollTo(index);
   };
+
+  const { getModalProps, openModal } = useModal();
 
   return (
     <footer className="bg-green-normal text-white-normal h-max w-full shrink-0 grow-0 rounded-t-3xl py-9 xl:w-[383px] xl:rounded-b-3xl">
@@ -90,17 +93,14 @@ export default function Footer() {
         <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-1">
           <div className="flex flex-col gap-6 xl:gap-3">
             <p className="text-2xl font-bold">Education</p>
+
             <div className="flex flex-col gap-3">
-              <Alert
-                trigger={
-                  <p className="cursor-pointer text-lg underline underline-offset-8">
-                    Bill & Rates
-                  </p>
-                }
-                description="Contact your State or Area Waste Management Office"
+              <p
+                onClick={() => openModal("bills-rate")}
+                className="cursor-pointer text-lg underline underline-offset-8"
               >
-                <AlertCancel>See Contact List</AlertCancel>
-              </Alert>
+                Bill & Rates
+              </p>
               <Link href="#" className="text-lg underline underline-offset-8">
                 Waste Education
               </Link>
@@ -112,28 +112,33 @@ export default function Footer() {
               <Link href="#" className="text-lg underline underline-offset-8">
                 Pluto’s Terms
               </Link>
-              <Alert
-                trigger={
-                  <p className="cursor-pointer text-lg underline underline-offset-8">
-                    Federal Waste Mgt. Laws
-                  </p>
-                }
-                description="You are about to visit an external link from our platform"
+              <p
+                onClick={() => openModal("fed-law")}
+                className="cursor-pointer text-lg underline underline-offset-8"
               >
-                <AlertAction>
-                  <a
-                    href="https://nesrea.gov.ng/laws-regulations/"
-                    target="_blank"
-                  >
-                    Proceed
-                  </a>
-                </AlertAction>
-                <AlertCancel>Cancel</AlertCancel>
-              </Alert>
+                Federal Waste Mgt. Laws
+              </p>
             </div>
           </div>
         </div>
       </div>
+      <Alert
+        {...getModalProps("bills-rate")}
+        description="Contact your State or Area Waste Management Office"
+      >
+        <AlertCancel>See Contact List</AlertCancel>
+      </Alert>
+      <Alert
+        {...getModalProps("fed-law")}
+        description="You are about to visit an external link from our platform"
+      >
+        <AlertAction>
+          <a href="https://nesrea.gov.ng/laws-regulations/" target="_blank">
+            Proceed
+          </a>
+        </AlertAction>
+        <AlertCancel>Cancel</AlertCancel>
+      </Alert>
     </footer>
   );
 }

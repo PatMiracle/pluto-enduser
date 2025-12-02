@@ -1,54 +1,53 @@
 import React from "react";
-
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
-} from "./ui/alert-dialog";
-import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
+} from "@/components/ui/alert-dialog";
 
+import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 import { MdInfoOutline } from "react-icons/md";
-import { buttonVariants } from "./ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-type Props = {
+type ModalProps = {
   title: string;
   description?: string;
   children: React.ReactNode;
-  trigger: React.ReactNode;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 };
 
-export default function Modal({
+export function Modal({
   children,
-  trigger,
   title,
   description,
-}: Props) {
+  open,
+  onOpenChange,
+}: ModalProps) {
   return (
-    <Dialog modal={true}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Dialog modal open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-h-11/12 overflow-auto"
-        // onPointerDownOutside={(e) => e.preventDefault()}
+        className="max-h-[90vh] overflow-y-auto"
+        aria-describedby={undefined}
+        onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
+
         {children}
       </DialogContent>
     </Dialog>
@@ -59,20 +58,28 @@ interface AlertProps {
   title?: string;
   description: string;
   children: React.ReactNode;
-  trigger: React.ReactNode;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export function Alert({ title, children, trigger, description }: AlertProps) {
+export function Alert({
+  title,
+  children,
+  description,
+  open,
+  onOpenChange,
+}: AlertProps) {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
-      <AlertDialogContent className="border-red-normal justify-center rounded-sm rounded-bl-3xl border-[1.5px] sm:max-w-md">
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent className="border-red-normal rounded-bl-3xl border-[1.5px] sm:max-w-md">
         <AlertDialogHeader className="items-center justify-center">
           <MdInfoOutline className="text-red-normal" size={24} />
+
           <AlertDialogTitle className="font-normal">
             {title || "Alert"}
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-white-darker text-sm">
+
+          <AlertDialogDescription className="text-white-darker text-center text-sm">
             {description}
           </AlertDialogDescription>
         </AlertDialogHeader>
