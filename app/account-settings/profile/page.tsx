@@ -7,6 +7,24 @@ import { MdClose, MdEdit } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
 import { useTrackedStates } from "@/services/enum-api";
 
+import * as z from "zod";
+import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
+
+const formSchema = z.object({
+  firstName: z.string().min(1, "required"),
+  lastName: z.string().min(1, "required"),
+  phoneNumber: z
+    .string()
+    .refine((val) => !!toNigeriaIntlFormat(val), {
+      message: "Invalid Nigerian phone number",
+    })
+    .transform((val) => toNigeriaIntlFormat(val)!),
+  email: z.email("Enter a valid email"),
+  state: z.number().min(0, "State is required"),
+  lga: z.number().min(0, "LGA is required"),
+  streetAddress: z.string().min(1, "Pickup address is required"),
+});
+
 const Profile = () => {
   const { data: user } = useUserQuery();
   const { data: rawStates } = useTrackedStates();
