@@ -126,7 +126,9 @@ export default function Footer() {
         {...getModalProps("bills-rate")}
         description="Contact your State or Area Waste Management Office"
       >
-        <AlertCancel>See Contact List</AlertCancel>
+        <AlertCancel asChild>
+          <Link href="account-settings/contact-us">See Contact List</Link>
+        </AlertCancel>
       </Alert>
       <Alert
         {...getModalProps("fed-law")}
