@@ -78,7 +78,7 @@ const Profile = () => {
     setProfilePhoto(e.target.files?.[0] ?? null);
   };
 
-  const { residentState: stateId, lga } = useStore(form.store, (s) => s.values);
+  const { residentState: stateId } = useStore(form.store, (s) => s.values);
   const submitting = useStore(form.store, (state) => state.isSubmitting);
   const { data: rawStates } = useStates();
   const statesOptions = useOptions(rawStates?.data, "stateId", "stateName");
