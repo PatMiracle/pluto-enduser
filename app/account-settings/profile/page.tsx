@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUpdateUser, useUserQuery } from "@/services/user-api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdApartment, MdClose, MdEdit, MdOutlineCottage } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
 import { useLGAs, useStates } from "@/services/enum-api";
