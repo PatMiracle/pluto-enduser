@@ -41,7 +41,7 @@ function Input({
             variant="outline"
             disabled={disabled}
             className={cn(
-              "border-green-light bg-green-light text-primary hover:bg-green-light hover:text-green-normal relative h-9 w-full justify-start rounded-3xl rounded-tl-none px-3 pr-10 pl-10 text-left font-normal",
+              "border-green-light bg-green-light text-primary hover:bg-green-light hover:text-green-normal relative h-9 w-full justify-start rounded-3xl rounded-tl-none px-3 pr-10 pl-10 text-left font-normal disabled:opacity-60",
               !date && "text-primary/70",
               className,
             )}
@@ -95,7 +95,7 @@ function Input({
         type={type}
         data-slot="input"
         className={cn(
-          "border-green-light bg-green-light text-primary file:text-foreground placeholder:text-primary/70 h-9 w-full min-w-0 border py-1 text-[13px] shadow-xs transition-[color,box-shadow] outline-none",
+          "border-green-light bg-green-light text-primary file:text-foreground placeholder:text-primary/70 h-9 w-full min-w-0 border py-1 text-[13px] shadow-xs transition-[color,box-shadow] outline-none disabled:opacity-60",
           iconLeft ? "pl-10" : "pl-3",
           iconRight ? "pr-10" : "pr-3",
           "focus-visible:border-primary rounded-3xl rounded-tl-none",

@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useUserQuery } from "@/services/user-api";
+import { useUpdateUser, useUserQuery } from "@/services/user-api";
 import { useEffect, useState } from "react";
 import { MdApartment, MdClose, MdEdit, MdOutlineCottage } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
@@ -16,6 +16,10 @@ import FormFieldWrapper from "@/components/FormFieldWrapper";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useOptions from "@/hooks/use-options";
+import Image from "next/image";
+import NigeriaFlag from "@/public/icons/nigerian-flag.svg";
+import { toast } from "sonner";
+import defaultErrorHandler from "@/lib/error-handler";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "required"),
@@ -34,13 +38,10 @@ const formSchema = z.object({
 
 const Profile = () => {
   const { data: user } = useUserQuery();
+  const { mutate } = useUpdateUser();
   const [isEditing, setIsEditing] = useState(false);
 
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
-
-  useEffect(() => {
-    setProfilePhoto(null);
-  }, [isEditing]);
 
   const form = useForm({
     defaultValues: {
@@ -55,7 +56,17 @@ const Profile = () => {
     validators: {
       onSubmit: formSchema,
     },
-    onSubmit: async ({ value }) => {},
+    onSubmit: async ({ value }) => {
+      const data = profilePhoto ? { ...value, profilePhoto } : value;
+      try {
+        mutate(data);
+        toast.success("Profile Updated");
+      } catch (error) {
+        defaultErrorHandler(error);
+      } finally {
+        setIsEditing(false);
+      }
+    },
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,12 +80,18 @@ const Profile = () => {
   const { data: rawLGAs } = useLGAs({ stateId: stateId! });
   const lgaOptions = useOptions(rawLGAs?.data, "lgaId", "lgaName");
 
+  const { isDefaultValue } = useStore(form.store, (s) => s);
+
   return (
     <div className="max-w-4xl px-5">
       <div className="flex justify-between">
         <p className="text-lg">Profile</p>
         <button
-          onClick={() => setIsEditing(!isEditing)}
+          onClick={() => {
+            setIsEditing(!isEditing);
+            setProfilePhoto(null);
+            form.reset();
+          }}
           className="text-green-normal text-2xl"
         >
           {isEditing ? <MdClose className="text-red-normal" /> : <MdEdit />}
@@ -180,21 +197,30 @@ const Profile = () => {
               );
             }}
           />
-          <form.Field
-            name="phoneNumber"
-            children={(field) => {
-              return (
-                <FormFieldWrapper
-                  label="Phone Number"
-                  as="input"
-                  type="tel"
-                  {...field}
-                  state={field.state}
-                  disabled={!isEditing}
-                />
-              );
-            }}
-          />
+          <div>
+            <Label className="mb-1">Phone Number</Label>
+            <div className="flex gap-2">
+              <span className="bg-green-light text-green-normal flex h-9 min-w-16 items-center justify-center gap-1 rounded-3xl rounded-tl-none px-4 text-xs">
+                <Image src={NigeriaFlag} alt="" width={20} height={20} />
+                <span>+234</span>
+              </span>
+              <form.Field
+                name="phoneNumber"
+                children={(field) => {
+                  return (
+                    <FormFieldWrapper
+                      as="input"
+                      type="tel"
+                      {...field}
+                      state={field.state}
+                      disabled={!isEditing}
+                    />
+                  );
+                }}
+              />
+            </div>
+          </div>
+
           <div>
             <Label className="mb-1">Country</Label>
             <Input value={"Nigeria"} disabled iconLeft={<MdApartment />} />
@@ -248,17 +274,18 @@ const Profile = () => {
         </FieldGroup>
       </form>
 
-      {/*  */}
-      <Field className="my-2">
-        <Button
-          type="submit"
-          form="profile-form"
-          className="ml-auto max-w-20"
-          disabled={submitting}
-        >
-          Save
-        </Button>
-      </Field>
+      {isEditing && (
+        <Field className="my-2">
+          <Button
+            type="submit"
+            form="profile-form"
+            className="ml-auto max-w-20"
+            disabled={submitting || (!!isDefaultValue && !profilePhoto)}
+          >
+            Save
+          </Button>
+        </Field>
+      )}
     </div>
   );
 };

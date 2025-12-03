@@ -1,6 +1,6 @@
 import { useApiQuery } from "@/hooks/useApiQuery";
 
-const LONG_TTL = 24 * 60 * 60 * 1000; // 24 hours
+export const LONG_TTL = 24 * 60 * 60 * 1000; // 24 hours
 const SHORT_TTL = 5 * 60 * 1000; // 5 minutes
 
 export interface State {
