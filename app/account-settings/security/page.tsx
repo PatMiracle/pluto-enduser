@@ -80,7 +80,7 @@ const Security = () => {
     <div className="px-4">
       <p className="text-lg">Security Settings</p>
 
-      <div className="border-white-dark grid max-w-2xl gap-5 rounded-lg border p-5">
+      <div className="border-white-dark mt-5 grid max-w-2xl gap-5 rounded-lg border p-5">
         <p className="text-white-darker text-sm">Change Password</p>
         <form
           id="security-form"
