@@ -109,7 +109,10 @@ export default function Footer() {
           <div className="flex flex-col gap-6 xl:gap-3">
             <p className="text-2xl font-bold">Policies</p>
             <div className="flex flex-col gap-3">
-              <Link href="#" className="text-lg underline underline-offset-8">
+              <Link
+                href="/account-settings/legal-agreements"
+                className="text-lg underline underline-offset-8"
+              >
                 Pluto’s Terms
               </Link>
               <p
