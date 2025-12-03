@@ -16,7 +16,7 @@ export const dropLocationColumns: ColumnDef<DropLocation>[] = [
       } = row.original;
       return (
         <div>
-          <p className="bg-white-dark w-max rounded-t-sm p-1.5 text-[10px]">
+          <p className="bg-white-dark w-max rounded-t-sm p-1.5 text-[10px] sm:text-xs xl:text-[13px]">
             Dropoff Site #{dropLocationId}
           </p>
 
@@ -79,7 +79,7 @@ export const dropLocationColumns: ColumnDef<DropLocation>[] = [
 
 const CellBox = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="border-white-dark min-h-10 border p-2 text-xs">
+    <div className="border-white-dark min-h-10 border p-2 text-sm">
       {children}
     </div>
   );

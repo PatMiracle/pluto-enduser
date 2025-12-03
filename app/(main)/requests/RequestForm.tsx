@@ -64,17 +64,13 @@ export default function RequestForm({ data }: Props) {
   const form = useForm({
     defaultValues: {
       state: data?.landmark?.stateId ?? user?.stateWasteManagementBoardId!,
-      lga: data?.landmark?.lgaId ?? 0,
-      postalId: data?.landmark?.postalCodeId ?? 0,
-
+      lga: data?.landmark?.lgaId,
+      postalId: data?.landmark?.postalCodeId,
       startDate: data?.startDate ?? "",
-
       serviceRequestType: data?.serviceRequestType ?? "",
       wasteType: data?.wasteType ?? "",
-
       contactNumber: data?.contactNumber ?? "",
       contactEmail: data?.contactEmail ?? "",
-
       pickupAddress: data?.pickupAddress ?? "",
       description: data?.description ?? "",
     },
