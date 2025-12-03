@@ -70,6 +70,11 @@ const Profile = () => {
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.error("Image size exceeds 5MB. Please choose a smaller file.");
+      return;
+    }
     setProfilePhoto(e.target.files?.[0] ?? null);
   };
 
