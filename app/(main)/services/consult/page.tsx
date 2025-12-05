@@ -4,9 +4,13 @@ import { DataTable } from "@/components/data-table";
 import { useConsultation } from "@/services/consult";
 import { consultColumns } from "./consultColumns";
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/modal";
+import { useModal } from "@/context/ModalProvider";
+import ConsultForm from "./consult-form";
 
 const Consult = () => {
   const { data, pagination } = useConsultation({ pageSize: 9 });
+  const { getModalProps, openModal } = useModal();
   return (
     <div className="grid gap-4 px-5">
       <p className="text-lg font-semibold">Consult With Us!</p>
@@ -18,7 +22,20 @@ const Consult = () => {
             Submit a consultation request and our team will get back to you.
           </p>
 
-          <Button className="mt-2 max-w-[136px]">Create Now</Button>
+          <Button
+            className="mt-2 max-w-[136px]"
+            onClick={() => openModal("consult")}
+          >
+            Create Now
+          </Button>
+
+          <Modal
+            title="Consult with Us!"
+            description="Consultation Request"
+            {...getModalProps("consult")}
+          >
+            <ConsultForm />
+          </Modal>
         </div>
       </div>
 
