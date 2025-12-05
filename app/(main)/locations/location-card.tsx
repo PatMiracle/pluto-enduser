@@ -11,6 +11,7 @@ import {
   MdOutlineInfo,
 } from "react-icons/md";
 import LocationForm from "./LocationForm";
+import EditLocationForm from "./EditLocationForm";
 
 export function AddLocation() {
   const { getModalProps, openModal } = useModal();
@@ -103,7 +104,7 @@ export function LocationCard({ data }: LocationCardProps) {
           title="Edit Pickup Location"
           {...getModalProps("" + data.clientLocationId)}
         >
-          <LocationForm data={data} />
+          <EditLocationForm data={data} />
         </Modal>
       </div>
     </div>

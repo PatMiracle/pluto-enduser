@@ -7,10 +7,22 @@ export default function useOptions<T, K extends keyof T>(
 ) {
   return useMemo(() => {
     if (!x) return [];
-    return x.map((item) => ({
-      label: String(item[labelKey]),
-      value: item[valueKey],
-      // original: item,
-    }));
-  }, [x, labelKey, valueKey]);
+
+    const seen = new Set<T[K]>();
+
+    return x.reduce<{ label: string; value: T[K] }[]>((acc, item) => {
+      const value = item[valueKey];
+
+      if (seen.has(value)) return acc; // skip duplicates
+
+      seen.add(value);
+
+      acc.push({
+        label: String(item[labelKey]),
+        value,
+      });
+
+      return acc;
+    }, []);
+  }, [x, valueKey, labelKey]);
 }

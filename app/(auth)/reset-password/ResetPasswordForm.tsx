@@ -64,8 +64,7 @@ export default function ResetPasswordForm() {
                   as="input"
                   placeholder="Type in your Email Address"
                   iconLeft={<MdMailOutline />}
-                  {...field}
-                  state={field.state}
+                  field={field}
                 />
               );
             }}

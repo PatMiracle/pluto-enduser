@@ -1,6 +1,12 @@
 import React from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
+// interface Faqs {
+//   faqId: number;
+//   faqTitle: string;
+//   faqAnswer: string;
+// }
+
 const faqs = [
   {
     faqId: 6,

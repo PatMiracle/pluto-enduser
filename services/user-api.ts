@@ -6,7 +6,6 @@ import { LONG_TTL } from "./enum-api";
 
 export interface User {
   accountType: "personal" | "business" | "government";
-  //   profilePhoto:  | null;
   stateWasteManagementBoardId: number | null;
   city: string;
   clientCode: string;

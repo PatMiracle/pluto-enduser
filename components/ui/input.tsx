@@ -12,10 +12,12 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { MdCalendarMonth } from "react-icons/md";
+import { Label } from "./label";
 
-type InputProps = React.ComponentProps<"input"> & {
+export type InputProps = React.ComponentProps<"input"> & {
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
+  inputClassName?: string;
 };
 
 function Input({
@@ -25,6 +27,7 @@ function Input({
   iconRight,
   disabled = false,
   value,
+  inputClassName,
   onChange,
   ...props
 }: InputProps) {
@@ -100,6 +103,7 @@ function Input({
           iconRight ? "pr-10" : "pr-3",
           "focus-visible:border-primary rounded-3xl rounded-tl-none",
           disabled && "cursor-not-allowed opacity-80",
+          inputClassName,
         )}
         {...props}
         disabled={disabled}
@@ -114,4 +118,19 @@ function Input({
   );
 }
 
-export { Input };
+interface LabeledInputProps extends InputProps {
+  label: string;
+}
+
+function LabeledInput({ label, name, ...props }: LabeledInputProps) {
+  return (
+    <div className="w-full space-y-0.5">
+      <Label htmlFor={name} className="text-xs font-normal">
+        {label}
+      </Label>
+      <Input {...props} />
+    </div>
+  );
+}
+
+export { Input, LabeledInput };

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldSeparator } from "@/components/ui/field";
 import * as z from "zod";
 import { useForm, useStore } from "@tanstack/react-form";
-import FormFieldWrapper from "@/components/FormFieldWrapper";
+import { FormInput } from "@/components/FormFieldWrapper";
 import {
   MdCheckCircle,
   MdLockOutline,
@@ -68,9 +68,10 @@ export default function SignupForm() {
       }
     },
   });
-  const password = useStore(form.store, (state) => state.values.password);
-
-  const submitting = useStore(form.store, (state) => state.isSubmitting);
+  const {
+    values: { password },
+    isSubmitting: submitting,
+  } = useStore(form.store, (s) => s);
 
   const [showPsw, setShowPsw] = useState(false);
 
@@ -94,12 +95,10 @@ export default function SignupForm() {
             name="email"
             children={(field) => {
               return (
-                <FormFieldWrapper
-                  as="input"
+                <FormInput
                   placeholder="Type in your Email Address"
                   iconLeft={<MdMailOutline />}
-                  {...field}
-                  state={field.state}
+                  field={field}
                 />
               );
             }}
@@ -108,8 +107,7 @@ export default function SignupForm() {
             name="password"
             children={(field) => {
               return (
-                <FormFieldWrapper
-                  as="input"
+                <FormInput
                   placeholder="Password"
                   iconLeft={<MdLockOutline />}
                   iconRight={
@@ -120,10 +118,7 @@ export default function SignupForm() {
                       {showPsw ? <MdVisibility /> : <MdVisibilityOff />}
                     </span>
                   }
-                  name={field.name}
-                  state={field.state}
-                  handleChange={field.handleChange}
-                  handleBlur={field.handleBlur}
+                  field={field}
                   type={showPsw ? "text" : "password"}
                 />
               );

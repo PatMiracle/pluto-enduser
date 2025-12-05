@@ -1,4 +1,8 @@
-import FormFieldWrapper from "@/components/FormFieldWrapper";
+import FormFieldWrapper, {
+  FormInput,
+  FormPhoneField,
+  FormSelect,
+} from "@/components/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import useOptions from "@/hooks/use-options";
@@ -40,7 +44,7 @@ type Props = {
 const formSchema = z.object({
   state: z.number().min(0, "State is required"),
   lga: z.number().min(0, "LGA is required"),
-  postalId: z.number("Landmark is required"),
+  postalId: z.number().min(0, "Landmark is required"),
   startDate: z.string().min(1, "Pickup date is required"),
   serviceRequestType: z.string().min(1, "Event Type is required"),
   wasteType: z.string().min(1, "Waste type is required"),
@@ -81,18 +85,32 @@ export default function RequestForm({ data }: Props) {
       if (!value.state || !value.lga || !value.postalId) {
         return toast.error("Please complete all location fields");
       }
-      try {
-        if (data) {
-          updateRequest({ id: data.serviceRequestId, ...value });
-          toast.success("Request Updated");
-        } else {
-          createRequest(value);
-          toast.success("Request Created!");
-        }
-        form.reset();
-        closeModal();
-      } catch (e) {
-        defaultErrorHandler(e);
+
+      if (data) {
+        updateRequest(
+          { id: data.serviceRequestId, ...value },
+          {
+            onSuccess: () => {
+              toast.success("Request Updated");
+              form.reset();
+              closeModal();
+            },
+            onError: (e) => {
+              defaultErrorHandler(e);
+            },
+          },
+        );
+      } else {
+        createRequest(value, {
+          onSuccess: () => {
+            toast.success("Request Created!");
+            form.reset();
+            closeModal();
+          },
+          onError: (e) => {
+            defaultErrorHandler(e);
+          },
+        });
       }
     },
   });
@@ -136,7 +154,7 @@ export default function RequestForm({ data }: Props) {
         }}
       >
         <FieldGroup>
-          <div className="flex gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <form.Field
               name="state"
               children={(field) => {
@@ -144,9 +162,8 @@ export default function RequestForm({ data }: Props) {
                   <FormFieldWrapper
                     label="State"
                     as="selectable"
-                    option={states}
-                    {...field}
-                    state={field.state}
+                    field={field}
+                    options={states}
                     iconLeft={<MdApartment className="text-primary" />}
                     disabled
                   />
@@ -159,18 +176,17 @@ export default function RequestForm({ data }: Props) {
                 return (
                   <FormFieldWrapper
                     label="LGA"
-                    option={lgas}
+                    options={lgas}
                     as="selectable"
                     placeholder="LGA"
-                    {...field}
-                    state={field.state}
+                    field={field}
                     iconLeft={<MdOutlineCottage className="text-primary" />}
                   />
                 );
               }}
             />
           </div>
-          <div className="flex gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <form.Field
               name="postalId"
               children={(field) => {
@@ -179,9 +195,8 @@ export default function RequestForm({ data }: Props) {
                     label="Landmark"
                     as="selectable"
                     placeholder="Landmark"
-                    option={landmarks}
-                    {...field}
-                    state={field.state}
+                    options={landmarks}
+                    field={field}
                     iconLeft={<MdFlag className="text-primary" />}
                     disabled={!lga}
                   />
@@ -196,8 +211,7 @@ export default function RequestForm({ data }: Props) {
                     label="Pickup Date"
                     as="input"
                     type="date"
-                    {...field}
-                    state={field.state}
+                    field={field}
                     iconLeft={<MdCalendarMonth />}
                   />
                 );
@@ -213,9 +227,8 @@ export default function RequestForm({ data }: Props) {
                   label="Event Type"
                   placeholder="Select Event Type"
                   as="selectable"
-                  option={serviceRequestTypes}
-                  {...field}
-                  state={field.state}
+                  options={serviceRequestTypes}
+                  field={field}
                 />
               );
             }}
@@ -224,50 +237,35 @@ export default function RequestForm({ data }: Props) {
             name="wasteType"
             children={(field) => {
               return (
-                <FormFieldWrapper
+                <FormSelect
                   label="Waste Type"
                   placeholder="Select Waste Type"
-                  as="selectable"
-                  option={wasteTypes}
-                  {...field}
-                  state={field.state}
+                  options={wasteTypes}
+                  field={field}
                 />
               );
             }}
           />
-          <div>
-            <Label className="mb-1.5">Phone Number</Label>
-            <div className="flex gap-2">
-              <span className="bg-green-light text-green-normal flex h-9 min-w-16 items-center justify-center gap-1 rounded-3xl rounded-tl-none px-4 text-xs">
-                <Image src={NigeriaFlag} alt="" width={20} height={20} />
-                <span>+234</span>
-              </span>
-              <form.Field
-                name="contactNumber"
-                children={(field) => {
-                  return (
-                    <FormFieldWrapper
-                      placeholder="Contact Number"
-                      as="input"
-                      type="tel"
-                      {...field}
-                      state={field.state}
-                    />
-                  );
-                }}
-              />
-            </div>
-          </div>
+          <form.Field
+            name="contactNumber"
+            children={(field) => {
+              return (
+                <FormPhoneField
+                  label="Phone Number"
+                  placeholder="Contact Number"
+                  field={field}
+                />
+              );
+            }}
+          />
           <form.Field
             name="contactEmail"
             children={(field) => {
               return (
-                <FormFieldWrapper
+                <FormInput
                   label="Email Address"
                   placeholder="Email"
-                  as="input"
-                  {...field}
-                  state={field.state}
+                  field={field}
                   iconLeft={<MdOutlineMail />}
                 />
               );
@@ -281,8 +279,7 @@ export default function RequestForm({ data }: Props) {
                   label="Pickup Address"
                   placeholder="Pickup Address"
                   as="input"
-                  {...field}
-                  state={field.state}
+                  field={field}
                   iconLeft={<MdOutlineLocationOn />}
                 />
               );
@@ -296,8 +293,7 @@ export default function RequestForm({ data }: Props) {
                   label="Describe what needs to be moved"
                   as="textarea"
                   placeholder="Enter description..."
-                  {...field}
-                  state={field.state}
+                  field={field}
                   maxLength={250}
                 />
               );

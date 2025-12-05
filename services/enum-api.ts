@@ -119,17 +119,21 @@ interface LocationTypeResponse {
   pagination: Pagination;
 }
 
-export const useLocationTypes = (params?: {
-  stateId?: number;
-  lGAId?: number;
-  landmarkId?: number;
-}) =>
+export const useLocationTypes = (
+  params?: {
+    stateId?: number;
+    lGAId?: number;
+    landmarkId?: number;
+  },
+  options?: { enabled: boolean },
+) =>
   useApiQuery<LocationTypeResponse>(
     "location-types",
     "/user/pickup-subscription-plans",
     params,
     {
       staleTime: SHORT_TTL,
+      ...options,
     },
   );
 

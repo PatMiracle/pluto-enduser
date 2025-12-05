@@ -98,8 +98,7 @@ const Security = () => {
                     label="Old Password"
                     as="input"
                     type={showOldPassword ? "text" : "password"}
-                    {...field}
-                    state={field.state}
+                    field={field}
                     placeholder="Enter your current password"
                     iconRight={
                       <button
@@ -128,8 +127,7 @@ const Security = () => {
                     as="input"
                     type={showNewPassword ? "text" : "password"}
                     placeholder="Enter your new password"
-                    {...field}
-                    state={field.state}
+                    field={field}
                     iconRight={
                       <button
                         type="button"
@@ -165,8 +163,7 @@ const Security = () => {
                     as="input"
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm your new password"
-                    {...field}
-                    state={field.state}
+                    field={field}
                     iconRight={
                       <button
                         type="button"

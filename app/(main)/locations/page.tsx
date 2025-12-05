@@ -51,7 +51,7 @@ export default function Locations() {
                 Manage all Pickup Locations
               </p>
               {locations?.data && locations.data.length == 4 && (
-                <p className="text-red-normal mb-2 text-sm">
+                <p className="text-red-normal mb-4 text-sm">
                   (You have maxed out your 4 Location limit for this Account)
                 </p>
               )}

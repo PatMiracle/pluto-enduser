@@ -58,8 +58,7 @@ const AppProblemForm = () => {
               <FormFieldWrapper
                 label="Name"
                 as="input"
-                {...field}
-                state={field.state}
+                field={field}
                 disabled
               />
             );
@@ -76,8 +75,7 @@ const AppProblemForm = () => {
                   type="tel"
                   label="Contact Number"
                   placeholder="Contact Number"
-                  {...field}
-                  state={field.state}
+                  field={field}
                   disabled={samePhone}
                 />
               );
@@ -107,8 +105,7 @@ const AppProblemForm = () => {
                   label="Email"
                   placeholder="Type in your Email Address"
                   iconLeft={<MdMailOutline />}
-                  {...field}
-                  state={field.state}
+                  field={field}
                   disabled={sameEmail}
                 />
               );
@@ -134,12 +131,11 @@ const AppProblemForm = () => {
             return (
               <FormFieldWrapper
                 as="selectable"
-                option={[]}
+                options={[]}
                 label="Issue Type"
                 placeholder="Select Issue Type"
                 iconLeft={<MdMailOutline />}
-                {...field}
-                state={field.state}
+                field={field}
               />
             );
           }}
@@ -153,8 +149,7 @@ const AppProblemForm = () => {
                 as="textarea"
                 label="Query"
                 maxLength={250}
-                {...field}
-                state={field.state}
+                field={field}
               />
             );
           }}

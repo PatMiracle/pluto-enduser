@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldSeparator } from "@/components/ui/field";
 import * as z from "zod";
 import { useForm, useStore } from "@tanstack/react-form";
-import FormFieldWrapper from "@/components/FormFieldWrapper";
+import { FormInput } from "@/components/FormFieldWrapper";
 import {
   MdLockOutline,
   MdMailOutline,
@@ -76,12 +76,10 @@ export default function LoginForm() {
             name="email"
             children={(field) => {
               return (
-                <FormFieldWrapper
-                  as="input"
+                <FormInput
                   placeholder="Type in your Email Address"
                   iconLeft={<MdMailOutline />}
-                  {...field}
-                  state={field.state}
+                  field={field}
                 />
               );
             }}
@@ -90,8 +88,7 @@ export default function LoginForm() {
             name="password"
             children={(field) => {
               return (
-                <FormFieldWrapper
-                  as="input"
+                <FormInput
                   placeholder="Password"
                   iconLeft={<MdLockOutline />}
                   iconRight={
@@ -102,8 +99,7 @@ export default function LoginForm() {
                       {showPsw ? <MdVisibility /> : <MdVisibilityOff />}
                     </span>
                   }
-                  {...field}
-                  state={field.state}
+                  field={field}
                   type={showPsw ? "text" : "password"}
                 />
               );

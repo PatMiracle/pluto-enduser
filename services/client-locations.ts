@@ -1,4 +1,7 @@
 import { useApiQuery } from "@/hooks/useApiQuery";
+import api from "@/lib/apiClient";
+import defaultErrorHandler from "@/lib/error-handler";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Client {
   firstName: string;
@@ -58,3 +61,47 @@ export const useClientLocations = () =>
     "client-locations",
     "/user/client-locations",
   );
+
+export const useCreateLocation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: Record<string, any>) => {
+      const res = await api.post(`/user/client-locations`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["client-locations"],
+      });
+    },
+  });
+};
+
+type UpdateClientLocation = Partial<ClientLocation> & {
+  id: number;
+};
+
+export const useUpdateLocation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, ...data }: UpdateClientLocation) => {
+      const res = await api.patch(`/user/client-locations/${id}`, data, {
+        headers: {
+          contentType: "multipart/form-data",
+        },
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["client-locations"],
+      });
+    },
+  });
+};

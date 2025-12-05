@@ -167,8 +167,7 @@ const Profile = () => {
                 <FormFieldWrapper
                   label="First Name"
                   as="input"
-                  {...field}
-                  state={field.state}
+                  field={field}
                   disabled={!isEditing}
                 />
               );
@@ -181,8 +180,7 @@ const Profile = () => {
                 <FormFieldWrapper
                   label="Last Name"
                   as="input"
-                  {...field}
-                  state={field.state}
+                  field={field}
                   disabled={!isEditing}
                 />
               );
@@ -195,8 +193,7 @@ const Profile = () => {
                 <FormFieldWrapper
                   label="Email Address"
                   as="input"
-                  {...field}
-                  state={field.state}
+                  field={field}
                   disabled={!isEditing}
                 />
               );
@@ -216,8 +213,7 @@ const Profile = () => {
                     <FormFieldWrapper
                       as="input"
                       type="tel"
-                      {...field}
-                      state={field.state}
+                      field={field}
                       disabled={!isEditing}
                     />
                   );
@@ -237,9 +233,8 @@ const Profile = () => {
                 <FormFieldWrapper
                   label="State"
                   as="selectable"
-                  option={statesOptions}
-                  {...field}
-                  state={field.state}
+                  options={statesOptions}
+                  field={field}
                   disabled={!isEditing}
                   iconLeft={<MdApartment className="text-primary" />}
                 />
@@ -253,9 +248,8 @@ const Profile = () => {
                 <FormFieldWrapper
                   label="LGA"
                   as="selectable"
-                  option={lgaOptions}
-                  {...field}
-                  state={field.state}
+                  options={lgaOptions}
+                  field={field}
                   disabled={!isEditing}
                   iconLeft={<MdOutlineCottage className="text-primary" />}
                 />
@@ -269,8 +263,7 @@ const Profile = () => {
                 <FormFieldWrapper
                   label="Address"
                   as="input"
-                  {...field}
-                  state={field.state}
+                  field={field}
                   disabled={!isEditing}
                 />
               );
