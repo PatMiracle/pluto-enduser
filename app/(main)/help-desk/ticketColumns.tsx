@@ -1,10 +1,13 @@
 "use client";
 
+import { Modal } from "@/components/modal";
 import { Button } from "@/components/ui/button";
+import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
 import { Ticket } from "@/services/ticket";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import TicketReport from "./ticket-report";
 
 export const ticketColumns: ColumnDef<Ticket>[] = [
   {
@@ -51,14 +54,24 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
   {
     header: "Action",
     cell: ({ row }) => {
+      const { getModalProps, openModal } = useModal();
+      const v = row.original;
       return (
-        <Button
-          size={"sm"}
-          className="px-5"
-          onClick={() => console.log(row.original)}
-        >
-          View
-        </Button>
+        <>
+          <Button
+            size={"sm"}
+            className="px-5"
+            onClick={() => openModal("" + v.ticketId)}
+          >
+            View
+          </Button>
+          <Modal
+            title={`Help Desk - ${v.issueType?.issueTypeName}`}
+            {...getModalProps("" + v.ticketId)}
+          >
+            <TicketReport data={v} />
+          </Modal>
+        </>
       );
     },
   },
