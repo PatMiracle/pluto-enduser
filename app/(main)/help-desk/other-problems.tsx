@@ -27,24 +27,17 @@ const formSchema = z.object({
       return result;
     }),
   email: z.email("Please enter a valid email"),
-  issueTypeId: z.string("Please select an issue type"),
   description: z.string().min(1, "Please describe your query"),
 });
 
-const AppProblemForm = () => {
+const OtherProblems = () => {
   const { data: user } = useUserQuery();
-
-  //  const { data: rawIssueTypes } = useIssueTypes({
-  //    ticketType: "APPLICATION_ISSUES",
-  //  });
-  //  const issueTypes = useOptions(rawIssueTypes, "issueTypeId", "issueTypeName");
 
   const form = useForm({
     defaultValues: {
       name: `${user?.firstName} ${user?.lastName}`,
       phoneNumber: "",
       email: "",
-      issueTypeId: "",
       description: "",
     },
     validators: { onSubmit: formSchema },
@@ -128,20 +121,6 @@ const AppProblemForm = () => {
           </div>
 
           <form.Field
-            name="issueTypeId"
-            children={(field) => {
-              return (
-                <FormSelect
-                  options={[]}
-                  label="Issue Type"
-                  placeholder="Select Issue Type"
-                  field={field}
-                />
-              );
-            }}
-          />
-
-          <form.Field
             name="description"
             children={(field) => {
               return (
@@ -160,8 +139,8 @@ const AppProblemForm = () => {
         <Button
           type="submit"
           form="request-form"
-          className="max-w-min px-6"
           disabled={isSubmitting}
+          className="max-w-min px-6"
         >
           {isSubmitting ? "Submitting" : "Submit"}
         </Button>
@@ -170,4 +149,4 @@ const AppProblemForm = () => {
   );
 };
 
-export default AppProblemForm;
+export default OtherProblems;

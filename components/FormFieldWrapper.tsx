@@ -136,7 +136,7 @@ export function FormSelect({
         <SelectTrigger className="w-full capitalize" disabled={disabled}>
           <div className="flex max-w-[80%] items-center gap-2">
             <span className="text-primary">{rest.iconLeft}</span>
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-hidden text-[13px]">
               <SelectValue
                 placeholder={placeholder}
                 className="block truncate capitalize"
@@ -232,7 +232,7 @@ export function FormPhoneField({
         </Label>
       )}
       <div className="flex gap-3">
-        <span className="bg-green-light text-green-normal flex h-9 min-w-16 items-center justify-center gap-1 rounded-3xl rounded-tl-none px-4 text-xs">
+        <span className="bg-green-light text-green-normal flex h-9 min-w-16 items-center justify-center gap-1 rounded-3xl rounded-tl-none px-4 text-xs opacity-70">
           <Image src={NigeriaFlag} alt="" width={20} height={20} />
           <span>+234</span>
         </span>

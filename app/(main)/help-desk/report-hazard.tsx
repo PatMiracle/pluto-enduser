@@ -11,7 +11,7 @@ import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useState } from "react";
-import { MdMailOutline } from "react-icons/md";
+import { MdLocationOn, MdMailOutline } from "react-icons/md";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -27,24 +27,19 @@ const formSchema = z.object({
       return result;
     }),
   email: z.email("Please enter a valid email"),
-  issueTypeId: z.string("Please select an issue type"),
+  affectedAddress: z.string().min(1, "Please select an issue type"),
   description: z.string().min(1, "Please describe your query"),
 });
 
-const AppProblemForm = () => {
+const ReportHazard = () => {
   const { data: user } = useUserQuery();
-
-  //  const { data: rawIssueTypes } = useIssueTypes({
-  //    ticketType: "APPLICATION_ISSUES",
-  //  });
-  //  const issueTypes = useOptions(rawIssueTypes, "issueTypeId", "issueTypeName");
 
   const form = useForm({
     defaultValues: {
       name: `${user?.firstName} ${user?.lastName}`,
       phoneNumber: "",
       email: "",
-      issueTypeId: "",
+      affectedAddress: "",
       description: "",
     },
     validators: { onSubmit: formSchema },
@@ -57,7 +52,7 @@ const AppProblemForm = () => {
   return (
     <>
       <form
-        id="app-problem-form"
+        id="report-hazard"
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
@@ -128,13 +123,13 @@ const AppProblemForm = () => {
           </div>
 
           <form.Field
-            name="issueTypeId"
+            name="affectedAddress"
             children={(field) => {
               return (
-                <FormSelect
-                  options={[]}
-                  label="Issue Type"
-                  placeholder="Select Issue Type"
+                <FormInput
+                  label="Incident Address"
+                  placeholder="Enter Incident Address"
+                  iconLeft={<MdLocationOn />}
                   field={field}
                 />
               );
@@ -148,6 +143,7 @@ const AppProblemForm = () => {
                 <FormFieldWrapper
                   as="textarea"
                   label="Query"
+                  placeholder="Provide additional details..."
                   maxLength={250}
                   field={field}
                 />
@@ -160,8 +156,8 @@ const AppProblemForm = () => {
         <Button
           type="submit"
           form="request-form"
-          className="max-w-min px-6"
           disabled={isSubmitting}
+          className="max-w-min px-6"
         >
           {isSubmitting ? "Submitting" : "Submit"}
         </Button>
@@ -170,4 +166,4 @@ const AppProblemForm = () => {
   );
 };
 
-export default AppProblemForm;
+export default ReportHazard;

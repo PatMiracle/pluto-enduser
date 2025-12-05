@@ -7,7 +7,9 @@ import { Switch } from "@/components/switch";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { LabeledInput } from "@/components/ui/input";
+import useOptions from "@/hooks/use-options";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
+import { useClientLocations } from "@/services/client-locations";
 import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useState } from "react";
@@ -27,24 +29,25 @@ const formSchema = z.object({
       return result;
     }),
   email: z.email("Please enter a valid email"),
-  issueTypeId: z.string("Please select an issue type"),
+  affectedAddress: z.number().min(1, "Please select an issue type"),
   description: z.string().min(1, "Please describe your query"),
 });
 
-const AppProblemForm = () => {
+const ReportStolen = () => {
   const { data: user } = useUserQuery();
-
-  //  const { data: rawIssueTypes } = useIssueTypes({
-  //    ticketType: "APPLICATION_ISSUES",
-  //  });
-  //  const issueTypes = useOptions(rawIssueTypes, "issueTypeId", "issueTypeName");
+  const { data: rawLocations } = useClientLocations();
+  const locations = useOptions(
+    rawLocations?.data,
+    "clientLocationId",
+    "address",
+  );
 
   const form = useForm({
     defaultValues: {
       name: `${user?.firstName} ${user?.lastName}`,
       phoneNumber: "",
       email: "",
-      issueTypeId: "",
+      affectedAddress: 0,
       description: "",
     },
     validators: { onSubmit: formSchema },
@@ -128,13 +131,13 @@ const AppProblemForm = () => {
           </div>
 
           <form.Field
-            name="issueTypeId"
+            name="affectedAddress"
             children={(field) => {
               return (
                 <FormSelect
-                  options={[]}
-                  label="Issue Type"
-                  placeholder="Select Issue Type"
+                  options={locations}
+                  label="Affected Address"
+                  placeholder="Select Affected Address"
                   field={field}
                 />
               );
@@ -160,8 +163,8 @@ const AppProblemForm = () => {
         <Button
           type="submit"
           form="request-form"
-          className="max-w-min px-6"
           disabled={isSubmitting}
+          className="max-w-min px-6"
         >
           {isSubmitting ? "Submitting" : "Submit"}
         </Button>
@@ -170,4 +173,4 @@ const AppProblemForm = () => {
   );
 };
 
-export default AppProblemForm;
+export default ReportStolen;
