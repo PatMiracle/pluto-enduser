@@ -31,12 +31,15 @@ interface PaymentResponse {
   pagination: Pagination;
 }
 
-export const usePayments = () =>
-  usePaginatedQuery<PaymentResponse>(
-    "payments",
-    "/user/payments",
-    {
-      pageSize: 10,
-    },
-    {},
-  );
+interface Params {
+  pageSize?: number;
+  pickupLocation?: number;
+}
+
+interface Options {
+  enabled?: boolean;
+  ttl?: number;
+}
+
+export const usePayments = (p?: Params, o?: Options) =>
+  usePaginatedQuery<PaymentResponse>("payments", "/user/payments", p, o);

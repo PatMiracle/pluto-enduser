@@ -48,43 +48,20 @@ export default function Navbar() {
         </SidebarTrigger>
         <Image src={logo} alt="Pluto" width={100} />
       </div>
-      <div className="ml-auto flex gap-3">
-        <Button
-          size={"icon"}
-          variant={"ghost"}
-          className="text-green-normal border-green-light-active size-8 rounded-full border"
-        >
-          <MdNotificationsNone />
-        </Button>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <div className="bg-green-light hover:bg-green-normal group flex h-8 w-14 cursor-pointer items-center gap-1 rounded-full pr-2">
-              <Avatar>
-                {user?.photoURL ? (
-                  <>
-                    <AvatarImage src={user?.photoURL} />
-                    <AvatarFallback>
-                      {user?.firstName.slice(0, 1)}
-                      {user?.lastName.slice(0, 1)}
-                    </AvatarFallback>
-                  </>
-                ) : (
-                  <AvatarFallback>
-                    {user?.firstName.slice(0, 1)} {user?.lastName.slice(0, 1)}
-                  </AvatarFallback>
-                )}
-              </Avatar>
+      {user && (
+        <div className="ml-auto flex gap-3">
+          <Button
+            size={"icon"}
+            variant={"ghost"}
+            className="text-green-normal border-green-light-active size-8 rounded-full border"
+          >
+            <MdNotificationsNone />
+          </Button>
 
-              <MdKeyboardArrowDown
-                className="text-green-normal group-hover:text-white-normal shrink-0 transition-colors duration-200"
-                size={16}
-              />
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-green-light-hover mr-5 min-w-[200px] rounded-sm rounded-tr-2xl">
-            <DropDownItem>
-              <div className="flex gap-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <div className="bg-green-light hover:bg-green-normal group flex h-8 w-14 cursor-pointer items-center gap-1 rounded-full pr-2">
                 <Avatar>
                   {user?.photoURL ? (
                     <>
@@ -100,32 +77,59 @@ export default function Navbar() {
                     </AvatarFallback>
                   )}
                 </Avatar>
-                <div>
-                  <p className="text-[13px]">{`${user?.firstName} ${user?.lastName}`}</p>
-                  <p className="text-white-darker text-xs">{user?.email}</p>
-                </div>
+
+                <MdKeyboardArrowDown
+                  className="text-green-normal group-hover:text-white-normal shrink-0 transition-colors duration-200"
+                  size={16}
+                />
               </div>
-            </DropDownItem>
-            <DropdownMenuSeparator className="bg-green-normal h-[0.5px]" />
-            <DropDownItem href="/account-settings/profile">
-              My Profile
-            </DropDownItem>
-            <DropDownItem href="/account-settings/payments">
-              Account & Payment
-            </DropDownItem>
-            <DropDownItem href="/account-settings/security">
-              Security
-            </DropDownItem>
-            <DropdownMenuSeparator className="bg-green-normal" />
-            <DropDownItem href="/account-settings/legal-agreements">
-              Legal Agreements
-            </DropDownItem>
-            <DropDownItem href="/account-settings/contact-us">
-              Contact Us
-            </DropDownItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-green-light-hover mr-5 min-w-[200px] rounded-sm rounded-tr-2xl">
+              <DropDownItem>
+                <div className="flex gap-1">
+                  <Avatar>
+                    {user?.photoURL ? (
+                      <>
+                        <AvatarImage src={user?.photoURL} />
+                        <AvatarFallback>
+                          {user?.firstName.slice(0, 1)}
+                          {user?.lastName.slice(0, 1)}
+                        </AvatarFallback>
+                      </>
+                    ) : (
+                      <AvatarFallback>
+                        {user?.firstName.slice(0, 1)}{" "}
+                        {user?.lastName.slice(0, 1)}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
+                  <div>
+                    <p className="text-[13px]">{`${user?.firstName} ${user?.lastName}`}</p>
+                    <p className="text-white-darker text-xs">{user?.email}</p>
+                  </div>
+                </div>
+              </DropDownItem>
+              <DropdownMenuSeparator className="bg-green-normal h-[0.5px]" />
+              <DropDownItem href="/account-settings/profile">
+                My Profile
+              </DropDownItem>
+              <DropDownItem href="/account-settings/payments">
+                Account & Payment
+              </DropDownItem>
+              <DropDownItem href="/account-settings/security">
+                Security
+              </DropDownItem>
+              <DropdownMenuSeparator className="bg-green-normal" />
+              <DropDownItem href="/account-settings/legal-agreements">
+                Legal Agreements
+              </DropDownItem>
+              <DropDownItem href="/account-settings/contact-us">
+                Contact Us
+              </DropDownItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
     </div>
   );
 }

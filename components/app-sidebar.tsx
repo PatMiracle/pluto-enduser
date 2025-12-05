@@ -104,7 +104,7 @@ export default function AppSidebar({}: Props) {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = pathname.includes(item.href);
                 return (
                   <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton asChild isActive={isActive}>
