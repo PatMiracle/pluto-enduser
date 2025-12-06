@@ -30,7 +30,7 @@ const Billing = () => {
     },
     {
       enabled: !!activeLocationId,
-      ttl: activeLocation?.locationStatus === "ACTIVE" ? LONG_TTL : 30000,
+      staleTime: activeLocation?.locationStatus === "ACTIVE" ? LONG_TTL : 30000,
     },
   );
   const pendingPayment = payments?.[0];

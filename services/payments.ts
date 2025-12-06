@@ -38,7 +38,7 @@ interface Params {
 
 interface Options {
   enabled?: boolean;
-  ttl?: number;
+  staleTime?: number;
 }
 
 export const usePayments = (p?: Params, o?: Options) =>

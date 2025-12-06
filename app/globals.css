@@ -129,3 +129,11 @@ button {
     @apply bg-background text-foreground;
   }
 }
+
+.legal-agreement :is(h1, h2) {
+  @apply text-lg font-bold;
+}
+
+.legal-agreement p {
+  @apply pt-1 pb-4 leading-6;
+}
