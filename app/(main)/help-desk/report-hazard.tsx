@@ -8,10 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { LabeledInput } from "@/components/ui/input";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
+import { cn } from "@/lib/utils";
 import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
+import Image from "next/image";
 import { useState } from "react";
-import { MdLocationOn, MdMailOutline } from "react-icons/md";
+import { IoRemoveSharp } from "react-icons/io5";
+import { MdCloudUpload, MdLocationOn, MdMailOutline } from "react-icons/md";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -48,6 +51,23 @@ const ReportHazard = () => {
   const [samePhone, setSamePhone] = useState(false);
   const [sameEmail, setSameEmail] = useState(false);
   const { isSubmitting } = useStore(form.store, (s) => s);
+
+  const [images, setImages] = useState<File[]>([]);
+  const maxImages = 3;
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const newFiles = Array.from(files).slice(
+        0,
+        maxImages - images.length || 0,
+      );
+      setImages((prev) => [...prev, ...newFiles]);
+    }
+  };
+  const handleRemove = (index: number) => {
+    setImages((prev) => prev.filter((img, i) => i !== index));
+  };
 
   return (
     <>
@@ -150,6 +170,41 @@ const ReportHazard = () => {
               );
             }}
           />
+          <div>
+            <div className="flex justify-between text-sm">
+              <span>Add Images *</span>
+              <span>
+                {images.length}/{maxImages}
+              </span>
+            </div>
+            <label
+              className={cn(
+                "border-primary bg-green-light mt-1 mb-3 grid min-h-[120px] cursor-pointer place-content-center rounded-xl border-2 border-dashed py-5 text-center",
+                images.length >= maxImages && "cursor-not-allowed opacity-80",
+              )}
+              htmlFor="location-image"
+            >
+              <MdCloudUpload size={32} className="text-primary mx-auto" />
+              <p className="text-sm">Click to upload an image</p>
+              <p className="text-white-darker text-xs">Max size: 10MB</p>
+            </label>
+            <input
+              accept="image/*"
+              type="file"
+              id="location-image"
+              multiple
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              disabled={images.length == maxImages}
+            />
+            {images.map((file, i) => (
+              <SelectedImageItem
+                file={file}
+                key={i}
+                onRemove={() => handleRemove(i)}
+              />
+            ))}
+          </div>
         </FieldGroup>
       </form>
       <Field className="my-6 items-center">
@@ -165,5 +220,36 @@ const ReportHazard = () => {
     </>
   );
 };
+
+interface SelectedImageItemProps {
+  file: File;
+  onRemove: () => void;
+}
+
+function SelectedImageItem({ file, onRemove }: SelectedImageItemProps) {
+  let fileName = file.name;
+  const fileExt = fileName.split(".").pop();
+  if (fileName.length > 30) {
+    fileName = `${fileName.slice(0, 20)}...${fileExt}`;
+  }
+
+  return (
+    <div className="mb-2 flex items-center justify-between gap-3">
+      <div className="border-white-dark flex flex-2 items-center gap-3 rounded-md border px-3 py-1.5">
+        <Image
+          src={URL.createObjectURL(file)}
+          alt=""
+          width={500}
+          height={500}
+          className="h-5 w-7 object-cover"
+        />
+        {fileName}
+      </div>
+      <Button type="button" onClick={onRemove} variant={"secondary"}>
+        <IoRemoveSharp />
+      </Button>
+    </div>
+  );
+}
 
 export default ReportHazard;
