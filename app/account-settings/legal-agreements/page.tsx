@@ -1,5 +1,6 @@
 "use client";
 
+import { TableSkeleton } from "@/components/data-table";
 import { LicenseType, useLicenses } from "@/services/licenses";
 import { useUserQuery } from "@/services/user-api";
 import { useState } from "react";
@@ -16,7 +17,7 @@ const ORDER: LicenseType[] = [
 
 const LegalAgreements = () => {
   const { data: user } = useUserQuery();
-  const { data } = useLicenses({
+  const { data, isPending } = useLicenses({
     stateId: user!.stateWasteManagementBoardId as number,
   });
 
@@ -27,6 +28,17 @@ const LegalAgreements = () => {
   const [activeLicense, setActiveLicense] = useState<LicenseType>();
 
   const currentLicense = licenses?.find((v) => v.licenseType === activeLicense);
+
+  if (isPending) {
+    return (
+      <div className="grid gap-4 px-4 md:px-10">
+        <p className="text-lg">Legal Agreements</p>
+        <TableSkeleton rows={3} />
+        <p className="text-lg">E-Store & Resources Agreements</p>
+        <TableSkeleton rows={2} />
+      </div>
+    );
+  }
 
   if (activeLicense) {
     return (
