@@ -25,11 +25,14 @@ export async function POST() {
 
     const response = NextResponse.json({ accessToken: data.accessToken });
 
+    const oneDayFromNow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
     response.cookies.set(STORAGE_KEYS.ACCESS_TOKEN, data.accessToken, {
       httpOnly: true,
       secure: true,
       sameSite: "strict",
       path: "/",
+      expires: oneDayFromNow,
     });
 
     response.cookies.set(STORAGE_KEYS.REFRESH_TOKEN, data.refreshToken, {
@@ -37,6 +40,7 @@ export async function POST() {
       secure: true,
       sameSite: "strict",
       path: "/",
+      expires: oneDayFromNow,
     });
 
     return response;
