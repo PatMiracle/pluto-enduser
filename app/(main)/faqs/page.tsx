@@ -1,5 +1,4 @@
-import React from "react";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 // interface Faqs {
 //   faqId: number;
@@ -33,26 +32,19 @@ export default function FAQs() {
     <div className="min-h-screen space-y-6 px-5 pb-7">
       <h1 className="text-lg font-semibold">Frequently Asked Questions</h1>
 
-      {/* FAQ CONTAINER */}
       <div className="border-white-dark max-w-2xl divide-y rounded-xl border">
         {faqs.map(({ faqId, faqTitle, faqAnswer }) => (
-          <details key={faqId} className="group px-6 py-0">
-            {/* SUMMARY */}
+          <details key={faqId} className="group px-6 py-0" name="faq-accordion">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-3">
               <span className="max-w-[80%] text-sm md:text-base">
                 {faqTitle}
               </span>
 
               <span className="border-green-light-active flex size-8 items-center justify-center rounded-full border transition">
-                {/* Down */}
-                <MdKeyboardArrowDown className="text-green-normal text-lg group-open:hidden" />
-
-                {/* Up */}
-                <MdKeyboardArrowUp className="text-green-normal hidden text-lg group-open:block" />
+                <MdKeyboardArrowDown className="text-green-normal text-lg transition-all duration-300 group-open:rotate-180" />
               </span>
             </summary>
 
-            {/* CONTENT */}
             <div className="text-white-darker space-y-2 pb-5 text-sm">
               {faqAnswer.split(". ").map((text, i, arr) => (
                 <div key={i} className="flex gap-2">
