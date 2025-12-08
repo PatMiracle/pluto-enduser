@@ -18,6 +18,8 @@ import {
 import orderActive from "@/public/icons/orders-active.svg";
 import orderInactive from "@/public/icons/orders-inactive.svg";
 import personRaisedHand from "@/public/icons/person-raised-hand.svg";
+import personRaisedHandFilled from "@/public/icons/person-raised-hand-filled.svg";
+import storefrontFilled from "@/public/icons/mdi--storefront.svg";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -59,8 +61,8 @@ const items = [
   {
     text: "Rewards",
     href: "/rewards",
-    activeIcon: <MdStorefront />,
-    inactiveIcon: <MdOutlineStorefront />,
+    activeIcon: <Image src={storefrontFilled} alt="" width={24} height={24} />,
+    inactiveIcon: <MdStorefront />,
   },
   {
     text: "Services",
@@ -71,7 +73,9 @@ const items = [
   {
     text: "Help Desk",
     href: "/help-desk",
-    activeIcon: <Image src={personRaisedHand} alt="" width={24} height={24} />,
+    activeIcon: (
+      <Image src={personRaisedHandFilled} alt="" width={24} height={24} />
+    ),
     inactiveIcon: (
       <Image src={personRaisedHand} alt="" width={24} height={24} />
     ),
