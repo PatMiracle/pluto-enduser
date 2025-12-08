@@ -21,6 +21,7 @@ import {
 } from "./ui/dropdown-menu";
 import { ReactNode } from "react";
 import Link from "next/link";
+import Notifications from "./notifications";
 
 export const NAVBAR_HEIGHT = "3.5rem";
 
@@ -51,13 +52,7 @@ export default function Navbar() {
 
       {user && (
         <div className="ml-auto flex gap-3">
-          <Button
-            size={"icon"}
-            variant={"ghost"}
-            className="text-green-normal border-green-light-active size-8 rounded-full border"
-          >
-            <MdNotificationsNone />
-          </Button>
+          <Notifications />
 
           <DropdownMenu>
             <DropdownMenuTrigger>
