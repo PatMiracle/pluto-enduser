@@ -5,11 +5,7 @@ import { Product } from "@/services/products";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import {
-  MdFavorite,
-  MdOutlineFavorite,
-  MdOutlineFavoriteBorder,
-} from "react-icons/md";
+import { MdOutlineFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
 
 type MarketCardProps = {
   product: Product;

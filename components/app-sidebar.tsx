@@ -88,7 +88,6 @@ export default function AppSidebar({}: Props) {
   const pathname = usePathname();
   const { logout } = useAuthStore();
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   const { setOpenMobile, isMobile } = useSidebar();
 
@@ -144,7 +143,7 @@ export default function AppSidebar({}: Props) {
               onClick={() => {
                 logout();
                 queryClient.invalidateQueries();
-                router.replace("/login");
+                window.location.replace("/login");
               }}
             >
               <span className="text-green-normal shrink-0 text-2xl">

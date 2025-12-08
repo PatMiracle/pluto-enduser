@@ -47,9 +47,6 @@ type Props = {};
 
 export default function AccountSettingsSidebar() {
   const pathname = usePathname();
-  const { logout } = useAuthStore();
-  const queryClient = useQueryClient();
-  const router = useRouter();
 
   const { setOpenMobile, isMobile } = useSidebar();
 

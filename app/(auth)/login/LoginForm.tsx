@@ -26,7 +26,6 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
-  const router = useRouter();
   const { setToken } = useAuthStore();
 
   const form = useForm({
@@ -47,7 +46,7 @@ export default function LoginForm() {
         const data = res.data;
         toast.success("Logged in successfully!");
         setToken(data.accessToken);
-        router.replace("/dashboard");
+        window.location.replace("/dashboard");
       } catch (e) {
         defaultErrorHandler(e);
       }
