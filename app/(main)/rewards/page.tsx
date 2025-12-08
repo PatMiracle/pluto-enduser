@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { MarketCard, RewardCard } from "./reward-card";
 import { useProducts } from "@/services/products";
 import { useOrders } from "@/services/orders";
+import { useSidebar } from "@/components/ui/sidebar";
 
 const Rewards = () => {
   const { data: dashboardData } = useDashboard();
@@ -18,6 +19,8 @@ const Rewards = () => {
 
   const { data: products } = useProducts();
   const { data: orders } = useOrders();
+
+  const { open: sidebarOpen } = useSidebar();
 
   return (
     <div className="px-5">
@@ -47,11 +50,16 @@ const Rewards = () => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 py-6 md:grid-cols-3">
+      <div
+        className={cn(
+          "grid grid-cols-2 gap-4 py-6",
+          !sidebarOpen && "md:grid-cols-3",
+        )}
+      >
         {activeTab == "reward-market" &&
           products?.map((p) => <MarketCard product={p} key={p.productId} />)}
         {activeTab == "my-rewards" &&
-          orders?.map((d) => <RewardCard data={d} key={d.productId} />)}
+          orders?.map((d) => <RewardCard data={d} key={d.orderCode} />)}
       </div>
     </div>
   );

@@ -53,6 +53,10 @@ export interface OrderItem {
   imageURL: string;
   checkout: Checkout;
   orderId: number;
+  orderStatus: string;
+  orderCode: string;
+  fulfillmentDate: string | null;
+  arrivalDate: string | null;
 }
 
 interface OrderResponse {

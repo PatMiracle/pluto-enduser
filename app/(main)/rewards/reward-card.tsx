@@ -67,12 +67,11 @@ export function MarketCard({ product }: MarketCardProps) {
 export function RewardCard({ data }: { data: OrderItem }) {
   const [liked, setLiked] = useState(false);
 
-  const fulfilled = data.checkout.payment.paymentStatus;
   return (
     <div className="border-white-dark grow rounded-lg border p-3">
       <div className="mb-2 flex items-center">
         <span className="bg-green-dark-hover text-white-normal grid place-content-center rounded-sm px-1.5 py-0.5 text-[10px]">
-          {fulfilled ? "Fulfilled" : "Order Placed"}
+          {data.orderStatus}
         </span>
 
         <button
