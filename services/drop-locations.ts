@@ -1,4 +1,4 @@
-import { useApiQuery } from "@/hooks/useApiQuery";
+import { usePaginatedQuery } from "@/hooks/useApiQuery";
 
 type OpeningHour = {
   dayOfWeek: string;
@@ -59,7 +59,7 @@ interface Params {
 }
 
 export const useDropLocations = (params: Params, enabled: boolean) =>
-  useApiQuery<DropLocationResponse>(
+  usePaginatedQuery<DropLocationResponse>(
     "drop-locations",
     "/drop-locations",
     params,

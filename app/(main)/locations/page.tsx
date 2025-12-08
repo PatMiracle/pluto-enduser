@@ -12,12 +12,29 @@ import { cn } from "@/lib/utils";
 import { DataTable } from "@/components/data-table";
 import { dropLocationColumns } from "./dropLocationColumns";
 import { useDropLocations } from "@/services/drop-locations";
+import { useTrackedLGAs } from "@/services/enum-api";
+import { useUserQuery } from "@/services/user-api";
+import useOptions from "@/hooks/use-options";
 
 export default function Locations() {
   const [activeTab, setActiveTab] = useState<"pickup" | "dropoff">("pickup");
-
+  const { data: user } = useUserQuery();
   const { data: locations } = useClientLocations();
-  const { data: dropOffs } = useDropLocations({ pageSize: 6 }, true);
+  const { data: dropOffs, pagination } = useDropLocations(
+    { pageSize: 6 },
+    true,
+  );
+  const { data: LGAs } = useTrackedLGAs({
+    stateId: user?.stateWasteManagementBoardId!,
+  });
+
+  const lgaOptions = [
+    {
+      label: "All Sites",
+      value: undefined,
+    },
+    ...useOptions(LGAs?.data, "lgaId", "lgaName"),
+  ];
 
   return (
     <div>
@@ -47,9 +64,9 @@ export default function Locations() {
           </div>
           {activeTab == "pickup" ? (
             <div className="max-w-[790px] pb-10 xl:max-w-full xl:min-w-3xl xl:flex-1 2xl:min-w-4xl">
-              <p className="text-white-darker mb-1.5 text-[15px]">
+              {/* <p className="text-white-darker mb-1.5 text-[15px]">
                 Manage all Pickup Locations
-              </p>
+              </p> */}
               {locations?.data && locations.data.length == 4 && (
                 <p className="text-red-normal mb-4 text-sm">
                   (You have maxed out your 4 Location limit for this Account)
@@ -70,7 +87,16 @@ export default function Locations() {
             </div>
           ) : (
             <div className="pb-10 xl:min-w-3xl xl:flex-1 2xl:min-w-4xl">
-              <DataTable columns={dropLocationColumns} data={dropOffs?.data} />
+              <div className="pb-3">
+                <p className="text-white-darker text-sm">
+                  Search for Dropoff Sites Near Your Location
+                </p>
+              </div>
+              <DataTable
+                columns={dropLocationColumns}
+                data={dropOffs}
+                pagination={pagination}
+              />
             </div>
           )}
         </div>
