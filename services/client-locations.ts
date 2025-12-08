@@ -3,7 +3,7 @@ import api from "@/lib/apiClient";
 import defaultErrorHandler from "@/lib/error-handler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-interface Client {
+export interface Client {
   firstName: string;
   lastName: string;
   phoneNumber: string;

@@ -27,6 +27,7 @@ type ModalProps = {
   children: React.ReactNode;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  className?: string;
 };
 
 export function Modal({
@@ -35,11 +36,12 @@ export function Modal({
   description,
   open,
   onOpenChange,
+  className,
 }: ModalProps) {
   return (
     <Dialog modal open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-h-[90vh] overflow-y-auto"
+        className={cn("max-h-[90vh] overflow-y-auto", className)}
         aria-describedby={undefined}
         onPointerDownOutside={(e) => e.preventDefault()}
       >

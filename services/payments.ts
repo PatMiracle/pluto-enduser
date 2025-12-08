@@ -8,7 +8,7 @@ type PickupSubscription = {
   subscriptionRenewalDate: string;
   prevSubscription?: PickupSubscription | null;
   subscriptionCancellationDate: string;
-  subscriptionClassId: 0;
+  subscriptionClassId: number;
 };
 
 export type Payment = {

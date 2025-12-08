@@ -1,0 +1,100 @@
+"use client";
+
+import { OrderItem } from "@/services/orders";
+import { Product } from "@/services/products";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import {
+  MdFavorite,
+  MdOutlineFavorite,
+  MdOutlineFavoriteBorder,
+} from "react-icons/md";
+
+type MarketCardProps = {
+  product: Product;
+};
+
+const getDiscountPercentage = (
+  original: number,
+  discounted: number,
+): string => {
+  const percentage = Math.round(((original - discounted) / original) * 100);
+  return `-${percentage}%`;
+};
+
+export function MarketCard({ product }: MarketCardProps) {
+  const [liked, setLiked] = useState(false);
+
+  return (
+    <div className="border-white-dark grow rounded-lg border p-3">
+      <div className="mb-2 flex items-center">
+        {product.perUnitDiscountedPoints > 0 && (
+          <span className="bg-green-dark-hover text-white-normal grid place-content-center rounded-sm px-1.5 py-0.5 text-[10px]">
+            {getDiscountPercentage(
+              product.perUnitPoints,
+              product.perUnitDiscountedPoints,
+            )}
+          </span>
+        )}
+
+        <button
+          className="text-primary ml-auto"
+          onClick={() => setLiked(!liked)}
+        >
+          {liked ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
+        </button>
+      </div>
+      <Link href={`/rewards/${product.productId}`}>
+        <Image
+          src={product.productImageURL}
+          alt={product.productName}
+          width={500}
+          height={500}
+          className="h-32 w-full object-cover md:h-40 lg:h-44"
+        />
+        <div className="pt-1">
+          <p className="h-5 text-sm">{product.productName}</p>
+          <p className="text-primary text-xs">
+            {product.perUnitDiscountedPoints || product.perUnitPoints} Points
+          </p>
+        </div>
+      </Link>
+    </div>
+  );
+}
+
+export function RewardCard({ data }: { data: OrderItem }) {
+  const [liked, setLiked] = useState(false);
+
+  const fulfilled = data.checkout.payment.paymentStatus;
+  return (
+    <div className="border-white-dark grow rounded-lg border p-3">
+      <div className="mb-2 flex items-center">
+        <span className="bg-green-dark-hover text-white-normal grid place-content-center rounded-sm px-1.5 py-0.5 text-[10px]">
+          {fulfilled ? "Fulfilled" : "Order Placed"}
+        </span>
+
+        <button
+          className="text-primary ml-auto"
+          onClick={() => setLiked(!liked)}
+        >
+          {liked ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
+        </button>
+      </div>
+      <Link href={`/rewards/orders/${data.productId}`}>
+        <Image
+          src={data.imageURL}
+          alt={data.productName}
+          width={500}
+          height={500}
+          className="h-32 w-full object-cover md:h-40 lg:h-44"
+        />
+        <div className="pt-1">
+          <p className="h-5 text-sm">{data.productName}</p>
+          <p className="text-primary text-xs">{data.totalPoints} Points </p>
+        </div>
+      </Link>
+    </div>
+  );
+}

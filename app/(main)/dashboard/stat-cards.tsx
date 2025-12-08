@@ -73,9 +73,9 @@ const StatCard = ({ title, value, subtitle, icon }: StatCardProps) => {
   );
 };
 
-const PointCard = ({ pointsEarned }: { pointsEarned: number }) => {
+export const PointCard = ({ pointsEarned }: { pointsEarned: number }) => {
   return (
-    <div className="bg-black-normal relative flex flex-1 flex-col justify-between rounded-lg border p-4">
+    <div className="bg-black-normal relative flex flex-1 flex-col justify-center rounded-lg border p-4">
       <p className="text-white-normal text-[15px]">Points Earned</p>
       <p className="text-white-normal text-3xl">{pointsEarned}</p>
     </div>
