@@ -6,7 +6,7 @@ const PickupSchedules = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Dummy schedule data
-  const scheduleData = {
+  const scheduleData: Record<string, string[]> = {
     "2024-12-4": ["garbage"],
     "2024-12-6": ["garbage", "recycling"],
     "2024-12-11": ["special"],
