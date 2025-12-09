@@ -40,8 +40,8 @@ export default function Product() {
       <Link href="/rewards" className="mt-5 flex items-center gap-1">
         <MdKeyboardArrowLeft className="text-primary" size={24} /> Back
       </Link>
-      <div className="py-5 sm:max-w-xl lg:max-w-full">
-        <div className="flex items-center justify-between pb-1">
+      <div className="py-5 sm:max-w-xl lg:grid lg:max-w-7xl lg:grid-cols-2">
+        <div className="flex items-center justify-between pb-1 lg:hidden">
           {product.perUnitDiscountedPoints < product.perUnitPoints && (
             <span className="bg-green-dark-hover text-white-normal grid place-content-center rounded-sm px-1.5 py-0.5 text-[10px]">
               {getDiscountPercentage(
@@ -58,34 +58,52 @@ export default function Product() {
             {liked ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
           </button>
         </div>
-
-        <div className="border-white-dark rounded-lg border p-3">
-          <Image
-            src={imageInPreview}
-            alt={product.productName}
-            width={500}
-            height={500}
-            className="h-[270px] w-full object-contain sm:h-[350px]"
-          />
-        </div>
-        <div className="flex items-center justify-center gap-2 py-5">
-          {product.availableOptions.map((option) => (
-            <button
-              key={option.optionId}
-              onClick={() => setImageInPreview(option.imageURL)}
-            >
-              <Image
-                src={imageInPreview}
-                alt={product.productName + option.colorName}
-                width={500}
-                height={500}
-                className="h-14 w-20 object-contain sm:h-[84px] sm:w-32"
-              />
-            </button>
-          ))}
+        <div>
+          <div className="border-white-dark rounded-lg border p-3">
+            <Image
+              src={imageInPreview}
+              alt={product.productName}
+              width={500}
+              height={500}
+              className="h-[270px] w-full object-contain sm:h-[350px]"
+            />
+          </div>
+          <div className="flex items-center justify-center gap-2 py-5">
+            {product.availableOptions.map((option) => (
+              <button
+                key={option.optionId}
+                onClick={() => setImageInPreview(option.imageURL)}
+              >
+                <Image
+                  src={imageInPreview}
+                  alt={product.productName + option.colorName}
+                  width={500}
+                  height={500}
+                  className="h-14 w-20 object-contain sm:h-[84px] sm:w-32"
+                />
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="px-4 pb-8">
+          <div className="hidden items-center justify-between pb-1 lg:flex">
+            {product.perUnitDiscountedPoints < product.perUnitPoints && (
+              <span className="bg-green-dark-hover text-white-normal grid place-content-center rounded-sm px-1.5 py-0.5 text-[10px]">
+                {getDiscountPercentage(
+                  product.perUnitPoints,
+                  product.perUnitDiscountedPoints,
+                )}
+              </span>
+            )}
+
+            <button
+              className="text-primary ml-auto"
+              onClick={() => setLiked(!liked)}
+            >
+              {liked ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
+            </button>
+          </div>
           <h3 className="mb-3 text-2xl font-semibold">{product.productName}</h3>
           <p className="text-white-darker mb-4 text-sm leading-5">
             {product.productInfo}
@@ -102,8 +120,9 @@ export default function Product() {
           {/* Delivery Date */}
           <p className="mb-3 text-sm text-[#374151]">
             Date of Arrival:{" "}
-            {product.productStockDate &&
-              formatDate(product.productStockDate, "do MMMM, yyyy")}
+            {product.productStockDate
+              ? formatDate(product.productStockDate, "do MMMM, yyyy")
+              : "Unspecified"}
           </p>
           {/* reviews */}
           <div className="flex items-center gap-1.5 text-sm">
@@ -138,7 +157,9 @@ export default function Product() {
           {/* action btns */}
           <div className="grid gap-2 py-3">
             <Button variant="secondary">Compare</Button>
-            <Button>Claim Now</Button>
+            <Link href={`/rewards/${id}/checkout`}>
+              <Button className="w-full">Claim Now</Button>
+            </Link>
           </div>
           {/* Product Details Accordion */}
           <details className="group border-white-dark rounded-lg border px-3">
