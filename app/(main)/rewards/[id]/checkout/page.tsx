@@ -1,5 +1,6 @@
 "use client";
 
+import { Modal } from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/context/ModalProvider";
 import { useProduct } from "@/services/products";
@@ -7,17 +8,25 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { IoAdd } from "react-icons/io5";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import ChoosePickupLocation, { LocationInfo } from "./pickup-location-form";
+import { useState } from "react";
 
 const Checkout = () => {
   const { id } = useParams<{ id: string }>();
   const { data: product } = useProduct(id);
   const { getModalProps, openModal } = useModal();
 
+  const [locationInfo, setLocationInfo] = useState<LocationInfo>();
+
   return (
     <>
-      <Link href="/rewards" className="mt-5 flex items-center gap-1">
+      <Link href={`/rewards/${id}`} className="mt-5 flex items-center gap-1">
         <MdKeyboardArrowLeft className="text-primary" size={24} /> Back
       </Link>
+
+      <Modal title="Choose Pickup Location" {...getModalProps(id)}>
+        <ChoosePickupLocation setLocationInfo={setLocationInfo} />
+      </Modal>
 
       <div className="grid gap-5 py-5">
         {/* delivery details */}
@@ -27,10 +36,39 @@ const Checkout = () => {
             Find the closest Pickup Station
           </p>
           <div className="mb-2 rounded-lg border border-[#D1D5DB] px-3 py-2">
-            <p className="text-sm text-[#9CA3AF] italic">
-              LGA Office Complex in charge of the location selected will be
-              displayed here
-            </p>
+            {locationInfo ? (
+              <div>
+                {[
+                  { label: "LGA", value: locationInfo.LGA },
+                  { label: "Address", value: locationInfo.address },
+                  { label: "Contact Name", value: locationInfo.contactName },
+                  {
+                    label: "Contact Phone",
+                    value: locationInfo.contactPhoneNumber,
+                  },
+                  {
+                    label: "Contact Email",
+                    value: locationInfo.contactEmail,
+                  },
+                ].map(
+                  ({ label, value }) =>
+                    value && (
+                      <p key={label}>
+                        <span className="text-primary text-sm font-bold">
+                          {label}:{" "}
+                        </span>
+                        {value}
+                      </p>
+                    ),
+                )}
+              </div>
+            ) : (
+              <p className="text-sm text-[#9CA3AF] italic">
+                {" "}
+                LGA Office Complex in charge of the location selected will be
+                displayed here
+              </p>
+            )}
           </div>
           <Button onClick={() => openModal(id)} className="font-normal">
             <IoAdd size={20} />

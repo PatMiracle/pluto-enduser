@@ -201,7 +201,7 @@ export function FormTextarea({
           <InputGroupAddon className="bg-green-light" align="block-end">
             <InputGroupText className="text-primary ml-auto tabular-nums">
               <span className="text-xs">
-                {state.value.length}/{rest.maxLength} words max
+                {state.value.length}/{rest.maxLength} characters max
               </span>
             </InputGroupText>
           </InputGroupAddon>

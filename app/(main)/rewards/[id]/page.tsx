@@ -120,8 +120,8 @@ export default function Product() {
           {/* Delivery Date */}
           <p className="mb-3 text-sm text-[#374151]">
             Date of Arrival:{" "}
-            {product.productStockDate
-              ? formatDate(product.productStockDate, "do MMMM, yyyy")
+            {product.dateOfArrival
+              ? formatDate(product.dateOfArrival, "do MMMM, yyyy")
               : "Unspecified"}
           </p>
           {/* reviews */}
