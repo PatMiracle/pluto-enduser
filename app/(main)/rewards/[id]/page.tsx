@@ -35,8 +35,7 @@ export default function Product() {
   }
 
   return (
-    <div className="px-5">
-      <p className="text-lg font-semibold">Reward & Discount</p>
+    <>
       <Link href="/rewards" className="mt-5 flex items-center gap-1">
         <MdKeyboardArrowLeft className="text-primary" size={24} /> Back
       </Link>
@@ -196,7 +195,7 @@ export default function Product() {
           </details>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

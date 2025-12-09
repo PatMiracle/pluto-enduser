@@ -23,8 +23,7 @@ const Rewards = () => {
   const { open: sidebarOpen } = useSidebar();
 
   return (
-    <div className="px-5">
-      <p className="text-lg font-semibold">Reward & Discount</p>
+    <>
       <div className="pt-5 lg:max-w-52">
         <PointCard pointsEarned={dashboardData?.pointsEarned || +""} />
       </div>
@@ -61,7 +60,7 @@ const Rewards = () => {
         {activeTab == "my-rewards" &&
           orders?.map((d) => <RewardCard data={d} key={d.orderCode} />)}
       </div>
-    </div>
+    </>
   );
 };
 
