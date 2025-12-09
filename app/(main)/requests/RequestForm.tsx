@@ -154,37 +154,40 @@ export default function RequestForm({ data }: Props) {
         }}
       >
         <FieldGroup>
-          <div className="grid grid-cols-2 gap-3">
-            <form.Field
-              name="state"
-              children={(field) => {
-                return (
-                  <FormFieldWrapper
-                    label="State"
-                    as="selectable"
-                    field={field}
-                    options={states}
-                    iconLeft={<MdApartment className="text-primary" />}
-                    disabled
-                  />
-                );
-              }}
-            />
-            <form.Field
-              name="lga"
-              children={(field) => {
-                return (
-                  <FormFieldWrapper
-                    label="LGA"
-                    options={lgas}
-                    as="selectable"
-                    placeholder="LGA"
-                    field={field}
-                    iconLeft={<MdOutlineCottage className="text-primary" />}
-                  />
-                );
-              }}
-            />
+          <div>
+            <p className="mb-1 text-sm">Pickup Location Details</p>
+            <div className="grid grid-cols-2 gap-3">
+              <form.Field
+                name="state"
+                children={(field) => {
+                  return (
+                    <FormFieldWrapper
+                      label="State"
+                      as="selectable"
+                      field={field}
+                      options={states}
+                      iconLeft={<MdApartment className="text-primary" />}
+                      disabled
+                    />
+                  );
+                }}
+              />
+              <form.Field
+                name="lga"
+                children={(field) => {
+                  return (
+                    <FormFieldWrapper
+                      label="LGA"
+                      options={lgas}
+                      as="selectable"
+                      placeholder="LGA"
+                      field={field}
+                      iconLeft={<MdOutlineCottage className="text-primary" />}
+                    />
+                  );
+                }}
+              />
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <form.Field
@@ -218,6 +221,20 @@ export default function RequestForm({ data }: Props) {
               }}
             />
           </div>
+          <form.Field
+            name="pickupAddress"
+            children={(field) => {
+              return (
+                <FormFieldWrapper
+                  label="Pickup Address"
+                  placeholder="Pickup Address"
+                  as="input"
+                  field={field}
+                  iconLeft={<MdOutlineLocationOn />}
+                />
+              );
+            }}
+          />
           <p className="text-sm">Event Details</p>
           <form.Field
             name="serviceRequestType"
@@ -267,20 +284,6 @@ export default function RequestForm({ data }: Props) {
                   placeholder="Email"
                   field={field}
                   iconLeft={<MdOutlineMail />}
-                />
-              );
-            }}
-          />
-          <form.Field
-            name="pickupAddress"
-            children={(field) => {
-              return (
-                <FormFieldWrapper
-                  label="Pickup Address"
-                  placeholder="Pickup Address"
-                  as="input"
-                  field={field}
-                  iconLeft={<MdOutlineLocationOn />}
                 />
               );
             }}
