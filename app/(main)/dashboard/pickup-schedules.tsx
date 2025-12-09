@@ -5,7 +5,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { MdChevronLeft, MdKeyboardArrowRight } from "react-icons/md";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
 import greenTruck from "@/public/icons/green-truck.svg";
 import Image from "next/image";
 
@@ -42,7 +41,7 @@ export default function PickupSchedules({ data }: Props) {
 
   return (
     <div className="flex w-full flex-col">
-      <div className="border-white-dark min-h-64 rounded-lg border px-3 py-4">
+      <div className="border-white-dark rounded-lg border px-3 py-4">
         <h2 className="text-white-darker font-medium">Pickup Schedule</h2>
 
         {!data ? (

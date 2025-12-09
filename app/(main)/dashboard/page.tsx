@@ -20,7 +20,7 @@ export default function Dashboard() {
   return (
     <>
       <div className="gap-4 px-5">
-        <p className="text-xl">
+        <p className="sm:text-xl">
           Welcome Back, {user?.firstName} {user?.lastName}!
         </p>
         <div className="flex flex-col gap-4 py-5 lg:flex-row">

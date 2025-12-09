@@ -106,7 +106,10 @@ const Profile = () => {
       <div className="flex items-center gap-3 pt-5">
         <Avatar className="relative size-32">
           {isEditing && profilePhoto ? (
-            <AvatarImage src={URL.createObjectURL(profilePhoto)} />
+            <AvatarImage
+              src={URL.createObjectURL(profilePhoto)}
+              className="object-cover"
+            />
           ) : user!.photoURL ? (
             <AvatarImage src={user!.photoURL} />
           ) : null}

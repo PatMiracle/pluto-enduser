@@ -11,7 +11,7 @@ type MarketCardProps = {
   product: Product;
 };
 
-const getDiscountPercentage = (
+export const getDiscountPercentage = (
   original: number,
   discounted: number,
 ): string => {
@@ -25,7 +25,7 @@ export function MarketCard({ product }: MarketCardProps) {
   return (
     <div className="border-white-dark grow rounded-lg border p-3">
       <div className="mb-2 flex items-center">
-        {product.perUnitDiscountedPoints > 0 && (
+        {product.perUnitDiscountedPoints < product.perUnitPoints && (
           <span className="bg-green-dark-hover text-white-normal grid place-content-center rounded-sm px-1.5 py-0.5 text-[10px]">
             {getDiscountPercentage(
               product.perUnitPoints,

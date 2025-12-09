@@ -47,7 +47,7 @@ export default function Notifications() {
         className="text-green-normal border-green-light-active relative size-8 rounded-full border"
       >
         <span className="bg-green-normal text-white-normal absolute -top-1 right-0 grid size-3 place-content-center rounded-full text-[7px]">
-          {notifications?.length}
+          {notifications?.length || ""}
         </span>
         <MdNotificationsNone />
       </Button>
@@ -65,6 +65,7 @@ export default function Notifications() {
           </div>
           <div>
             {isPending && <p>Loading Notifications...</p>}
+            {notifications?.length == 0 && <p>No Notifications</p>}
             {notifications?.map(({ title, body, lastModified, id }) => (
               <div
                 key={id}

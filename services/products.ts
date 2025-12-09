@@ -1,4 +1,4 @@
-import { usePaginatedQuery } from "@/hooks/useApiQuery";
+import { useApiQuery, usePaginatedQuery } from "@/hooks/useApiQuery";
 
 export type ProductOption = {
   colorCode: string;
@@ -51,3 +51,6 @@ interface ProductResponse {
 
 export const useProducts = () =>
   usePaginatedQuery<ProductResponse>("products", "/products");
+
+export const useProduct = (id: string) =>
+  useApiQuery<Product>(`product${id}`, `/products/${id}`);
