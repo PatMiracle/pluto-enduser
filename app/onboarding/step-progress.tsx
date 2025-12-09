@@ -9,8 +9,6 @@ type Props = {
 export default function StepProgressBar({ activeIndex }: Props) {
   const steps = ["Board", "Profile", "Pickup Locations", "Summary"];
 
-  const isMobile = window?.innerWidth < 500;
-
   return (
     <div className="mx-auto flex items-center justify-center py-12">
       {steps.map((label, i) => {
@@ -53,12 +51,14 @@ export default function StepProgressBar({ activeIndex }: Props) {
             {/* Connector Dots */}
             {i !== steps.length - 1 && (
               <div className="mx-2 flex items-center gap-1.5 md:mx-3 md:gap-2.5">
-                {Array.from({ length: isMobile ? 4 : 6 }).map((_, j) => (
-                  <div
-                    key={j}
-                    className="bg-black-light-hover h-1.5 w-1.5 rounded-full"
-                  />
-                ))}
+                {Array.from({ length: window?.innerWidth < 500 ? 4 : 6 }).map(
+                  (_, j) => (
+                    <div
+                      key={j}
+                      className="bg-black-light-hover h-1.5 w-1.5 rounded-full"
+                    />
+                  ),
+                )}
               </div>
             )}
           </div>
