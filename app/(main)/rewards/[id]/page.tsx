@@ -16,6 +16,7 @@ import { renderStars } from "../render-stars";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ProductPageSkeleton } from "./page-skeleton";
 
 export default function Product() {
   const { id } = useParams<{ id: string }>();
@@ -31,7 +32,7 @@ export default function Product() {
   }, [product]);
 
   if (!product) {
-    return <></>;
+    return <ProductPageSkeleton />;
   }
 
   return (

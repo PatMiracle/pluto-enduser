@@ -5,7 +5,7 @@ import { PointCard } from "../dashboard/stat-cards";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { MarketCard, RewardCard } from "./reward-card";
+import { MarketCard, MarketCardSkeleton, RewardCard } from "./reward-card";
 import { useProducts } from "@/services/products";
 import { useOrders } from "@/services/orders";
 import { useSidebar } from "@/components/ui/sidebar";
@@ -55,10 +55,20 @@ const Rewards = () => {
           !sidebarOpen && "md:grid-cols-3",
         )}
       >
-        {activeTab == "reward-market" &&
-          products?.map((p) => <MarketCard product={p} key={p.productId} />)}
-        {activeTab == "my-rewards" &&
-          orders?.map((d) => <RewardCard data={d} key={d.orderCode} />)}
+        {activeTab === "reward-market"
+          ? products
+            ? products.map((p) => <MarketCard product={p} key={p.productId} />)
+            : Array.from({ length: 6 }).map((_, i) => (
+                <MarketCardSkeleton key={i} />
+              ))
+          : null}
+        {activeTab === "my-rewards"
+          ? orders
+            ? orders.map((d) => <RewardCard data={d} key={d.orderCode} />)
+            : Array.from({ length: 6 }).map((_, i) => (
+                <MarketCardSkeleton key={i} />
+              ))
+          : null}
       </div>
     </>
   );

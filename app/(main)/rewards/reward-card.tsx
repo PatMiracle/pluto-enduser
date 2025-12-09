@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { OrderItem } from "@/services/orders";
 import { Product } from "@/services/products";
 import Image from "next/image";
@@ -90,6 +91,26 @@ export function RewardCard({ data }: { data: OrderItem }) {
           <p className="text-primary text-xs">{data.totalPoints} Points </p>
         </div>
       </Link>
+    </div>
+  );
+}
+
+export function MarketCardSkeleton() {
+  return (
+    <div className="border-white-dark grow rounded-lg border p-3">
+      <div className="mb-2 flex items-center">
+        <Skeleton className="h-5 w-12" />
+        <div className="ml-auto">
+          <Skeleton className="h-5 w-5 rounded-full" />
+        </div>
+      </div>
+
+      <Skeleton className="mb-1 h-32 w-full md:h-40 lg:h-44" />
+
+      <div className="space-y-2 pt-1">
+        <Skeleton className="h-5 w-3/4" />
+        <Skeleton className="h-4 w-20" />
+      </div>
     </div>
   );
 }
