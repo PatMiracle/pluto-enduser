@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   MdKeyboardArrowDown,
+  MdKeyboardArrowLeft,
   MdOutlineFavorite,
   MdOutlineFavoriteBorder,
 } from "react-icons/md";
@@ -14,6 +15,7 @@ import { formatDate } from "date-fns";
 import { renderStars } from "../render-stars";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Product() {
   const { id } = useParams<{ id: string }>();
@@ -35,6 +37,9 @@ export default function Product() {
   return (
     <div className="px-5">
       <p className="text-lg font-semibold">Reward & Discount</p>
+      <Link href="/rewards" className="mt-5 flex items-center gap-1">
+        <MdKeyboardArrowLeft className="text-primary" size={24} /> Back
+      </Link>
       <div className="py-5 sm:max-w-xl lg:max-w-full">
         <div className="flex items-center justify-between pb-1">
           {product.perUnitDiscountedPoints < product.perUnitPoints && (
@@ -142,9 +147,48 @@ export default function Product() {
 
               <MdKeyboardArrowDown className="text-green-normal text-lg transition-all duration-300 group-open:rotate-180" />
             </summary>
+            <div className="mt-2">
+              {product.weight && (
+                <ProductDetailRow
+                  label="Weight"
+                  value={`${product.weight} ${product.weightUnit}`}
+                />
+              )}
+              {product.productColor && (
+                <ProductDetailRow
+                  label="Colour"
+                  value={`${product.availableOptions
+                    .map(({ colorName }) => colorName)
+                    .join(", ")}`}
+                />
+              )}
+              {product.shape && (
+                <ProductDetailRow label="Shape" value={product.shape} />
+              )}
+              {product.productMaterial && (
+                <ProductDetailRow
+                  label="Shape"
+                  value={product.productMaterial}
+                />
+              )}
+            </div>
           </details>
         </div>
       </div>
+    </div>
+  );
+}
+
+interface ProductDetailProps {
+  label: string;
+  value: string;
+}
+
+export function ProductDetailRow({ label, value }: ProductDetailProps) {
+  return (
+    <div className="bg-green-light mb-2 grid grid-cols-2 p-2 text-sm text-[#374151] capitalize">
+      <span className="text-[#374151]">{label}</span>
+      <span className="text-[#1F2937]">{value}</span>
     </div>
   );
 }
