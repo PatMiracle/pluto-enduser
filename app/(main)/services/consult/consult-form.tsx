@@ -66,7 +66,6 @@ const ConsultForm = () => {
                   placeholder="Select Consultation Topic"
                   options={[]}
                   field={field}
-                  disabled={samePhone}
                 />
               );
             }}
