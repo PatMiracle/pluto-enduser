@@ -9,7 +9,7 @@ type Props = {
 export default function StepProgressBar({ activeIndex }: Props) {
   const steps = ["Board", "Profile", "Pickup Locations", "Summary"];
 
-  const isMobile = window.innerWidth < 500;
+  const isMobile = window?.innerWidth < 500;
 
   return (
     <div className="mx-auto flex items-center justify-center py-12">
