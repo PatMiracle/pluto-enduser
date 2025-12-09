@@ -15,7 +15,6 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import useAuthStore from "@/store/AuthStore";
 import defaultErrorHandler from "@/lib/error-handler";
 import { toast } from "sonner";
@@ -46,7 +45,9 @@ export default function LoginForm() {
         const data = res.data;
         toast.success("Logged in successfully!");
         setToken(data.accessToken);
-        window.location.replace("/dashboard");
+        if (data.onboardingState == "NotOnboarded") {
+          window.location.replace("/onboarding");
+        } else window.location.replace("/dashboard");
       } catch (e) {
         defaultErrorHandler(e);
       }

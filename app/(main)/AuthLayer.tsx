@@ -1,7 +1,7 @@
 "use client";
+
 import { useUserQuery } from "@/services/user-api";
 import useAuthStore from "@/store/AuthStore";
-import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -9,7 +9,6 @@ type Props = { children: ReactNode };
 
 // THIS ENSURES THE USER IS AUTHENTICATED
 export default function AuthLayer({ children }: Props) {
-  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const { logout } = useAuthStore();
 
@@ -26,10 +25,14 @@ export default function AuthLayer({ children }: Props) {
           duration: 5000,
         });
         logout();
-        router.replace("/login");
+        window.location.replace("/login");
       }
     }
-  }, [isError, mounted]);
+
+    if (user?.needsAccountSetup) {
+      window.location.replace("/onboarding");
+    }
+  }, [isError, mounted, user]);
 
   if (isPending || !user) {
     return (

@@ -1,7 +1,13 @@
-import React from "react";
+"use client";
 
-type Props = {};
+import Board from "./board";
+import StepProgressBar from "./step-progress";
 
-export default function Onboarding({}: Props) {
-  return <div>Onboarding</div>;
+export default function Onboarding() {
+  return (
+    <div>
+      <StepProgressBar activeIndex={0} />
+      <Board />
+    </div>
+  );
 }

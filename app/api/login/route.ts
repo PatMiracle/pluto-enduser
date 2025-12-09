@@ -12,7 +12,10 @@ export async function POST(req: Request) {
 
     const data = res.data;
 
-    const response = NextResponse.json({ accessToken: data.accessToken });
+    const response = NextResponse.json({
+      accessToken: data.accessToken,
+      onboardingState: data.onboardingState,
+    });
 
     const oneDayFromNow = new Date(Date.now() + 24 * 60 * 60 * 1000);
 

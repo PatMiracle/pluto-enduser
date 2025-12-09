@@ -2,12 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { STORAGE_KEYS } from "./constants/storage-keys";
 
-const protectedRoutes = [
-  "/dashboard",
-  "/profile",
-  "/settings",
-  "/account-settings",
-];
+const protectedRoutes = ["/dashboard", "/account-settings", "/onboarding"];
 
 const authRoutes = [
   "/login",
