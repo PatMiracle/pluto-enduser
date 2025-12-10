@@ -34,11 +34,7 @@ const Consult = () => {
             Create Now
           </Button>
 
-          <Modal
-            title="Consult with Us!"
-            description="Consultation Request"
-            {...getModalProps("consult")}
-          >
+          <Modal title="Consult with Us!" {...getModalProps("consult")}>
             <ConsultForm />
           </Modal>
         </div>
