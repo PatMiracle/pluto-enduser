@@ -15,6 +15,7 @@ import { FaSliders } from "react-icons/fa6";
 import RequestForm from "./RequestForm";
 import { Modal } from "@/components/modal";
 import { useModal } from "@/context/ModalProvider";
+import RequestFilter from "./requests-filter";
 
 export default function Requests() {
   const [status, setOrderStatus] = useState<ServiceRequest["orderStatus"]>();
@@ -27,16 +28,6 @@ export default function Requests() {
   });
 
   const { openModal, getModalProps } = useModal();
-
-  // const statuses = [
-  //   "NEW",
-  //   "PENDING",
-  //   "APPROVED",
-  //   "COMPLETED",
-  //   "CANCELLED",
-  //   "OVER_DUE",
-  //   "CLIENT_CANCELLED",
-  // ];
 
   return (
     <div>
@@ -76,9 +67,15 @@ export default function Requests() {
             className="md:max-w-md lg:max-w-xl"
             iconLeft={<MdSearch />}
             iconRight={
-              <button className="mt-1">
-                <FaSliders size={16} />
-              </button>
+              <RequestFilter
+                orderStatus={status}
+                setOrderStatus={setOrderStatus}
+                trigger={
+                  <button className="mt-1">
+                    <FaSliders size={16} />
+                  </button>
+                }
+              />
             }
           />
           <div>
