@@ -1,4 +1,4 @@
-import { usePaginatedQuery } from "@/hooks/useApiQuery";
+import { useApiQuery, usePaginatedQuery } from "@/hooks/useApiQuery";
 import { Payment } from "./payments";
 
 export interface OpeningHour {
@@ -65,3 +65,6 @@ interface OrderResponse {
 
 export const useOrders = () =>
   usePaginatedQuery<OrderResponse>("orders", "/user/orders");
+
+export const useOrder = (id: string) =>
+  useApiQuery<OrderItem>(`order${id}`, `/user/orders/${id}`);

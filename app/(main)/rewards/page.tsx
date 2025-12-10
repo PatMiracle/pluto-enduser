@@ -48,7 +48,6 @@ const Rewards = () => {
           My Rewards
         </Button>
       </div>
-
       <div
         className={cn(
           "grid grid-cols-2 gap-4 py-6",
@@ -70,6 +69,9 @@ const Rewards = () => {
               ))
           : null}
       </div>
+      {orders?.length == 0 && (
+        <p className="text-center">You have not redeemed any rewards yet.</p>
+      )}
     </>
   );
 };

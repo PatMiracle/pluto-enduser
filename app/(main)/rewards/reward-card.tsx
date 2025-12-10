@@ -78,7 +78,7 @@ export function RewardCard({ data }: { data: OrderItem }) {
           {liked ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
         </button>
       </div>
-      <Link href={`/rewards/${data.productId}/order-details`}>
+      <Link href={`/rewards/${data.orderId}/order-details`}>
         <Image
           src={data.imageURL}
           alt={data.productName}
