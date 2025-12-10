@@ -21,6 +21,7 @@ export const useCreateConsultation = () => {
         return res.data;
       } catch (error) {
         defaultErrorHandler(error);
+        throw error;
       }
     },
     onSuccess: () => {

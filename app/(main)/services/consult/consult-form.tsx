@@ -6,7 +6,9 @@ import FormFieldWrapper, {
 import { Switch } from "@/components/switch";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
+import { useModal } from "@/context/ModalProvider";
 import useOptions from "@/hooks/use-options";
+import defaultErrorHandler from "@/lib/error-handler";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { useCreateConsultation } from "@/services/consult";
 import { useIssueTypes } from "@/services/issues";
@@ -14,6 +16,7 @@ import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useState } from "react";
 import { MdMailOutline } from "react-icons/md";
+import { toast } from "sonner";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -37,6 +40,7 @@ const ConsultForm = () => {
   const { data: rawIssueTypes } = useIssueTypes({ ticketType: "CONSULTATION" });
   const issueTypes = useOptions(rawIssueTypes, "issueTypeId", "issueTypeName");
   const { mutate, isPending: isSubmitting } = useCreateConsultation();
+  const { closeModal } = useModal();
 
   const form = useForm({
     defaultValues: {
@@ -47,7 +51,16 @@ const ConsultForm = () => {
     },
     validators: { onSubmit: formSchema },
     onSubmit: ({ value }) => {
-      mutate(value);
+      mutate(
+        { ...value },
+        {
+          onSuccess: () => {
+            toast.success("Consultation Submitted");
+            form.reset();
+            closeModal();
+          },
+        },
+      );
     },
   });
 
