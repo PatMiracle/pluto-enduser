@@ -85,11 +85,14 @@ const Rewards = () => {
               ))
           : null}
       </div>
-      {orders?.length == 0 && (
+      {activeTab == "orders" && orders?.length == 0 && (
         <p className="text-center">
           You have not redeemed any rewards{" "}
           {ordersFilters.from ? "from the selected period." : "yet."}
         </p>
+      )}
+      {activeTab == "products" && products?.length == 0 && (
+        <p className="text-center">No products.</p>
       )}
     </>
   );
