@@ -82,18 +82,14 @@ export const useCreateLocation = () => {
   });
 };
 
-type UpdateClientLocation = Partial<ClientLocation> & {
-  id: number;
-};
-
 export const useUpdateLocation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, ...data }: UpdateClientLocation) => {
+    mutationFn: async ({ id, ...data }: Record<string, any>) => {
       const res = await api.patch(`/user/client-locations/${id}`, data, {
         headers: {
-          contentType: "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
       });
       return res.data;

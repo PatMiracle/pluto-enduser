@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { LabeledInput } from "@/components/ui/input";
 import { useModal } from "@/context/ModalProvider";
+import defaultErrorHandler from "@/lib/error-handler";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { ClientLocation, useUpdateLocation } from "@/services/client-locations";
 import { useForm, useStore } from "@tanstack/react-form";
@@ -52,15 +53,21 @@ export default function EditLocationForm({ data }: Props) {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      const v = { ...value, id: data.clientLocationId };
+      const v = {
+        ...value,
+        id: data.clientLocationId,
+        previewImage: previewImage || undefined,
+      };
+      console.log(v);
+
       mutate(v, {
         onSuccess: () => {
           toast.success("Location update successfully");
           setPreviewImage(null);
           closeModal();
         },
-        onError: () => {
-          toast.error("Failed to update location");
+        onError: (e) => {
+          defaultErrorHandler(e);
         },
       });
     },
