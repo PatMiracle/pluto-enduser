@@ -39,7 +39,7 @@ const formSchema = z.object({
 
 export default function EditLocationForm({ data }: Props) {
   const [previewImage, setPreviewImage] = useState<File | null>(null);
-  const { mutate } = useUpdateLocation();
+  const { mutate, isPending: isSubmitting } = useUpdateLocation();
   const { closeModal } = useModal();
 
   const form = useForm({
@@ -71,7 +71,7 @@ export default function EditLocationForm({ data }: Props) {
     },
   });
 
-  const { isSubmitting, isDefaultValue } = useStore(form.store, (s) => s);
+  const { isDefaultValue } = useStore(form.store, (s) => s);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

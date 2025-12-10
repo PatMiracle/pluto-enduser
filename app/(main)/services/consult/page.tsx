@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/data-table";
-import { useConsultation } from "@/services/consult";
+import { useConsultations } from "@/services/consult";
 import { consultColumns } from "./consultColumns";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/modal";
@@ -11,7 +11,7 @@ import Link from "next/link";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
 const Consult = () => {
-  const { data, pagination } = useConsultation({ pageSize: 9 });
+  const { data, pagination } = useConsultations({ pageSize: 9 });
   const { getModalProps, openModal } = useModal();
   return (
     <div className="grid gap-4 px-5">

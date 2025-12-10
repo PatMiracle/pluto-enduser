@@ -5,3 +5,8 @@ interface Pagination {
   hasPrev: boolean;
   hasNext: boolean;
 }
+
+type PaginatedResponse<T> = {
+  data: T[];
+  pagination: Pagination;
+};

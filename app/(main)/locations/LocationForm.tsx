@@ -54,8 +54,9 @@ const formSchema = z.object({
 export default function LocationForm() {
   const { data: user } = useUserQuery();
   const [previewImage, setPreviewImage] = useState<File | null>(null);
-  const { mutate } = useCreateLocation();
+  const { mutate, isPending: isSubmitting } = useCreateLocation();
   const { closeModal } = useModal();
+
   const form = useForm({
     defaultValues: {
       state: user!.stateWasteManagementBoardId ?? 0,
@@ -98,7 +99,6 @@ export default function LocationForm() {
 
   const {
     values: { state: stateId, lga, postalId },
-    isSubmitting,
   } = useStore(form.store, (s) => s);
 
   const { data: rawStates } = useTrackedStates();

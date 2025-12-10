@@ -6,8 +6,10 @@ import FormFieldWrapper, {
 import { Switch } from "@/components/switch";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
-import { LabeledInput } from "@/components/ui/input";
+import useOptions from "@/hooks/use-options";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
+import { useCreateConsultation } from "@/services/consult";
+import { useIssueTypes } from "@/services/issues";
 import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useState } from "react";
@@ -32,6 +34,9 @@ const formSchema = z.object({
 
 const ConsultForm = () => {
   const { data: user } = useUserQuery();
+  const { data: rawIssueTypes } = useIssueTypes({ ticketType: "CONSULTATION" });
+  const issueTypes = useOptions(rawIssueTypes, "issueTypeId", "issueTypeName");
+  const { mutate, isPending: isSubmitting } = useCreateConsultation();
 
   const form = useForm({
     defaultValues: {
@@ -41,16 +46,18 @@ const ConsultForm = () => {
       description: "",
     },
     validators: { onSubmit: formSchema },
+    onSubmit: ({ value }) => {
+      mutate(value);
+    },
   });
 
   const [samePhone, setSamePhone] = useState(false);
   const [sameEmail, setSameEmail] = useState(false);
-  const { isSubmitting } = useStore(form.store, (s) => s);
 
   return (
     <>
       <form
-        id="app-problem-form"
+        id="consult-form"
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
@@ -64,7 +71,7 @@ const ConsultForm = () => {
                 <FormSelect
                   label="Consultation Topic"
                   placeholder="Select Consultation Topic"
-                  options={[]}
+                  options={issueTypes}
                   field={field}
                 />
               );
@@ -147,7 +154,7 @@ const ConsultForm = () => {
       <Field className="mt-2 items-center">
         <Button
           type="submit"
-          form="request-form"
+          form="consult-form"
           disabled={isSubmitting}
           className="max-w-min px-6"
         >

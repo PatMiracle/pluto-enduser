@@ -62,7 +62,7 @@ const formSchema = z.object({
 export default function RequestForm({ data }: Props) {
   const { data: user } = useUserQuery();
   const { mutate: createRequest } = useCreateRequest();
-  const { mutate: updateRequest } = useUpdateRequest();
+  const { mutate: updateRequest, isPending: isSubmitting } = useUpdateRequest();
   const { closeModal } = useModal();
 
   const form = useForm({
@@ -116,7 +116,6 @@ export default function RequestForm({ data }: Props) {
   });
 
   const { state: stateId, lga } = useStore(form.store, (s) => s.values);
-  const submitting = useStore(form.store, (state) => state.isSubmitting);
 
   const { data: rawStates } = useTrackedStates();
   const states = useOptions(rawStates?.data, "stateId", "stateName");
@@ -305,8 +304,8 @@ export default function RequestForm({ data }: Props) {
         </FieldGroup>
       </form>
       <Field className="my-2">
-        <Button type="submit" form="request-form" disabled={submitting}>
-          {submitting ? "Submitting" : "Submit"}
+        <Button type="submit" form="request-form" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting" : "Submit"}
         </Button>
       </Field>
     </>
