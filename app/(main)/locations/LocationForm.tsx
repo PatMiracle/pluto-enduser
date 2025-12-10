@@ -160,6 +160,7 @@ export default function LocationForm() {
         }}
       >
         <FieldGroup>
+          <p className="text-sm">Location Details</p>
           <div className="grid grid-cols-2 gap-4">
             <form.Field
               name="state"
