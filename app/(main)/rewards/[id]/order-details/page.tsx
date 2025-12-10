@@ -1,5 +1,6 @@
 "use client";
 
+import { sentenceCase } from "@/app/(main)/locations/dropLocationColumns";
 import { useOrder } from "@/services/orders";
 import { formatDate } from "date-fns";
 import Image from "next/image";
@@ -92,9 +93,67 @@ export default function OrderDetail() {
             </div>
           </div>
 
-          <div className="border-white-dark mb-2 rounded-lg border p-3"></div>
+          <div className="border-white-dark mb-2 rounded-lg border p-3">
+            <p>Delivery Information</p>
+            <div className="grid gap-2 py-4 text-sm">
+              <div>
+                <p>Delivery Method</p>
+                <p className="text-white-darker text-xs">
+                  {data.checkout.deliveryMode}
+                </p>
+              </div>
+              <div>
+                <p>Drop-Off Station Address</p>
+                <p className="text-white-darker text-xs">
+                  {data.checkout.pickupStation.address}
+                </p>
+              </div>
+              <div>
+                <p>Opening Hours:</p>
+                {data.checkout.pickupStation?.openingHours?.map((e) => (
+                  <p className="text-white-darker text-xs">
+                    {sentenceCase(
+                      (e.dayOfWeek.includes("DAY")
+                        ? e.dayOfWeek
+                        : e.dayOfWeek + "day"
+                      ).toLocaleLowerCase() + "s",
+                    ) +
+                      " " +
+                      e.openingTime +
+                      " - " +
+                      e.closingTime}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
 
-          <div className="border-white-dark mb-2 rounded-lg border p-3"></div>
+          {data.fulfillmentDate && (
+            <div className="border-white-dark mb-2 rounded-lg border p-3">
+              <p>Reward Claim Information</p>
+              <div className="grid gap-2 py-4 text-sm">
+                <p>
+                  Date Claimed: <span className="text-white-darker"></span>
+                </p>
+                <p>
+                  Claimed on behalf of:{" "}
+                  <span className="text-white-darker"></span>
+                </p>
+                <p>
+                  ⁠Proxy Picker Name:{" "}
+                  <span className="text-white-darker"></span>
+                </p>
+                <p>
+                  ⁠Proxy Picker Phone Number:{" "}
+                  <span className="text-white-darker"></span>
+                </p>
+                <p>
+                  ⁠Proxy Means of Identification:
+                  <span className="text-white-darker"></span>
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
