@@ -12,6 +12,7 @@ import {
 } from "./ui/select";
 import Image from "next/image";
 import NigeriaFlag from "@/public/icons/nigerian-flag.svg";
+import { cn } from "@/lib/utils";
 
 interface BaseProps {
   label?: string;
@@ -42,6 +43,7 @@ export interface LabeledSelectProps extends BaseProps {
   value?: string | number;
   onSelect: (v: string | number) => void;
   name?: string;
+  triggerClassName?: InputProps["className"];
 }
 
 export function LabeledSelect({
@@ -53,6 +55,7 @@ export function LabeledSelect({
   onSelect,
   name,
   options,
+  triggerClassName,
 }: LabeledSelectProps) {
   return (
     <div className="w-full space-y-0.5">
@@ -65,7 +68,10 @@ export function LabeledSelect({
         value={value ? String(value) : ""}
         onValueChange={(v) => onSelect(+v || v)}
       >
-        <SelectTrigger className="w-full capitalize" disabled={disabled}>
+        <SelectTrigger
+          className={cn("w-full capitalize", triggerClassName)}
+          disabled={disabled}
+        >
           <div className="flex max-w-[80%] items-center gap-2">
             <span className="text-primary">{iconLeft}</span>
             <div className="flex-1 overflow-hidden text-[13px]">

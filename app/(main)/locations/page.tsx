@@ -12,18 +12,22 @@ import { cn } from "@/lib/utils";
 import { DataTable } from "@/components/data-table";
 import { dropLocationColumns } from "./dropLocationColumns";
 import { useDropLocations } from "@/services/drop-locations";
-import { useTrackedLGAs } from "@/services/enum-api";
+import { useTrackedLGAs, useTrackedStates } from "@/services/enum-api";
 import { useUserQuery } from "@/services/user-api";
 import useOptions from "@/hooks/use-options";
+import { LabeledSelect } from "@/components/LabeledFields";
+import { Input } from "@/components/ui/input";
+import { MdApartment, MdInfoOutline, MdOutlineCottage } from "react-icons/md";
 
 export default function Locations() {
   const [activeTab, setActiveTab] = useState<"pickup" | "dropoff">("pickup");
   const { data: user } = useUserQuery();
   const { data: locations } = useClientLocations();
-  const { data: dropOffs, pagination } = useDropLocations(
-    { pageSize: 6 },
-    true,
-  );
+
+  const { data: states } = useTrackedStates();
+  const state = states?.data.find(
+    ({ stateId }) => stateId == user?.stateWasteManagementBoardId,
+  )?.stateName;
   const { data: LGAs } = useTrackedLGAs({
     stateId: user?.stateWasteManagementBoardId!,
   });
@@ -31,10 +35,21 @@ export default function Locations() {
   const lgaOptions = [
     {
       label: "All Sites",
-      value: undefined,
+      value: 0,
     },
     ...useOptions(LGAs?.data, "lgaId", "lgaName"),
   ];
+
+  const [lga, setLga] = useState<number>(0);
+
+  const { data: dropOffs, pagination } = useDropLocations(
+    {
+      pageSize: 6,
+      stateId: user?.stateWasteManagementBoardId!,
+      lgaId: +lga ? lga : undefined,
+    },
+    true,
+  );
 
   return (
     <div>
@@ -87,9 +102,28 @@ export default function Locations() {
             </div>
           ) : (
             <div className="pb-10 xl:min-w-3xl xl:flex-1 2xl:min-w-4xl">
-              <div className="pb-3">
+              <div className="grid gap-2 pb-4">
                 <p className="text-white-darker text-sm">
                   Search for Dropoff Sites Near Your Location
+                </p>
+                <div className="border-white-dark grid max-w-md grid-cols-2 gap-1.5 rounded-sm border p-2">
+                  <Input
+                    inputClassName="rounded-none capitalize"
+                    value={state}
+                    iconLeft={<MdApartment />}
+                  />
+                  <LabeledSelect
+                    iconLeft={<MdOutlineCottage />}
+                    value={lga}
+                    placeholder="All Sites"
+                    onSelect={(v) => setLga(v as number)}
+                    options={lgaOptions}
+                    triggerClassName="rounded-none"
+                  />
+                </div>
+                <p className="text-white-darker flex items-center gap-1 text-sm">
+                  <MdInfoOutline className="text-red-normal" />
+                  Operational hours are affected by State and National holidays
                 </p>
               </div>
               <DataTable
