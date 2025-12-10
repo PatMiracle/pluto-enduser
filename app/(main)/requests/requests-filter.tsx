@@ -30,8 +30,10 @@ export default function RequestFilter({
   setOrderStatus,
   trigger,
 }: Props) {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger className="max-w-max" asChild>
         {trigger}
       </DropdownMenuTrigger>
@@ -49,6 +51,8 @@ export default function RequestFilter({
                   onClick={() => {
                     if (itemSelected) setOrderStatus(undefined);
                     else setOrderStatus(v);
+
+                    setOpen(false);
                   }}
                   key={v}
                   variant={itemSelected ? "default" : "outline"}
