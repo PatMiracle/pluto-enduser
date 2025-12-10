@@ -36,9 +36,9 @@ export const contactColumns: ColumnDef<ContactCenterDetails>[] = [
                   ).toLocaleLowerCase() + "s",
                 ) +
                   " " +
-                  e.openingTime +
+                  e.openingTime.slice(0, -3) +
                   " - " +
-                  e.closingTime}
+                  e.closingTime.slice(0, -3)}
               </p>
             );
           })}
