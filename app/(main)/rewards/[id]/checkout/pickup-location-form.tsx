@@ -23,6 +23,8 @@ export interface LocationInfo {
   contactName?: string;
   contactEmail?: string;
   contactPhoneNumber?: string;
+  lgaName?: string;
+  pickupStationId?: number;
 }
 
 type Props = {
@@ -48,7 +50,7 @@ export default function ChoosePickupLocation({ setLocationInfo }: Props) {
     "pickupStationId",
     "address",
   );
-  const [location, setLocation] = useState<string | undefined>(undefined);
+  const [location, setLocation] = useState<number | undefined>(undefined);
 
   const address = pickupLocations?.find(
     (v) => v.pickupStationId == location,
@@ -79,6 +81,8 @@ export default function ChoosePickupLocation({ setLocationInfo }: Props) {
       contactPhoneNumber,
       address,
       LGA,
+      lgaName: lgas?.data.find((v) => v.lgaId == LGA)?.lgaName,
+      pickupStationId: location,
     });
     closeModal();
   };
@@ -104,7 +108,7 @@ export default function ChoosePickupLocation({ setLocationInfo }: Props) {
         placeholder="Select Pickup Location"
         value={location}
         options={pickupOptions}
-        onSelect={(v) => setLocation(v as string)}
+        onSelect={(v) => setLocation(v as number)}
         iconLeft={<MdOutlineLocationOn className="text-primary" />}
         disabled={!LGA}
       />

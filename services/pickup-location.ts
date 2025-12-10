@@ -4,7 +4,7 @@ import { OpeningHour } from "./orders";
 type PickupLocation = {
   state: string;
   dateCreated: string;
-  pickupStationId: string;
+  pickupStationId: number;
   lga: string;
   postalCode: string;
   previewImage: string | null;

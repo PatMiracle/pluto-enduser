@@ -10,6 +10,9 @@ import { IoAdd } from "react-icons/io5";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import ChoosePickupLocation, { LocationInfo } from "./pickup-location-form";
 import { useState } from "react";
+import defaultErrorHandler from "@/lib/error-handler";
+import api from "@/lib/apiClient";
+import { toast } from "sonner";
 
 const Checkout = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +20,29 @@ const Checkout = () => {
   const { getModalProps, openModal } = useModal();
 
   const [locationInfo, setLocationInfo] = useState<LocationInfo>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleCheckout = async () => {
+    setIsSubmitting(true);
+    try {
+      await api.post("/user/cart/checkout", {
+        productId: Number(id),
+        deliveryMode: "STATION_PICKUP",
+        pickupStationId: locationInfo?.pickupStationId,
+        quantity: 1,
+        paymentMode: "rewardpoints",
+        productName: product?.productName,
+        rewardPoints:
+          product?.perUnitDiscountedPoints || product?.perUnitPoints,
+      });
+      toast.success("Checkout Successful");
+      window.location.replace("/rewards");
+    } catch (error) {
+      defaultErrorHandler(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -39,7 +65,7 @@ const Checkout = () => {
             {locationInfo ? (
               <div>
                 {[
-                  { label: "LGA", value: locationInfo.LGA },
+                  { label: "LGA", value: locationInfo.lgaName },
                   { label: "Address", value: locationInfo.address },
                   { label: "Contact Name", value: locationInfo.contactName },
                   {
@@ -53,9 +79,9 @@ const Checkout = () => {
                 ].map(
                   ({ label, value }) =>
                     value && (
-                      <p key={label}>
-                        <span className="text-primary text-sm font-bold">
-                          {label}:{" "}
+                      <p key={label} className="text-sm capitalize">
+                        <span className="text-primary font-bold">
+                          {label}:{"   "}
                         </span>
                         {value}
                       </p>
@@ -125,7 +151,13 @@ const Checkout = () => {
               </p>
             </div>
           </div>
-          <Button className="w-full">Place Order Now</Button>
+          <Button
+            onClick={handleCheckout}
+            className="w-full"
+            disabled={!locationInfo || isSubmitting}
+          >
+            {isSubmitting ? "Placing Order" : "Place Order Now"}
+          </Button>
         </div>
       </div>
     </>
