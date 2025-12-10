@@ -121,7 +121,7 @@ export default function Locations() {
                     triggerClassName="rounded-none"
                   />
                 </div>
-                <p className="text-white-darker flex items-center gap-1 text-sm">
+                <p className="text-white-darker flex items-start gap-1 text-xs sm:items-center sm:text-sm">
                   <MdInfoOutline className="text-red-normal" />
                   Operational hours are affected by State and National holidays
                 </p>
