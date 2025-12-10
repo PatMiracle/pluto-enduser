@@ -38,7 +38,7 @@ const formSchema = z.object({
 
 const Profile = () => {
   const { data: user } = useUserQuery();
-  const { mutate } = useUpdateUser();
+  const { mutate, isPending: isSubmitting } = useUpdateUser();
   const [isEditing, setIsEditing] = useState(false);
 
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
@@ -79,7 +79,6 @@ const Profile = () => {
   };
 
   const { residentState: stateId } = useStore(form.store, (s) => s.values);
-  const submitting = useStore(form.store, (state) => state.isSubmitting);
   const { data: rawStates } = useStates();
   const statesOptions = useOptions(rawStates?.data, "stateId", "stateName");
   const { data: rawLGAs } = useLGAs({ stateId: stateId! });
@@ -281,7 +280,7 @@ const Profile = () => {
             type="submit"
             form="profile-form"
             className="ml-auto max-w-20"
-            disabled={submitting || (!!isDefaultValue && !profilePhoto)}
+            disabled={isSubmitting || (!!isDefaultValue && !profilePhoto)}
           >
             Save
           </Button>

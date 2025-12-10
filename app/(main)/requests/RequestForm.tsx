@@ -61,7 +61,7 @@ const formSchema = z.object({
 
 export default function RequestForm({ data }: Props) {
   const { data: user } = useUserQuery();
-  const { mutate: createRequest } = useCreateRequest();
+  const { mutate: createRequest, isPending } = useCreateRequest();
   const { mutate: updateRequest, isPending: isSubmitting } = useUpdateRequest();
   const { closeModal } = useModal();
 
@@ -304,8 +304,12 @@ export default function RequestForm({ data }: Props) {
         </FieldGroup>
       </form>
       <Field className="my-2">
-        <Button type="submit" form="request-form" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting" : "Submit"}
+        <Button
+          type="submit"
+          form="request-form"
+          disabled={isSubmitting || isPending}
+        >
+          {isSubmitting || isPending ? "Submitting" : "Submit"}
         </Button>
       </Field>
     </>
