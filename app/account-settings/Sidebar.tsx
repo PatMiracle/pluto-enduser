@@ -1,8 +1,7 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import {
   Sidebar,
   SidebarContent,
@@ -15,10 +14,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { NAVBAR_HEIGHT } from "@/components/navbar";
-import useAuthStore from "@/store/AuthStore";
-import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { MdMenu } from "react-icons/md";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 
 const items = [
   {
@@ -40,6 +39,11 @@ const items = [
   {
     text: "Contact Us",
     href: "/account-settings/contact-us",
+  },
+  {
+    text: "Delete Account",
+    href: "/account-settings/delete-account",
+    icon: <FaRegTrashAlt className="text-red-normal" />,
   },
 ];
 
@@ -67,14 +71,24 @@ export default function AccountSettingsSidebar() {
             <SidebarMenu className="gap-5 pt-5">
               {items.map((item) => {
                 const isActive = pathname === item.href;
+                const isDelete = item.text == "Delete Account";
                 return (
                   <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton
                       asChild
                       isActive={isActive}
-                      className="py-6 pl-4 text-lg"
+                      className={cn(
+                        "py-6 pl-4 text-lg",
+                        isDelete &&
+                          isActive &&
+                          "data-[active=true]:bg-red-light-active-hover",
+                        isDelete && "hover:bg-red-light-active-hover",
+                      )}
                     >
-                      <Link href={item.href}>{item.text}</Link>
+                      <Link href={item.href}>
+                        {item.icon}
+                        {item.text}
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
