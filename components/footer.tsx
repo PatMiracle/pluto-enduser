@@ -101,7 +101,10 @@ export default function Footer() {
               >
                 Bill & Rates
               </p>
-              <Link href="#" className="text-lg underline underline-offset-8">
+              <Link
+                href="/services/waste-education"
+                className="text-lg underline underline-offset-8"
+              >
                 Waste Education
               </Link>
             </div>

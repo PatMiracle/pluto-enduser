@@ -63,7 +63,7 @@ export default function Locations() {
             </Button>
           </div>
           {activeTab == "pickup" ? (
-            <div className="max-w-[790px] pb-10 xl:max-w-full xl:min-w-3xl xl:flex-1 2xl:min-w-4xl">
+            <div className="min-h-[50vh] max-w-[790px] pb-10 xl:max-w-full xl:min-w-3xl xl:flex-1 2xl:min-w-4xl">
               {/* <p className="text-white-darker mb-1.5 text-[15px]">
                 Manage all Pickup Locations
               </p> */}

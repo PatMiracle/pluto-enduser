@@ -34,7 +34,9 @@ export default function Services() {
               contribute to a sustainable future
             </p>
           </div>
-          <Button>Learn More</Button>
+          <Button asChild>
+            <Link href="/services/waste-education">Learn More</Link>
+          </Button>
         </div>
       </div>
     </div>
