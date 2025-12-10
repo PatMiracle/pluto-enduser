@@ -147,39 +147,37 @@ const Security = () => {
             />
             <form.Field
               name="confirmPassword"
-              // validators={{
-              //   onChangeListenTo: ["newPassword"],
-              //   onChange: ({ value, fieldApi }) => {
-              //     if (value !== fieldApi.form.getFieldValue("newPassword")) {
-              //       return "Passwords do not match";
-              //     }
-              //     return undefined;
-              //   },
-              // }}
               children={(field) => {
                 return (
-                  <FormFieldWrapper
-                    label="Confirm New Password"
-                    as="input"
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your new password"
-                    field={field}
-                    iconRight={
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
-                        className="mt-2"
-                      >
-                        {showConfirmPassword ? (
-                          <MdVisibility />
-                        ) : (
-                          <MdVisibilityOff />
-                        )}
-                      </button>
-                    }
-                  />
+                  <div>
+                    <FormFieldWrapper
+                      label="Confirm New Password"
+                      as="input"
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Confirm your new password"
+                      field={field}
+                      iconRight={
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          className="mt-2"
+                        >
+                          {showConfirmPassword ? (
+                            <MdVisibility />
+                          ) : (
+                            <MdVisibilityOff />
+                          )}
+                        </button>
+                      }
+                    />
+                    {confirmPassword && newPassword !== confirmPassword && (
+                      <p className="text-red-normal text-xs">
+                        Passwords do not match
+                      </p>
+                    )}
+                  </div>
                 );
               }}
             />
