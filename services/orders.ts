@@ -63,8 +63,15 @@ interface OrderResponse {
   data: OrderItem[];
 }
 
-export const useOrders = () =>
-  usePaginatedQuery<OrderResponse>("orders", "/user/orders");
+export interface OrderParams {
+  pageSize?: number;
+  ordering?: "DATE_ASC" | "DATE_DESC";
+  from?: string;
+  to?: string;
+}
+
+export const useOrders = (p?: OrderParams) =>
+  usePaginatedQuery<OrderResponse>("orders", "/user/orders", { ...p });
 
 export const useOrder = (id: string) =>
   useApiQuery<OrderItem>(`order${id}`, `/user/orders/${id}`);

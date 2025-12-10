@@ -49,8 +49,14 @@ interface ProductResponse {
   data: Product[];
 }
 
-export const useProducts = () =>
-  usePaginatedQuery<ProductResponse>("products", "/products");
+export interface ProductsParams {
+  pageSize?: number;
+  ordering?: "PRICE_ASC" | "PRICE_DESC" | "NEWEST" | "OLDEST";
+  store?: "REWARDS" | "WASTE_MARKET" | "ALL";
+}
+
+export const useProducts = (p?: ProductsParams) =>
+  usePaginatedQuery<ProductResponse>("products", "/products", { ...p });
 
 export const useProduct = (id: string) =>
   useApiQuery<Product>(`product${id}`, `/products/${id}`);
