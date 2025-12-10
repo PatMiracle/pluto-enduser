@@ -58,8 +58,6 @@ export default function EditLocationForm({ data }: Props) {
         id: data.clientLocationId,
         previewImage: previewImage || undefined,
       };
-      console.log(v);
-
       mutate(v, {
         onSuccess: () => {
           toast.success("Location update successfully");

@@ -38,8 +38,8 @@ const formSchema = z.object({
   postalId: z.number().min(1, "required"),
   address: z.string().min(1, "required"),
   locationType: z.number().min(1, "required"),
-  numFlats: z.number().min(0, "required"),
-  population: z.number().min(0, "required"),
+  numFlats: z.string().min(1, "required"),
+  population: z.string().min(1, "required"),
   contactFirstName: z.string().min(1, "required"),
   contactLastName: z.string().min(1, "required"),
   contactPhoneNumber: z
@@ -63,8 +63,8 @@ export default function LocationForm() {
       postalId: 0,
       address: "",
       locationType: 0,
-      numFlats: 0,
-      population: 0,
+      numFlats: "",
+      population: "",
       contactFirstName: "",
       contactLastName: "",
       contactPhoneNumber: "",
@@ -77,16 +77,12 @@ export default function LocationForm() {
       if (!previewImage) {
         return toast.error("Add preview image");
       }
+      const v = {
+        ...value,
+        previewImage: previewImage || undefined,
+      };
 
-      const formData = new FormData();
-
-      Object.entries(value).forEach(([key, val]) => {
-        formData.append(key, String(val));
-      });
-
-      formData.append("previewImage", previewImage);
-
-      mutate(formData, {
+      mutate(v, {
         onSuccess: () => {
           toast.success("Location created successfully");
           form.reset();

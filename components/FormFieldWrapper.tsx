@@ -103,6 +103,7 @@ export function FormInput({
         placeholder={placeholder}
         autoComplete="off"
         disabled={disabled}
+        autoFocus={isInvalid}
         {...rest}
       />
       {isInvalid && state?.meta?.errors && (
@@ -140,6 +141,7 @@ export function FormSelect({
               <SelectValue
                 placeholder={placeholder}
                 className="block truncate capitalize"
+                autoFocus={isInvalid}
               />
             </div>
           </div>
@@ -196,6 +198,7 @@ export function FormTextarea({
           className="min-h-24 resize-none"
           aria-invalid={isInvalid}
           maxLength={rest.maxLength}
+          autoFocus={isInvalid}
         />
         {rest.maxLength && (
           <InputGroupAddon className="bg-green-light" align="block-end">
@@ -246,6 +249,7 @@ export function FormPhoneField({
           aria-invalid={isInvalid}
           placeholder={placeholder}
           autoComplete="off"
+          autoFocus={isInvalid}
           disabled={disabled}
           maxLength={11}
           className="w-full"
