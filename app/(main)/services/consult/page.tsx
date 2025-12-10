@@ -7,12 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/modal";
 import { useModal } from "@/context/ModalProvider";
 import ConsultForm from "./consult-form";
+import Link from "next/link";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 
 const Consult = () => {
   const { data, pagination } = useConsultation({ pageSize: 9 });
   const { getModalProps, openModal } = useModal();
   return (
     <div className="grid gap-4 px-5">
+      <Link href="/services" className="flex items-center gap-1">
+        <MdKeyboardArrowLeft className="text-primary" size={24} /> Back
+      </Link>
       <p className="text-lg font-semibold">Consult With Us!</p>
 
       <div className="border-white-dark rounded-xl rounded-tl-none border p-4">

@@ -29,37 +29,31 @@ interface Post {
   status: "PUBLISHED";
 }
 
-export default async function WasteEducation() {
-  const res = await axios.get(`${process.env.API_URL}/posts`);
+export default async function Post({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const res = await axios.get(
+    `${process.env.API_URL}/posts/${(await params).id}`,
+  );
 
-  const posts = res.data.data as Post[];
+  const post = res.data as Post;
 
   return (
     <div className="px-5">
-      <Link href="/services" className="mb-4 flex items-center gap-1">
+      <Link
+        href="/services/waste-education"
+        className="mb-4 flex items-center gap-1"
+      >
         <MdKeyboardArrowLeft className="text-primary" size={24} /> Back
       </Link>
-      <p className="text-lg font-semibold">Waste Education</p>
-
-      <div className="grid max-w-4xl gap-4 py-5">
-        {posts.map((post) => (
-          <PostCard key={post.postId} {...post} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function PostCard(post: Post) {
-  return (
-    <Link href={`/services/waste-education/${post.postId}`}>
-      <div className="border-black-light flex justify-between rounded-xl border px-4 py-3">
-        <div className="grid max-w-6/12 gap-2">
+      <div className="max-w-4xl">
+        <h1 className="text-4xl font-semibold">{post.title}</h1>
+        <div className="mt-2 mb-4 flex items-center justify-between">
           <p className="text-white-darker text-xs">
             {post.topic || "Original Content"}
           </p>
-          <p className="truncate text-xl font-bold">{post.title}</p>
-          <p className="text-white-darker truncate text-sm">{post.content}</p>
           <p className="flex items-center gap-2 text-sm">
             <MdCalendarToday />
             <span className="mt-1">
@@ -73,10 +67,14 @@ function PostCard(post: Post) {
             alt=""
             width={500}
             height={500}
-            className="bg-white-dark size-[120px] rounded-lg object-cover"
+            className="bg-white-dark h-[400px] w-full rounded-lg object-contain"
           />
         ) : null}
+
+        <article className="pt-5">
+          <p className="">{post.content}</p>
+        </article>
       </div>
-    </Link>
+    </div>
   );
 }
