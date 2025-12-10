@@ -37,11 +37,8 @@ export const contactColumns: ColumnDef<ContactCenterDetails>[] = [
                 ) +
                   " " +
                   e.openingTime +
-                  "-" +
-                  e.closingTime +
-                  " (" +
-                  e.timeZone +
-                  ")"}
+                  " - " +
+                  e.closingTime}
               </p>
             );
           })}

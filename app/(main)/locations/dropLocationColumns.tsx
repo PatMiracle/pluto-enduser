@@ -63,11 +63,8 @@ export const dropLocationColumns: ColumnDef<DropLocation>[] = [
                 ) +
                   " " +
                   e.openingTime +
-                  "-" +
-                  e.closingTime +
-                  " (" +
-                  e.timeZone +
-                  ")"}
+                  " - " +
+                  e.closingTime}
               </p>
             );
           })}
