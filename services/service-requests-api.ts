@@ -93,11 +93,15 @@ export const useCreateRequest = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: CreateRequestData) =>
-      api
-        .post(`/user/service-requests/`, data)
-        .then((response) => response.data)
-        .catch(defaultErrorHandler),
+    mutationFn: async (data: CreateRequestData) => {
+      try {
+        const res = await api.post(`/user/service-requests/`, data);
+        return res.data;
+      } catch (error) {
+        defaultErrorHandler(error);
+        throw error;
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["service-requests"],
@@ -114,11 +118,15 @@ export const useUpdateRequest = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, ...data }: UpdateRequestData) =>
-      api
-        .patch(`/user/service-requests/${id}`, data)
-        .then((response) => response.data)
-        .catch(defaultErrorHandler),
+    mutationFn: async ({ id, ...data }: UpdateRequestData) => {
+      try {
+        const res = await api.patch(`/user/service-requests/${id}`, data);
+        return res.data;
+      } catch (error) {
+        defaultErrorHandler(error);
+        throw error;
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["service-requests"],
