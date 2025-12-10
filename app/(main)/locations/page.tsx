@@ -80,7 +80,7 @@ export default function Locations() {
           {activeTab == "pickup" ? (
             <div className="min-h-[50vh] max-w-[790px] pb-10 xl:max-w-full xl:min-w-3xl xl:flex-1 2xl:min-w-4xl">
               <p className="text-white-darker mb-3 text-[15px]">
-                Manage all Pickup Locations{" "}
+                Manage your Pickup Locations{" "}
                 {locations?.data && locations.data.length == 4 && (
                   <span className="text-red-normal mb-4 text-sm text-nowrap">
                     (You have maxed out your 4 Location limit for this Account)
