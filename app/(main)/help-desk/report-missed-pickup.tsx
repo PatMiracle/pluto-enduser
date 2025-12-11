@@ -11,12 +11,13 @@ import { useModal } from "@/context/ModalProvider";
 import useOptions from "@/hooks/use-options";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { useClientLocations } from "@/services/client-locations";
-import { useIssueTypes } from "@/services/issues";
+import { IssueTypes, useIssueTypes } from "@/services/issues";
 import { useCreateTicket } from "@/services/ticket";
 import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useState } from "react";
 import { MdMailOutline } from "react-icons/md";
+import { toast } from "sonner";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -34,6 +35,7 @@ const formSchema = z.object({
   email: z.email("Please enter a valid email"),
   affectedAddress: z.number().min(1, "Please select an issue type"),
   description: z.string().min(1, "Please describe your query"),
+  issueTypeId: z.number().min(1, "Please select an issue type"),
 });
 
 const ReportMissed = () => {
@@ -55,8 +57,29 @@ const ReportMissed = () => {
       email: "",
       affectedAddress: 0,
       description: "",
+      issueTypeId: IssueTypes.MissedPickup,
     },
     validators: { onSubmit: formSchema },
+    onSubmit: ({ value }) => {
+      mutate(
+        {
+          ...value,
+          customData: {
+            affectedAddress:
+              rawLocations!.data.find(
+                (e) => e.clientLocationId === value.affectedAddress,
+              )?.address ?? "",
+            pickupLocationId: value.affectedAddress,
+          } as any,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Issue submitted successfully");
+            closeModal();
+          },
+        },
+      );
+    },
   });
 
   const [samePhone, setSamePhone] = useState(false);
@@ -65,7 +88,7 @@ const ReportMissed = () => {
   return (
     <>
       <form
-        id="app-problem-form"
+        id="report-missed-form"
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
@@ -167,7 +190,7 @@ const ReportMissed = () => {
       <Field className="my-6 items-center">
         <Button
           type="submit"
-          form="request-form"
+          form="report-missed-form"
           className="max-w-min px-6"
           disabled={isSubmitting}
         >
