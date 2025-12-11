@@ -62,6 +62,7 @@ interface AlertProps {
   children: React.ReactNode;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  showInfoIcon?: boolean;
 }
 
 export function Alert({
@@ -70,12 +71,15 @@ export function Alert({
   description,
   open,
   onOpenChange,
+  showInfoIcon = true,
 }: AlertProps) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="border-red-normal rounded-bl-3xl border-[1.5px] sm:max-w-md">
         <AlertDialogHeader className="items-center justify-center">
-          <MdInfoOutline className="text-red-normal" size={24} />
+          {showInfoIcon && (
+            <MdInfoOutline className="text-red-normal" size={24} />
+          )}
 
           <AlertDialogTitle className="font-normal">
             {title || "Alert"}

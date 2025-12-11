@@ -11,6 +11,7 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MdOutlineCottage } from "react-icons/md";
+import LocationDeleteForm from "./location-delete-form";
 
 function sentenceCase(a: string) {
   return a && a.length ? a.charAt(0).toLocaleUpperCase() + a.slice(1) : a;
@@ -207,7 +208,22 @@ const Billing = () => {
         {...getModalProps("delete")}
         description="By deleting this location this cannot be undone and you will need to contact your Area Waste Management service to reinstall the service for this location or manually create the location if it is needed in the future."
       >
-        <AlertAction>Delete</AlertAction>
+        <Button
+          variant={"destructive"}
+          onClick={() => {
+            openModal("delete-form");
+          }}
+        >
+          Delete
+        </Button>
+      </Alert>
+      <Alert
+        {...getModalProps("delete-form")}
+        title="Reason for deleting this location?"
+        description=""
+        showInfoIcon={false}
+      >
+        <LocationDeleteForm id={activeLocation?.clientLocationId || 0} />
       </Alert>
     </div>
   );

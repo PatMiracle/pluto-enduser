@@ -101,3 +101,23 @@ export const useUpdateLocation = () => {
     },
   });
 };
+
+export const useDeleteLocation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const res = await api.delete(`/user/client-locations/${id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["client-locations"],
+      });
+    },
+  });
+};
