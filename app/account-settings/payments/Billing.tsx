@@ -204,7 +204,7 @@ const BillingTabSkeleton = () => {
         ))}
       </div>
 
-      <div className="border-white-dark w-full max-w-md lg:max-w-4xl">
+      <div className="border-white-dark w-full max-w-md border lg:max-w-4xl">
         <div className="grid w-full space-y-6 p-6 lg:grid lg:max-w-4xl lg:grid-cols-2 lg:gap-4">
           {/* Location Card Skeleton */}
           <div className="border-white-dark space-y-3 rounded-xl border p-5">
