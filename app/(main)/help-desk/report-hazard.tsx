@@ -7,14 +7,18 @@ import { Switch } from "@/components/switch";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { LabeledInput } from "@/components/ui/input";
+import { useModal } from "@/context/ModalProvider";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { cn } from "@/lib/utils";
+import { IssueTypes } from "@/services/issues";
+import { useCreateTicket } from "@/services/ticket";
 import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
 import Image from "next/image";
 import { useState } from "react";
 import { IoRemoveSharp } from "react-icons/io5";
 import { MdCloudUpload, MdLocationOn, MdMailOutline } from "react-icons/md";
+import { toast } from "sonner";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -32,10 +36,14 @@ const formSchema = z.object({
   email: z.email("Please enter a valid email"),
   affectedAddress: z.string().min(1, "Please select an issue type"),
   description: z.string().min(1, "Please describe your query"),
+  issueTypeId: z.number().min(1, "Please select an issue type"),
 });
 
 const ReportHazard = () => {
   const { data: user } = useUserQuery();
+
+  const { mutate, isPending: isSubmitting } = useCreateTicket();
+  const { closeModal } = useModal();
 
   const form = useForm({
     defaultValues: {
@@ -44,13 +52,36 @@ const ReportHazard = () => {
       email: "",
       affectedAddress: "",
       description: "",
+      issueTypeId: IssueTypes.EnvironmentalHazard,
     },
     validators: { onSubmit: formSchema },
+    onSubmit: ({ value }) => {
+      if (images.length === 0) {
+        toast.error("Please add an image");
+        return;
+      }
+      mutate(
+        {
+          ...value,
+          customData: {
+            affectedAddress: value.affectedAddress,
+          } as any,
+          images: images.map((e) => ({
+            image: e,
+          })) as any,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Issue submitted successfully");
+            closeModal();
+          },
+        },
+      );
+    },
   });
 
   const [samePhone, setSamePhone] = useState(false);
   const [sameEmail, setSameEmail] = useState(false);
-  const { isSubmitting } = useStore(form.store, (s) => s);
 
   const [images, setImages] = useState<File[]>([]);
   const maxImages = 3;
@@ -210,7 +241,7 @@ const ReportHazard = () => {
       <Field className="my-6 items-center">
         <Button
           type="submit"
-          form="request-form"
+          form="report-hazard"
           disabled={isSubmitting}
           className="max-w-min px-6"
         >

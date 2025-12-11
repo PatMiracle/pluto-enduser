@@ -185,7 +185,13 @@ export const useCreateTicket = () => {
   return useMutation({
     mutationFn: async (data: Partial<Ticket>) => {
       try {
-        const res = await api.post(`/user/issues/`, data);
+        const res = await api.post(`/user/issues/`, data, {
+          headers: {
+            "Content-Type": data.images
+              ? "multipart/form-data"
+              : "application/json",
+          },
+        });
         return res.data;
       } catch (error) {
         defaultErrorHandler(error);
