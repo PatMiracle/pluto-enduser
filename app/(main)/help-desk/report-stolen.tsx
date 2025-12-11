@@ -7,13 +7,17 @@ import { Switch } from "@/components/switch";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { LabeledInput } from "@/components/ui/input";
+import { useModal } from "@/context/ModalProvider";
 import useOptions from "@/hooks/use-options";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { useClientLocations } from "@/services/client-locations";
+import { IssueTypes } from "@/services/issues";
+import { useCreateTicket } from "@/services/ticket";
 import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useState } from "react";
 import { MdMailOutline } from "react-icons/md";
+import { toast } from "sonner";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -31,6 +35,7 @@ const formSchema = z.object({
   email: z.email("Please enter a valid email"),
   affectedAddress: z.number().min(1, "Please select an issue type"),
   description: z.string().min(1, "Please describe your query"),
+  issueTypeId: z.number().min(1, "Please select an issue type"),
 });
 
 const ReportStolen = () => {
@@ -42,6 +47,9 @@ const ReportStolen = () => {
     "address",
   );
 
+  const { mutate, isPending: isSubmitting } = useCreateTicket();
+  const { closeModal } = useModal();
+
   const form = useForm({
     defaultValues: {
       name: `${user?.firstName} ${user?.lastName}`,
@@ -49,18 +57,38 @@ const ReportStolen = () => {
       email: "",
       affectedAddress: 0,
       description: "",
+      issueTypeId: IssueTypes.StolenBrokenContainer,
     },
     validators: { onSubmit: formSchema },
+    onSubmit: ({ value }) => {
+      mutate(
+        {
+          ...value,
+          customData: {
+            affectedAddress:
+              rawLocations!.data.find(
+                (e) => e.clientLocationId === value.affectedAddress,
+              )?.address ?? "",
+            pickupLocationId: value.affectedAddress,
+          } as any,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Issue submitted successfully");
+            closeModal();
+          },
+        },
+      );
+    },
   });
 
   const [samePhone, setSamePhone] = useState(false);
   const [sameEmail, setSameEmail] = useState(false);
-  const { isSubmitting } = useStore(form.store, (s) => s);
 
   return (
     <>
       <form
-        id="app-problem-form"
+        id="report-stolen"
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
@@ -162,7 +190,7 @@ const ReportStolen = () => {
       <Field className="my-6 items-center">
         <Button
           type="submit"
-          form="request-form"
+          form="report-stolen"
           disabled={isSubmitting}
           className="max-w-min px-6"
         >
