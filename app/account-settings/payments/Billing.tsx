@@ -198,14 +198,14 @@ const BillingTabSkeleton = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-8">
       {/* Location Buttons Skeleton */}
-      <div className="mb-4 flex gap-1.5">
+      <div className="mb-4 flex gap-2">
         {[1, 2, 3, 4].map((i) => (
           <Skeleton key={i} className="h-8 w-14 rounded-xl" />
         ))}
       </div>
 
-      <div className="border-white-dark w-full max-w-md">
-        <div className="space-y-6 p-6">
+      <div className="border-white-dark w-full max-w-md lg:max-w-4xl">
+        <div className="grid w-full space-y-6 p-6 lg:grid lg:max-w-4xl lg:grid-cols-2 lg:gap-4">
           {/* Location Card Skeleton */}
           <div className="border-white-dark space-y-3 rounded-xl border p-5">
             {/* Header Skeleton */}
