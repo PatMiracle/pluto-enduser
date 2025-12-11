@@ -1,5 +1,8 @@
 import { usePaginatedQuery } from "@/hooks/useApiQuery";
 import { ClientLocation } from "./client-locations";
+import { useMutation } from "@tanstack/react-query";
+import api from "@/lib/apiClient";
+import defaultErrorHandler from "@/lib/error-handler";
 
 type PickupSubscription = {
   subscriptionStartDate: string;
@@ -43,3 +46,17 @@ interface Options {
 
 export const usePayments = (p?: Params, o?: Options) =>
   usePaginatedQuery<PaymentResponse>("payments", "/user/payments", p, o);
+
+export const useMakePayment = () => {
+  return useMutation({
+    mutationFn: async (id: number) => {
+      try {
+        const res = await api.post(`/user/payments/${id}/pay`);
+        return res.data;
+      } catch (error) {
+        defaultErrorHandler(error);
+        throw error;
+      }
+    },
+  });
+};

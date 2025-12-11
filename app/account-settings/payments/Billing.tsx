@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useClientLocations } from "@/services/client-locations";
 import { LONG_TTL } from "@/services/enum-api";
-import { usePayments } from "@/services/payments";
+import { useMakePayment, usePayments } from "@/services/payments";
 import { formatDate } from "date-fns";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
@@ -34,6 +34,8 @@ const Billing = () => {
     },
   );
   const pendingPayment = payments?.[0];
+
+  const { mutate: makePayment } = useMakePayment();
 
   useEffect(() => {
     if (clientLocations?.length && !activeLocationId) {
@@ -179,6 +181,11 @@ const Billing = () => {
                 disabled={pendingPayment?.paymentStatus !== "PENDING"}
                 variant={"secondary"}
                 className="w-full rounded-none"
+                onClick={() => {
+                  makePayment(pendingPayment?.paymentId as number, {
+                    onSuccess: (v) => console.log(v),
+                  });
+                }}
               >
                 MAKE A PAYMENT
               </Button>
@@ -200,7 +207,7 @@ const BillingTabSkeleton = () => {
       {/* Location Buttons Skeleton */}
       <div className="mb-4 flex gap-2">
         {[1, 2, 3, 4].map((i) => (
-          <Skeleton key={i} className="h-8 w-14 rounded-xl" />
+          <Skeleton key={i} className="h-6 w-20 rounded-xl" />
         ))}
       </div>
 
