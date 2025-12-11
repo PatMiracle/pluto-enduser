@@ -24,7 +24,7 @@ const Billing = () => {
     (loc) => loc.clientLocationId === activeLocationId,
   );
 
-  const { data: payments } = usePayments(
+  const { data: payments, isPending: loadingPayment } = usePayments(
     {
       pickupLocation: activeLocationId,
     },
@@ -41,7 +41,7 @@ const Billing = () => {
     }
   }, [activeLocationId, clientLocations]);
 
-  if (!clientLocations || !payments) {
+  if (!clientLocations) {
     return <BillingTabSkeleton />;
   }
 
