@@ -7,9 +7,12 @@ import { Switch } from "@/components/switch";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { LabeledInput } from "@/components/ui/input";
+import { useModal } from "@/context/ModalProvider";
 import useOptions from "@/hooks/use-options";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { useClientLocations } from "@/services/client-locations";
+import { useIssueTypes } from "@/services/issues";
+import { useCreateTicket } from "@/services/ticket";
 import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
 import { useState } from "react";
@@ -42,6 +45,9 @@ const ReportMissed = () => {
     "address",
   );
 
+  const { mutate, isPending: isSubmitting } = useCreateTicket();
+  const { closeModal } = useModal();
+
   const form = useForm({
     defaultValues: {
       name: `${user?.firstName} ${user?.lastName}`,
@@ -56,7 +62,6 @@ const ReportMissed = () => {
   const [samePhone, setSamePhone] = useState(false);
   const [sameEmail, setSameEmail] = useState(false);
 
-  const { isSubmitting } = useStore(form.store, (s) => s);
   return (
     <>
       <form

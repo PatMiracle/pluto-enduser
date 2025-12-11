@@ -1,4 +1,7 @@
 import { usePaginatedQuery } from "@/hooks/useApiQuery";
+import api from "@/lib/apiClient";
+import defaultErrorHandler from "@/lib/error-handler";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type TicketStatus = "PENDING" | "UNDER_REVIEW" | "CLOSED" | "RESOLVED";
 
@@ -175,3 +178,24 @@ interface Params {
 
 export const useTickets = (p: Params) =>
   usePaginatedQuery<TicketResponse>("tickets", "/user/issues", p);
+
+export const useCreateTicket = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: Partial<Ticket>) => {
+      try {
+        const res = await api.post(`/user/issues/`, data);
+        return res.data;
+      } catch (error) {
+        defaultErrorHandler(error);
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tickets"],
+      });
+    },
+  });
+};
