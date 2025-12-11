@@ -1,5 +1,7 @@
+import { Alert, AlertAction } from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useModal } from "@/context/ModalProvider";
 import { cn } from "@/lib/utils";
 import { useClientLocations } from "@/services/client-locations";
 import { LONG_TTL } from "@/services/enum-api";
@@ -36,6 +38,7 @@ const Billing = () => {
   const pendingPayment = payments?.[0];
 
   const { mutate: makePayment } = useMakePayment();
+  const { getModalProps, openModal } = useModal();
 
   useEffect(() => {
     if (clientLocations?.length && !activeLocationId) {
@@ -115,7 +118,10 @@ const Billing = () => {
                 </span>
               </div>
               <div className="flex gap-2">
-                <button className="border-green-light-active hover:border-red-light flex h-9 w-9 items-center justify-center rounded-full border transition-colors">
+                <button
+                  onClick={() => openModal("delete")}
+                  className="border-green-light-active hover:border-red-light flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
+                >
                   <Trash2 className="text-red-normal size-4" />
                 </button>
               </div>
@@ -197,6 +203,12 @@ const Billing = () => {
           <p className="text-gray-500">No locations added.</p>
         </div>
       )}
+      <Alert
+        {...getModalProps("delete")}
+        description="By deleting this location this cannot be undone and you will need to contact your Area Waste Management service to reinstall the service for this location or manually create the location if it is needed in the future."
+      >
+        <AlertAction>Delete</AlertAction>
+      </Alert>
     </div>
   );
 };
@@ -211,7 +223,7 @@ const BillingTabSkeleton = () => {
         ))}
       </div>
 
-      <div className="border-white-dark w-full max-w-md border lg:max-w-4xl">
+      <div className="border-white-dark w-full max-w-md rounded-2xl border lg:max-w-4xl">
         <div className="grid w-full space-y-6 p-6 lg:grid lg:max-w-4xl lg:grid-cols-2 lg:gap-4">
           {/* Location Card Skeleton */}
           <div className="border-white-dark space-y-3 rounded-xl border p-5">
