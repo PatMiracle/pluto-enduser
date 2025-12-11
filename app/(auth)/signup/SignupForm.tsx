@@ -64,7 +64,7 @@ export default function SignupForm() {
         toast.success(
           "Registration successful. Check for verification email.",
           {
-            duration: 100000,
+            duration: 5000,
           },
         );
       } catch (e) {
