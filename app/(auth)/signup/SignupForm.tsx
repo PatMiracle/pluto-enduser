@@ -26,7 +26,7 @@ const formSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-const passwordRequirements = [
+export const passwordRequirements = [
   { id: 1, text: "At least 8 characters", regex: /.{8,}/ },
   { id: 2, text: "At least 1 uppercase letter", regex: /[A-Z]/ },
   { id: 3, text: "At least 1 lowercase letter", regex: /[a-z]/ },
@@ -34,7 +34,7 @@ const passwordRequirements = [
   { id: 5, text: "At least 1 special character", regex: /[^A-Za-z0-9]/ },
 ];
 
-function validatePassword(password: string) {
+export function validatePassword(password: string) {
   return passwordRequirements.map((req) => ({
     id: req.id,
     text: req.text,
@@ -52,6 +52,10 @@ export default function SignupForm() {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
+      if (validatePassword(value.password).some((req) => !req.valid)) {
+        toast.error("Password does not meet the requirements");
+        return;
+      }
       try {
         await api.post("/auth/register", {
           ...value,
@@ -83,7 +87,7 @@ export default function SignupForm() {
       </FieldSeparator>
 
       <form
-        id="login-form"
+        id="signup-form"
         className="py-5"
         onSubmit={(e) => {
           e.preventDefault();
@@ -149,7 +153,7 @@ export default function SignupForm() {
       </form>
 
       <Field className="mb-10">
-        <Button type="submit" form="login-form" disabled={submitting}>
+        <Button type="submit" form="signup-form" disabled={submitting}>
           {submitting ? "Registering..." : "Register Me"}
         </Button>
       </Field>

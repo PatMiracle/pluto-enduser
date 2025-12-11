@@ -1,12 +1,19 @@
 "use client";
+import { validatePassword } from "@/app/(auth)/signup/SignupForm";
 import FormFieldWrapper from "@/components/FormFieldWrapper";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import api from "@/lib/apiClient";
 import defaultErrorHandler from "@/lib/error-handler";
+import { cn } from "@/lib/utils";
 import { useForm, useStore } from "@tanstack/react-form";
 import React, { useState } from "react";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import {
+  MdCheckCircle,
+  MdRadioButtonUnchecked,
+  MdVisibility,
+  MdVisibilityOff,
+} from "react-icons/md";
 import { toast } from "sonner";
 
 import { z } from "zod";
@@ -51,7 +58,9 @@ const Security = () => {
           newPassword: value.newPassword,
         });
 
-        toast.success(data?.message ?? "Password changed successfully");
+        toast.success(data?.message ?? "Password changed successfully", {
+          duration: 100000,
+        });
         form.reset();
       } catch (error) {
         defaultErrorHandler(error);
@@ -70,7 +79,7 @@ const Security = () => {
       newPassword.trim() !== "" &&
       confirmPassword.trim() !== "" &&
       newPassword === confirmPassword &&
-      newPassword.length >= 8 // Basic password length validation
+      !validatePassword(newPassword).some((req) => !req.valid)
     );
   };
 
@@ -118,33 +127,56 @@ const Security = () => {
               }}
             />
             <div className="hidden lg:block" />
-            <form.Field
-              name="newPassword"
-              children={(field) => {
-                return (
-                  <FormFieldWrapper
-                    label="New Password"
-                    as="input"
-                    type={showNewPassword ? "text" : "password"}
-                    placeholder="Enter your new password"
-                    field={field}
-                    iconRight={
-                      <button
-                        type="button"
-                        onClick={() => setShowNewPassword(!showNewPassword)}
-                        className="mt-2"
-                      >
-                        {showNewPassword ? (
-                          <MdVisibility />
-                        ) : (
-                          <MdVisibilityOff />
+            <div>
+              <form.Field
+                name="newPassword"
+                children={(field) => {
+                  return (
+                    <FormFieldWrapper
+                      label="New Password"
+                      as="input"
+                      type={showNewPassword ? "text" : "password"}
+                      placeholder="Enter your new password"
+                      field={field}
+                      iconRight={
+                        <button
+                          type="button"
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+                          className="mt-2"
+                        >
+                          {showNewPassword ? (
+                            <MdVisibility />
+                          ) : (
+                            <MdVisibilityOff />
+                          )}
+                        </button>
+                      }
+                    />
+                  );
+                }}
+              />
+              <div>
+                {newPassword &&
+                  validatePassword(newPassword).map((req) => (
+                    <div key={req.id} className="my-1 flex">
+                      {req.valid ? (
+                        <MdCheckCircle className="text-primary" />
+                      ) : (
+                        <MdRadioButtonUnchecked className="text-white-dark" />
+                      )}
+
+                      <p
+                        className={cn(
+                          "pl-2 text-xs",
+                          req.valid ? "text-primary" : "text-white-dark",
                         )}
-                      </button>
-                    }
-                  />
-                );
-              }}
-            />
+                      >
+                        {req.text}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+            </div>
             <form.Field
               name="confirmPassword"
               children={(field) => {
