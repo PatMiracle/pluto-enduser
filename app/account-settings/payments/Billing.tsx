@@ -38,7 +38,7 @@ const Billing = () => {
   );
   const pendingPayment = payments?.[0];
 
-  const { mutate: makePayment } = useMakePayment();
+  const { mutate: makePayment, isPending: paymentPending } = useMakePayment();
   const { getModalProps, openModal } = useModal();
 
   useEffect(() => {
@@ -185,7 +185,9 @@ const Billing = () => {
                 ₦ {pendingPayment?.paymentAmount.toLocaleString()}
               </span>
               <Button
-                disabled={pendingPayment?.paymentStatus !== "PENDING"}
+                disabled={
+                  pendingPayment?.paymentStatus !== "PENDING" || paymentPending
+                }
                 variant={"secondary"}
                 className="w-full rounded-none"
                 onClick={() => {
