@@ -52,6 +52,7 @@ export const useMakePayment = () => {
     mutationFn: async (id: number) => {
       try {
         const res = await api.post(`/user/payments/${id}/pay`);
+        window.location.href = res.data.paymentLink;
         return res.data;
       } catch (error) {
         defaultErrorHandler(error);

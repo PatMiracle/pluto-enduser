@@ -189,9 +189,7 @@ const Billing = () => {
                 variant={"secondary"}
                 className="w-full rounded-none"
                 onClick={() => {
-                  makePayment(pendingPayment?.paymentId as number, {
-                    onSuccess: (v) => console.log(v),
-                  });
+                  makePayment(pendingPayment?.paymentId as number);
                 }}
               >
                 MAKE A PAYMENT
