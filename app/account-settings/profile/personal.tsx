@@ -60,14 +60,14 @@ const PersonalProfile = () => {
     },
     onSubmit: async ({ value }) => {
       const data = profilePhoto ? { ...value, profilePhoto } : value;
-      try {
-        mutate(data);
-        toast.success("Profile Updated");
-      } catch (error) {
-        defaultErrorHandler(error);
-      } finally {
-        setIsEditing(false);
-      }
+
+      mutate(data, {
+        onSuccess: () => {
+          toast.success("Profile Updated");
+          setIsEditing(false);
+        },
+        onError: (e) => defaultErrorHandler(e),
+      });
     },
   });
 
@@ -266,7 +266,7 @@ const PersonalProfile = () => {
             className="ml-auto max-w-20"
             disabled={isSubmitting || (!!isDefaultValue && !profilePhoto)}
           >
-            Save
+            {isSubmitting ? "Saving" : "Save"}
           </Button>
         </Field>
       )}
