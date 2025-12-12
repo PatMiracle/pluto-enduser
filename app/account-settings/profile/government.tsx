@@ -25,7 +25,7 @@ const formSchema = z.object({
   orgMinistryId: z.number().min(1, "required"),
   orgAgencyId: z.number().min(1, "required"),
   orgJurisdiction: z.string().min(1, "required"),
-  streetAddress: z.string().min(1, "Pickup address is required"),
+  streetAddress: z.string().min(1, "required"),
   orgContactFirstName: z.string().min(1, "required"),
   middleName: z.string().min(1, "required"),
   orgContactLastName: z.string().min(1, "required"),

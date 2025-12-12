@@ -3,6 +3,7 @@
 import useAuthStore from "@/store/AuthStore";
 import PersonalProfile from "./personal";
 import GovernmentProfile from "./government";
+import BusinessProfile from "./business";
 
 const Profile = () => {
   const { user } = useAuthStore();
@@ -11,9 +12,7 @@ const Profile = () => {
     return <PersonalProfile />;
   } else if (user?.accountType == "government") {
     return <GovernmentProfile />;
-  }
-
-  return <div className="max-w-4xl px-5"></div>;
+  } else return <BusinessProfile />;
 };
 
 export default Profile;

@@ -33,9 +33,9 @@ const formSchema = z.object({
     })
     .transform((val) => toNigeriaIntlFormat(val)!),
   email: z.email("Enter a valid email"),
-  residentState: z.number().min(0, "State is required"),
-  lga: z.number().min(0, "LGA is required"),
-  streetAddress: z.string().min(1, "Pickup address is required"),
+  residentState: z.number().min(1, "State is required"),
+  lga: z.number().min(1, "LGA is required"),
+  streetAddress: z.string().min(1, "required"),
 });
 
 const PersonalProfile = () => {
