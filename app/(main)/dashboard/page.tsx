@@ -6,13 +6,13 @@ import StatCards from "@/app/(main)/dashboard/stat-cards";
 import { useCalenderEvents } from "@/services/calendar-events-api";
 import { useDashboard } from "@/services/dashboard-api";
 import { useServiceRequests } from "@/services/service-requests-api";
-import { useUserQuery } from "@/services/user-api";
 import { DataTable } from "@/components/data-table";
 import { requestColumns } from "../requests/requestColumns";
 import Link from "next/link";
+import useAuthStore from "@/store/AuthStore";
 
 export default function Dashboard() {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const { data: dashboardData } = useDashboard();
   const { data: calenderEvents } = useCalenderEvents({ pageSize: 9 });
   const { data: serviceRequests } = useServiceRequests({ pageSize: 7 });

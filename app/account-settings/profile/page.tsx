@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useUpdateUser, useUserQuery } from "@/services/user-api";
+import { useUpdateUser } from "@/services/user-api";
 import { useState } from "react";
 import { MdApartment, MdClose, MdEdit, MdOutlineCottage } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
@@ -20,6 +20,7 @@ import Image from "next/image";
 import NigeriaFlag from "@/public/icons/nigerian-flag.svg";
 import { toast } from "sonner";
 import defaultErrorHandler from "@/lib/error-handler";
+import useAuthStore from "@/store/AuthStore";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "required"),
@@ -37,7 +38,7 @@ const formSchema = z.object({
 });
 
 const Profile = () => {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const { mutate, isPending: isSubmitting } = useUpdateUser();
   const [isEditing, setIsEditing] = useState(false);
 

@@ -1,4 +1,4 @@
-import { useApiQuery } from "@/hooks/useApiQuery";
+import { useApiQuery, usePaginatedQuery } from "@/hooks/useApiQuery";
 
 export interface ClientAccount {
   clientAccountId: number;
@@ -34,27 +34,8 @@ export interface ClientAccount {
   lastName: string;
 }
 
-// Pagination metadata
-interface Pagination {
-  pages: number[];
-  currentPage: number;
-  totalPages: string;
-  hasPrev: boolean;
-  hasNext: boolean;
-}
-
-// Full API response
-interface ClientAccountsResponse {
-  start: number;
-  count: number;
-  total: string;
-  done: boolean;
-  data: ClientAccount[];
-  pagination: Pagination;
-}
-
 export const useClientAccount = () =>
-  useApiQuery<ClientAccountsResponse[]>(
+  usePaginatedQuery<PaginatedResponse<ClientAccount>>(
     "client-account",
     "/user/client-accounts",
   );

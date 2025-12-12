@@ -37,15 +37,13 @@ type UpdateUser = Partial<User> & {
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ ...data }: UpdateUser) =>
-      api
-        .patch("/users/me", data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => response.data)
-        .catch(defaultErrorHandler),
+    mutationFn: async ({ ...data }: UpdateUser) => {
+      await api.patch("/users/me", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["user-info"],

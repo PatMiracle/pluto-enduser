@@ -2,6 +2,7 @@ import axios from "axios";
 import { formatDate } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import { FaSliders } from "react-icons/fa6";
 import { MdCalendarToday, MdKeyboardArrowLeft } from "react-icons/md";
 
 interface Post {
@@ -39,7 +40,12 @@ export default async function WasteEducation() {
       <Link href="/services" className="mb-4 flex items-center gap-1">
         <MdKeyboardArrowLeft className="text-primary" size={24} /> Back
       </Link>
-      <p className="text-lg font-semibold">Waste Education</p>
+      <div className="flex max-w-4xl justify-between">
+        <h1 className="text-lg font-semibold">Waste Education</h1>
+        <button className="text-primary mt-1">
+          <FaSliders size={16} />
+        </button>
+      </div>
 
       <div className="grid max-w-4xl gap-4 py-5">
         {posts.map((post) => (

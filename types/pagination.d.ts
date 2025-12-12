@@ -7,6 +7,10 @@ interface Pagination {
 }
 
 type PaginatedResponse<T> = {
+  start: number;
+  count: number;
+  total: string;
+  done: boolean;
   data: T[];
   pagination: Pagination;
 };

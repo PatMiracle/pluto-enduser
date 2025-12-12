@@ -143,7 +143,6 @@ export default function AppSidebar({}: Props) {
               onClick={() => {
                 logout();
                 queryClient.invalidateQueries();
-                window.location.replace("/login");
               }}
             >
               <span className="text-green-normal shrink-0 text-2xl">

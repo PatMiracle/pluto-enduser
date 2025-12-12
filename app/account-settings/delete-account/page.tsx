@@ -16,7 +16,6 @@ import useOptions from "@/hooks/use-options";
 import { usePaginatedQuery } from "@/hooks/useApiQuery";
 import api from "@/lib/apiClient";
 import defaultErrorHandler from "@/lib/error-handler";
-import { useUserQuery } from "@/services/user-api";
 import useAuthStore from "@/store/AuthStore";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -28,8 +27,7 @@ interface AccountDeletionReason {
 }
 
 const DeleteAccount = () => {
-  const { data: user } = useUserQuery();
-  const { logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { data: reasons } = usePaginatedQuery<
     PaginatedResponse<AccountDeletionReason>
   >("del-account", "/account-deletion-reasons");
@@ -50,7 +48,6 @@ const DeleteAccount = () => {
         client: user,
       });
       logout();
-      window.location.replace("/");
     } catch (error) {
       defaultErrorHandler(error);
     } finally {

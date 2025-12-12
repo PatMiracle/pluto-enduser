@@ -1,3 +1,4 @@
+import { User } from "@/services/user-api";
 import axios from "axios";
 import { redirect, RedirectType } from "next/navigation";
 import { create } from "zustand";
@@ -6,6 +7,7 @@ type AuthState = {
   token: string;
   setToken: (t: string) => void;
   logout: () => Promise<void>;
+  user?: User;
 };
 
 const useAuthStore = create<AuthState>((set) => ({
@@ -13,7 +15,8 @@ const useAuthStore = create<AuthState>((set) => ({
   setToken: (t) => set({ token: t }),
   logout: async () => {
     await axios.post("/api/logout");
-    set({ token: "" });
+    set({ token: "", user: undefined });
+    window.location.replace("/login");
   },
 }));
 

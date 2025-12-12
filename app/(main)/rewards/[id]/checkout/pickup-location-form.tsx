@@ -8,7 +8,7 @@ import { useModal } from "@/context/ModalProvider";
 import useOptions from "@/hooks/use-options";
 import { useStates, useTrackedLGAs } from "@/services/enum-api";
 import { usePickupLocations } from "@/services/pickup-location";
-import { useUserQuery } from "@/services/user-api";
+import useAuthStore from "@/store/AuthStore";
 import { useState } from "react";
 import {
   MdApartment,
@@ -32,7 +32,7 @@ type Props = {
 };
 
 export default function ChoosePickupLocation({ setLocationInfo }: Props) {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const { data: states } = useStates();
   const { data: lgas } = useTrackedLGAs(
     { stateId: user!.stateWasteManagementBoardId! },

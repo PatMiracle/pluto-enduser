@@ -12,8 +12,8 @@ import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { cn } from "@/lib/utils";
 import { IssueTypes } from "@/services/issues";
 import { useCreateTicket } from "@/services/ticket";
-import { useUserQuery } from "@/services/user-api";
-import { useForm, useStore } from "@tanstack/react-form";
+import useAuthStore from "@/store/AuthStore";
+import { useForm } from "@tanstack/react-form";
 import Image from "next/image";
 import { useState } from "react";
 import { IoRemoveSharp } from "react-icons/io5";
@@ -40,7 +40,7 @@ const formSchema = z.object({
 });
 
 const ReportHazard = () => {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
 
   const { mutate, isPending: isSubmitting } = useCreateTicket();
   const { closeModal } = useModal();

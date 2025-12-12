@@ -9,7 +9,6 @@ import {
   MdNotificationsNone,
 } from "react-icons/md";
 import logo from "@/public/images/logo.svg";
-import { useUserQuery } from "@/services/user-api";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
@@ -22,13 +21,14 @@ import {
 import { ReactNode } from "react";
 import Link from "next/link";
 import Notifications from "./notifications";
+import useAuthStore from "@/store/AuthStore";
 
 export const NAVBAR_HEIGHT = "3.5rem";
 
 export default function Navbar() {
   const { open } = useSidebar();
 
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   return (
     <div
       className="bg-white-normal fixed top-0 z-20 flex h-14 w-full items-center justify-between px-5"

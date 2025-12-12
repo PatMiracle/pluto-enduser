@@ -3,12 +3,12 @@
 import { DataTable } from "@/components/data-table";
 import { useContactCenter } from "@/services/contact-center";
 import { useTrackedStates } from "@/services/enum-api";
-import { useUserQuery } from "@/services/user-api";
 import { MdApartment, MdOutlineInfo } from "react-icons/md";
 import { contactColumns } from "./contactColumn";
+import useAuthStore from "@/store/AuthStore";
 
 const ContactUs = () => {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
 
   const { data, pagination } = useContactCenter({
     stateId: user!.stateWasteManagementBoardId!,

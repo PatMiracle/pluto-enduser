@@ -13,15 +13,15 @@ import { DataTable } from "@/components/data-table";
 import { dropLocationColumns } from "./dropLocationColumns";
 import { useDropLocations } from "@/services/drop-locations";
 import { useTrackedLGAs, useTrackedStates } from "@/services/enum-api";
-import { useUserQuery } from "@/services/user-api";
 import useOptions from "@/hooks/use-options";
 import { LabeledSelect } from "@/components/LabeledFields";
 import { Input } from "@/components/ui/input";
 import { MdApartment, MdInfoOutline, MdOutlineCottage } from "react-icons/md";
+import useAuthStore from "@/store/AuthStore";
 
 export default function Locations() {
   const [activeTab, setActiveTab] = useState<"pickup" | "dropoff">("pickup");
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const { data: locations } = useClientLocations();
 
   const { data: states } = useTrackedStates();

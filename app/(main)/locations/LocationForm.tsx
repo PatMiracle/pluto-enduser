@@ -16,7 +16,7 @@ import {
   useTrackedLGAs,
   useTrackedStates,
 } from "@/services/enum-api";
-import { useUserQuery } from "@/services/user-api";
+import useAuthStore from "@/store/AuthStore";
 import { useForm, useStore } from "@tanstack/react-form";
 import Image from "next/image";
 import { useState } from "react";
@@ -52,7 +52,7 @@ const formSchema = z.object({
 });
 
 export default function LocationForm() {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const [previewImage, setPreviewImage] = useState<File | null>(null);
   const { mutate, isPending: isSubmitting } = useCreateLocation();
   const { closeModal } = useModal();

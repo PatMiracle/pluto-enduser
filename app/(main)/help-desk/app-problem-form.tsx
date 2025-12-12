@@ -12,8 +12,8 @@ import useOptions from "@/hooks/use-options";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { useIssueTypes } from "@/services/issues";
 import { useCreateTicket } from "@/services/ticket";
-import { useUserQuery } from "@/services/user-api";
-import { useForm, useStore } from "@tanstack/react-form";
+import useAuthStore from "@/store/AuthStore";
+import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import { MdMailOutline } from "react-icons/md";
 import { toast } from "sonner";
@@ -37,7 +37,7 @@ const formSchema = z.object({
 });
 
 const AppProblemForm = () => {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const { data: rawIssueTypes } = useIssueTypes({
     ticketType: "APPLICATION_ISSUES",
   });

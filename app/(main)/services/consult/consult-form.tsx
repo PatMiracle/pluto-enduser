@@ -12,8 +12,8 @@ import defaultErrorHandler from "@/lib/error-handler";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { useCreateConsultation } from "@/services/consult";
 import { useIssueTypes } from "@/services/issues";
-import { useUserQuery } from "@/services/user-api";
-import { useForm, useStore } from "@tanstack/react-form";
+import useAuthStore from "@/store/AuthStore";
+import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import { MdMailOutline } from "react-icons/md";
 import { toast } from "sonner";
@@ -36,7 +36,7 @@ const formSchema = z.object({
 });
 
 const ConsultForm = () => {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const { data: rawIssueTypes } = useIssueTypes({ ticketType: "CONSULTATION" });
   const issueTypes = useOptions(rawIssueTypes, "issueTypeId", "issueTypeName");
   const { mutate, isPending: isSubmitting } = useCreateConsultation();

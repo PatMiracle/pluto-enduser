@@ -20,7 +20,6 @@ import {
   useCreateRequest,
   useUpdateRequest,
 } from "@/services/service-requests-api";
-import { useUserQuery } from "@/services/user-api";
 import { useForm, useStore } from "@tanstack/react-form";
 import {
   MdApartment,
@@ -36,6 +35,7 @@ import * as z from "zod";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { useModal } from "@/context/ModalProvider";
+import useAuthStore from "@/store/AuthStore";
 
 type Props = {
   data?: ServiceRequest;
@@ -60,7 +60,7 @@ const formSchema = z.object({
 });
 
 export default function RequestForm({ data }: Props) {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const { mutate: createRequest, isPending } = useCreateRequest();
   const { mutate: updateRequest, isPending: isSubmitting } = useUpdateRequest();
   const { closeModal } = useModal();

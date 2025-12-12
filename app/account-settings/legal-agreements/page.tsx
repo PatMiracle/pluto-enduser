@@ -2,7 +2,7 @@
 
 import { TableSkeleton } from "@/components/data-table";
 import { LicenseType, useLicenses } from "@/services/licenses";
-import { useUserQuery } from "@/services/user-api";
+import useAuthStore from "@/store/AuthStore";
 import { useState } from "react";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
@@ -16,7 +16,7 @@ const ORDER: LicenseType[] = [
 ] as const;
 
 const LegalAgreements = () => {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const { data, isPending } = useLicenses({
     stateId: user!.stateWasteManagementBoardId as number,
   });

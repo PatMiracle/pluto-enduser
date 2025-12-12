@@ -11,7 +11,7 @@ import { useModal } from "@/context/ModalProvider";
 import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
 import { IssueTypes } from "@/services/issues";
 import { useCreateTicket } from "@/services/ticket";
-import { useUserQuery } from "@/services/user-api";
+import useAuthStore from "@/store/AuthStore";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import { MdMailOutline } from "react-icons/md";
@@ -36,7 +36,7 @@ const formSchema = z.object({
 });
 
 const OtherProblems = () => {
-  const { data: user } = useUserQuery();
+  const { user } = useAuthStore();
   const { mutate, isPending: isSubmitting } = useCreateTicket();
   const { closeModal } = useModal();
 
