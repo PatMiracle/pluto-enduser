@@ -1,0 +1,284 @@
+"use client";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useUpdateUser } from "@/services/user-api";
+import { useState } from "react";
+import { MdApartment, MdClose, MdEdit } from "react-icons/md";
+import { IoCameraOutline } from "react-icons/io5";
+import { useStates } from "@/services/enum-api";
+import * as z from "zod";
+import { toNigeriaIntlFormat } from "@/lib/nigerian-intl";
+import { useForm, useStore } from "@tanstack/react-form";
+import { Button } from "@/components/ui/button";
+import { Field, FieldGroup } from "@/components/ui/field";
+import {
+  FormInput,
+  FormPhoneField,
+  FormSelect,
+} from "@/components/FormFieldWrapper";
+import { toast } from "sonner";
+import useAuthStore from "@/store/AuthStore";
+import { useClientAccount } from "@/services/client-account-api";
+import { LabeledInput } from "@/components/LabeledFields";
+
+const formSchema = z.object({
+  orgMinistryId: z.number().min(1, "required"),
+  orgAgencyId: z.number().min(1, "required"),
+  orgJurisdiction: z.string().min(1, "required"),
+  streetAddress: z.string().min(1, "Pickup address is required"),
+  orgContactFirstName: z.string().min(1, "required"),
+  middleName: z.string().min(1, "required"),
+  orgContactLastName: z.string().min(1, "required"),
+  orgEmail: z.email("Enter a valid email"),
+  orgPhoneNo: z
+    .string()
+    .refine((val) => !!toNigeriaIntlFormat(val), {
+      message: "Invalid Nigerian phone number",
+    })
+    .transform((val) => toNigeriaIntlFormat(val)!),
+});
+
+const GovernmentProfile = () => {
+  const { user } = useAuthStore();
+  const { data: clientAccount } = useClientAccount();
+  const { mutate: updateUser, isPending: isSubmittingUser } = useUpdateUser();
+  const [isEditing, setIsEditing] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
+
+  const client = clientAccount?.[0];
+
+  if (!client || !user) return;
+
+  const form = useForm({
+    defaultValues: {
+      orgMinistryId: client.orgMinistryId,
+      orgAgencyId: client.orgAgencyId,
+      orgJurisdiction: client.orgJurisdiction,
+      streetAddress: client.streetAddress,
+      orgContactFirstName: client.orgContactFirstName,
+      middleName: client.middleName,
+      orgContactLastName: client.orgContactLastName,
+      orgEmail: client.orgEmail,
+      orgPhoneNo: client.orgPhoneNo,
+    },
+    validators: {
+      onSubmit: formSchema,
+    },
+    onSubmit: async ({ value }) => {},
+  });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.error("Image size exceeds 5MB. Please choose a smaller file.");
+      return;
+    }
+    setProfilePhoto(e.target.files?.[0] ?? null);
+  };
+
+  const { isDefaultValue } = useStore(form.store, (s) => s);
+  const { data: rawStates } = useStates();
+
+  return (
+    <div className="max-w-4xl px-5 pb-5">
+      <div className="flex justify-between">
+        <p className="text-lg">Government Profile</p>
+        <button
+          onClick={() => {
+            setIsEditing(!isEditing);
+            setProfilePhoto(null);
+            form.reset();
+          }}
+          className="text-green-normal text-2xl"
+        >
+          {isEditing ? <MdClose className="text-red-normal" /> : <MdEdit />}
+        </button>
+      </div>
+
+      <div className="flex items-center gap-3 pt-5">
+        <Avatar className="relative size-32">
+          {isEditing && profilePhoto ? (
+            <AvatarImage
+              src={URL.createObjectURL(profilePhoto)}
+              className="object-cover"
+            />
+          ) : user!.photoURL ? (
+            <AvatarImage src={user!.photoURL} />
+          ) : null}
+          <AvatarFallback>
+            {user?.firstName.slice(0, 1)}
+            {user?.lastName.slice(0, 1)}
+          </AvatarFallback>
+          {isEditing && (
+            <>
+              <label
+                htmlFor="avatar"
+                className="text-white-normal absolute flex h-full w-full cursor-pointer items-end justify-end bg-black/50 pb-3"
+              >
+                <IoCameraOutline size={24} className="mx-auto" />
+              </label>
+              <input
+                type="file"
+                id="avatar"
+                onChange={handleFileChange}
+                accept="image/*"
+                style={{ display: "none" }}
+                disabled={!isEditing}
+              />
+            </>
+          )}
+        </Avatar>
+        <div className="grid gap-1.5">
+          <div>
+            <p className="text-white-darker text-sm">Account Access Type</p>
+            <p className="bg-green-light mt-1 rounded-sm px-3 py-1.5 text-sm capitalize">
+              {user?.accountType} Account
+            </p>
+          </div>
+          <div>
+            <p className="text-white-darker text-sm">Waste Management Board</p>
+            <p className="bg-green-light mt-1 rounded-sm px-3 py-1.5 text-sm capitalize">
+              {rawStates &&
+                rawStates.data.find(
+                  (v) => v.stateId == user?.stateWasteManagementBoardId,
+                )?.stateName}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <form
+        id="profile-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
+        }}
+      >
+        <FieldGroup className="py-5 lg:grid lg:grid-cols-2 lg:gap-x-7">
+          <form.Field
+            name="orgMinistryId"
+            children={(field) => (
+              <FormSelect
+                options={[]}
+                label="Govt. Ministry Name"
+                field={field}
+                iconLeft={<MdApartment />}
+                disabled={!isEditing}
+              />
+            )}
+          />
+          <form.Field
+            name="orgAgencyId"
+            children={(field) => (
+              <FormSelect
+                options={[]}
+                label="Agency Name"
+                field={field}
+                iconLeft={<MdApartment />}
+                disabled={!isEditing}
+              />
+            )}
+          />
+          <form.Field
+            name="orgJurisdiction"
+            children={(field) => (
+              <FormSelect
+                options={[
+                  { label: "Federal", value: "FEDERAL" },
+                  { label: "State", value: "STATE" },
+                  { label: "Local Government", value: "LOCAL_GOVERNMENT" },
+                ]}
+                label="Jurisdiction"
+                field={field}
+                iconLeft={<MdApartment />}
+                disabled={!isEditing}
+              />
+            )}
+          />
+          <form.Field
+            name="streetAddress"
+            children={(field) => (
+              <FormInput
+                label="Govt. Office Physical Address"
+                field={field}
+                placeholder="Enter street address"
+                disabled={!isEditing}
+              />
+            )}
+          />
+          <form.Field
+            name="orgContactFirstName"
+            children={(field) => (
+              <FormInput
+                label="Govt. Contact First Name"
+                field={field}
+                disabled={!isEditing}
+              />
+            )}
+          />
+          <form.Field
+            name="middleName"
+            children={(field) => (
+              <FormInput
+                label="Govt. Contact Middle Initial"
+                field={field}
+                placeholder="- - -"
+                disabled={!isEditing}
+              />
+            )}
+          />
+          <form.Field
+            name="orgContactLastName"
+            children={(field) => (
+              <FormInput
+                label="Govt. Contact Last Name"
+                field={field}
+                disabled={!isEditing}
+              />
+            )}
+          />
+          <LabeledInput
+            label="Primary Email Address"
+            value={user?.email}
+            disabled
+          />
+          <form.Field
+            name="orgEmail"
+            children={(field) => (
+              <FormInput
+                label="Secondary Email Address (Optional)"
+                field={field}
+                disabled={!isEditing}
+              />
+            )}
+          />
+          <form.Field
+            name="orgPhoneNo"
+            children={(field) => (
+              <FormPhoneField
+                label="Govt. Contact Phone Number"
+                field={field}
+                disabled={!isEditing}
+              />
+            )}
+          />
+        </FieldGroup>
+      </form>
+
+      {isEditing && (
+        <Field className="my-2">
+          <Button
+            type="submit"
+            form="profile-form"
+            className="ml-auto max-w-20"
+            disabled={isSubmittingUser || (!!isDefaultValue && !profilePhoto)}
+          >
+            Save
+          </Button>
+        </Field>
+      )}
+    </div>
+  );
+};
+
+export default GovernmentProfile;

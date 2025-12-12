@@ -1,4 +1,4 @@
-import { useApiQuery, usePaginatedQuery } from "@/hooks/useApiQuery";
+import { usePaginatedQuery } from "@/hooks/useApiQuery";
 
 export interface ClientAccount {
   clientAccountId: number;
@@ -38,4 +38,28 @@ export const useClientAccount = () =>
   usePaginatedQuery<PaginatedResponse<ClientAccount>>(
     "client-account",
     "/user/client-accounts",
+  );
+
+export interface OrgMinistry {
+  dateCreated: string;
+  lastModified: string;
+  orgMinistryId: number;
+  orgMinistryName: string;
+}
+
+export interface OrgAgency extends OrgMinistry {
+  orgAgencyId: number;
+  orgAgencyName: string;
+}
+
+export const useOrgMinistries = () =>
+  usePaginatedQuery<PaginatedResponse<OrgMinistry>>(
+    "org-ministries",
+    "/org-ministries",
+  );
+
+export const useOrgAgencies = () =>
+  usePaginatedQuery<PaginatedResponse<OrgAgency>>(
+    "org-agencies",
+    "/org-agencies",
   );
