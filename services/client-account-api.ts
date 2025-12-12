@@ -1,4 +1,6 @@
 import { usePaginatedQuery } from "@/hooks/useApiQuery";
+import api from "@/lib/apiClient";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export interface ClientAccount {
   clientAccountId: number;
@@ -39,6 +41,28 @@ export const useClientAccount = () =>
     "client-account",
     "/user/client-accounts",
   );
+
+interface UpdateClient extends Partial<ClientAccount> {
+  clientAccountId: number;
+}
+
+export const useUpdateClient = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ clientAccountId, ...data }: UpdateClient) => {
+      const res = await api.patch(
+        `/user/client-accounts/${clientAccountId}`,
+        data,
+      );
+      return res;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["client-account"],
+      });
+    },
+  });
+};
 
 export interface OrgMinistry {
   dateCreated: string;

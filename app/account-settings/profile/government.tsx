@@ -18,18 +18,26 @@ import {
 } from "@/components/FormFieldWrapper";
 import { toast } from "sonner";
 import useAuthStore from "@/store/AuthStore";
-import { useClientAccount } from "@/services/client-account-api";
+import {
+  useClientAccount,
+  useOrgAgencies,
+  useOrgMinistries,
+  useUpdateClient,
+} from "@/services/client-account-api";
 import { LabeledInput } from "@/components/LabeledFields";
+import defaultErrorHandler from "@/lib/error-handler";
+import useOptions from "@/hooks/use-options";
 
 const formSchema = z.object({
+  clientAccountId: z.number(),
   orgMinistryId: z.number().min(1, "required"),
   orgAgencyId: z.number().min(1, "required"),
   orgJurisdiction: z.string().min(1, "required"),
   streetAddress: z.string().min(1, "required"),
   orgContactFirstName: z.string().min(1, "required"),
-  middleName: z.string().min(1, "required"),
+  middleName: z.string(),
   orgContactLastName: z.string().min(1, "required"),
-  orgEmail: z.email("Enter a valid email"),
+  orgEmail: z.union([z.email("Enter a valid email"), z.literal("")]),
   orgPhoneNo: z
     .string()
     .refine((val) => !!toNigeriaIntlFormat(val), {
@@ -42,6 +50,8 @@ const GovernmentProfile = () => {
   const { user } = useAuthStore();
   const { data: clientAccount } = useClientAccount();
   const { mutate: updateUser, isPending: isSubmittingUser } = useUpdateUser();
+  const { mutate: updateClient, isPending: isUpdatingClient } =
+    useUpdateClient();
   const [isEditing, setIsEditing] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
 
@@ -49,22 +59,45 @@ const GovernmentProfile = () => {
 
   if (!client || !user) return;
 
+  const defaultValues = {
+    clientAccountId: client.clientAccountId,
+    orgMinistryId: client.orgMinistryId,
+    orgAgencyId: client.orgAgencyId,
+    orgJurisdiction: client.orgJurisdiction,
+    streetAddress: client.streetAddress,
+    orgContactFirstName: client.orgContactFirstName,
+    middleName: client.middleName,
+    orgContactLastName: client.orgContactLastName,
+    orgEmail: client.orgEmail,
+    orgPhoneNo: client.orgPhoneNo,
+  };
+
   const form = useForm({
-    defaultValues: {
-      orgMinistryId: client.orgMinistryId,
-      orgAgencyId: client.orgAgencyId,
-      orgJurisdiction: client.orgJurisdiction,
-      streetAddress: client.streetAddress,
-      orgContactFirstName: client.orgContactFirstName,
-      middleName: client.middleName,
-      orgContactLastName: client.orgContactLastName,
-      orgEmail: client.orgEmail,
-      orgPhoneNo: client.orgPhoneNo,
-    },
+    defaultValues: defaultValues,
     validators: {
       onSubmit: formSchema,
     },
-    onSubmit: async ({ value }) => {},
+    onSubmit: async ({ value }) => {
+      if (profilePhoto) {
+        updateUser(
+          { profilePhoto },
+          {
+            onSuccess: () => toast.success("Updated Profile Image"),
+            onError: (e) => defaultErrorHandler(e),
+          },
+        );
+      }
+
+      if (JSON.stringify(defaultValues) !== JSON.stringify(value)) {
+        updateClient(value, {
+          onSuccess: () => {
+            toast.success("Updated Profile Details");
+            setIsEditing(false);
+          },
+          onError: (e) => defaultErrorHandler(e),
+        });
+      } else setIsEditing(false);
+    },
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,6 +111,15 @@ const GovernmentProfile = () => {
 
   const { isDefaultValue } = useStore(form.store, (s) => s);
   const { data: rawStates } = useStates();
+  const { data: ministries } = useOrgMinistries();
+  const { data: agencies } = useOrgAgencies();
+  const orgMinistries = useOptions(
+    ministries,
+    "orgMinistryId",
+    "orgMinistryName",
+  );
+  const orgAgencies = useOptions(agencies, "orgAgencyId", "orgAgencyName");
+  const isSubmitting = isSubmittingUser || isUpdatingClient;
 
   return (
     <div className="max-w-4xl px-5 pb-5">
@@ -159,7 +201,7 @@ const GovernmentProfile = () => {
             name="orgMinistryId"
             children={(field) => (
               <FormSelect
-                options={[]}
+                options={orgMinistries}
                 label="Govt. Ministry Name"
                 field={field}
                 iconLeft={<MdApartment />}
@@ -171,7 +213,7 @@ const GovernmentProfile = () => {
             name="orgAgencyId"
             children={(field) => (
               <FormSelect
-                options={[]}
+                options={orgAgencies}
                 label="Agency Name"
                 field={field}
                 iconLeft={<MdApartment />}
@@ -271,9 +313,9 @@ const GovernmentProfile = () => {
             type="submit"
             form="profile-form"
             className="ml-auto max-w-20"
-            disabled={isSubmittingUser || (!!isDefaultValue && !profilePhoto)}
+            disabled={isSubmitting || (!!isDefaultValue && !profilePhoto)}
           >
-            Save
+            {isSubmitting ? "Saving" : "Save"}
           </Button>
         </Field>
       )}

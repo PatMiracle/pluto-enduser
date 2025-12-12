@@ -31,18 +31,19 @@ export const useUserQuery = () =>
   useApiQuery<User>("user-info", "/users/me", {}, { staleTime: LONG_TTL });
 
 type UpdateUser = Partial<User> & {
-  profilePhoto?: any;
+  profilePhoto?: File;
 };
 
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ ...data }: UpdateUser) => {
-      await api.patch("/users/me", data, {
+      const res = await api.patch("/users/me", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+      return res;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
