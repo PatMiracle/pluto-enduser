@@ -69,7 +69,7 @@ export default function AccountSetupProvider({
   const [currentStep, setCurrentStep] = useState(1);
 
   const handleUpdateData = (v: AccountSetupContextData) => {
-    setData((prev) => ({ ...v, ...prev }));
+    setData((prev) => ({ ...prev, ...v }));
   };
 
   const nextStep = () => setCurrentStep(currentStep + 1);

@@ -114,11 +114,18 @@ export function LabeledPhoneField({
         </Label>
       )}
       <div className="flex w-full gap-3">
-        <span className="bg-green-light text-green-normal flex h-9 min-w-16 items-center justify-center gap-1 rounded-3xl rounded-tl-none px-4 text-xs opacity-70">
+        <span className="bg-green-light text-green-normal flex h-9 min-w-16 items-center justify-center gap-1 rounded-3xl rounded-tl-none px-4 text-xs">
           <Image src={NigeriaFlag} alt="" width={20} height={20} />
           <span>+234</span>
         </span>
-        <Input id={name} name={name} type="tel" className="w-full" {...props} />
+        <Input
+          id={name}
+          name={name}
+          type="tel"
+          className="w-full"
+          maxLength={11}
+          {...props}
+        />
       </div>
     </div>
   );

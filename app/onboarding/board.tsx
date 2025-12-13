@@ -1,6 +1,5 @@
 import Image from "next/image";
 import logoImg from "@/public/images/logo.svg";
-import * as z from "zod";
 import { useAccountTypes, useTrackedStates } from "@/services/enum-api";
 import useOptions from "@/hooks/use-options";
 import { LabeledInput, LabeledSelect } from "@/components/LabeledFields";
@@ -9,14 +8,7 @@ import { Button } from "@/components/ui/button";
 import useAuthStore from "@/store/AuthStore";
 import { useAccountSetupContext } from "@/context/AccountSetupProvider";
 
-type Props = {};
-
-const formSchema = z.object({
-  email: z.email("Please enter a valid email"),
-  password: z.string().min(1, "Password is required"),
-});
-
-export default function Board({}: Props) {
+export default function Board() {
   const { logout } = useAuthStore();
   const { data: rawTrackedStates } = useTrackedStates();
   const trackedStates = useOptions(rawTrackedStates, "stateId", "stateName");
