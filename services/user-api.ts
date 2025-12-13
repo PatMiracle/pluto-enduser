@@ -1,8 +1,6 @@
 import { useApiQuery } from "@/hooks/useApiQuery";
 import api from "@/lib/apiClient";
-import defaultErrorHandler from "@/lib/error-handler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { LONG_TTL } from "./enum-api";
 
 export interface User {
   accountType: "personal" | "business" | "government";
@@ -28,7 +26,7 @@ export interface User {
 }
 
 export const useUserQuery = () =>
-  useApiQuery<User>("user-info", "/users/me", {}, { staleTime: LONG_TTL });
+  useApiQuery<User>("user-info", "/users/me", {});
 
 type UpdateUser = Partial<User> & {
   profilePhoto?: File;
