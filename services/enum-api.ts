@@ -1,4 +1,4 @@
-import { useApiQuery } from "@/hooks/useApiQuery";
+import { useApiQuery, usePaginatedQuery } from "@/hooks/useApiQuery";
 
 export const LONG_TTL = 24 * 60 * 60 * 1000; // 24 hours
 const SHORT_TTL = 5 * 60 * 1000; // 5 minutes
@@ -8,16 +8,16 @@ export interface State {
   stateName: string;
 }
 
-interface StateResponse {
-  data: State[];
-  pagination: Pagination;
-}
-
 export const useStates = () =>
-  useApiQuery<StateResponse>("states", "/states", {}, { staleTime: LONG_TTL });
+  useApiQuery<PaginatedResponse<State>>(
+    "states",
+    "/states",
+    {},
+    { staleTime: LONG_TTL },
+  );
 
 export const useTrackedStates = () =>
-  useApiQuery<StateResponse>(
+  usePaginatedQuery<PaginatedResponse<State>>(
     "tracked-states",
     "/states/tracked",
     {},

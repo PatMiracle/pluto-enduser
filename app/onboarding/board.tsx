@@ -14,11 +14,7 @@ const formSchema = z.object({
 export default function Board({}: Props) {
   const { data: rawTrackedStates } = useTrackedStates();
 
-  const trackedStates = useOptions(
-    rawTrackedStates?.data,
-    "stateId",
-    "stateName",
-  );
+  const trackedStates = useOptions(rawTrackedStates, "stateId", "stateName");
 
   const { data: rawAccountTypes } = useAccountTypes();
   const accountTypes = useOptions(

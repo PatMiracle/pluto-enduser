@@ -17,7 +17,7 @@ const ContactUs = () => {
 
   const { data: rawStates } = useTrackedStates();
 
-  const state = rawStates?.data.find(
+  const state = rawStates?.find(
     (v) => v.stateId == user?.stateWasteManagementBoardId,
   )?.stateName;
 

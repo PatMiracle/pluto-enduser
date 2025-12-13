@@ -102,7 +102,7 @@ export default function LocationForm() {
   } = useStore(form.store, (s) => s);
 
   const { data: rawStates } = useTrackedStates();
-  const states = useOptions(rawStates?.data, "stateId", "stateName");
+  const states = useOptions(rawStates, "stateId", "stateName");
   const { data: rawLGAs } = useTrackedLGAs({ stateId });
   const lgas = useOptions(rawLGAs?.data, "lgaId", "lgaName");
   const { data: rawLandmarks } = useTrackedLandmarks(

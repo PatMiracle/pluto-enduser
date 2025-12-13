@@ -25,7 +25,7 @@ export default function Locations() {
   const { data: locations } = useClientLocations();
 
   const { data: states } = useTrackedStates();
-  const state = states?.data.find(
+  const state = states?.find(
     ({ stateId }) => stateId == user?.stateWasteManagementBoardId,
   )?.stateName;
   const { data: LGAs } = useTrackedLGAs({
