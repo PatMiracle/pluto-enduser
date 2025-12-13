@@ -5,6 +5,7 @@ import PickupForm from "./PickupForm";
 import { Modal } from "@/components/modal";
 import Image from "next/image";
 import { useTrackedStates } from "@/services/enum-api";
+import { Button } from "@/components/ui/button";
 
 export default function PickupLocations() {
   const { openModal, getModalProps } = useModal();
@@ -63,6 +64,14 @@ export default function PickupLocations() {
             </Modal>
           </div>
         ))}
+      </div>
+      <div className="flex justify-center gap-5 py-10">
+        <Button className="min-w-24" onClick={prevStep}>
+          Previous
+        </Button>
+        <Button className="w-24" onClick={nextStep}>
+          Next
+        </Button>
       </div>
     </div>
   );
