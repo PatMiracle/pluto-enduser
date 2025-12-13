@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Truck } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   MdChevronLeft,
@@ -16,8 +15,8 @@ import YellowTruck from "@/public/yellow-truck";
 import BlueTruck from "@/public/blue-truck";
 
 const PickupSchedules = () => {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  // const searchParams = useSearchParams();
+  // const id = searchParams.get("id");
 
   const router = useRouter();
 
@@ -81,7 +80,7 @@ const PickupSchedules = () => {
             );
           }}
           className={cn(
-            "flex h-16 flex-col items-center justify-center border border-gray-200 p-2",
+            "bg-white-normal flex h-16 flex-col items-center justify-center border border-gray-200 p-2",
             isTodayCell && "text-primary",
             isSelectedDate && "bg-green-light text-primary",
           )}
@@ -120,15 +119,15 @@ const PickupSchedules = () => {
             <button>
               <MdChevronLeft size={24} />
             </button>
-            <span>Now</span>
+            <button>Now</button>
             <button>
               <MdChevronRight size={24} />
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-7 border-t">
-          {headers}
-          {days}
+        <div>
+          <div className="grid grid-cols-7 border-t">{headers}</div>
+          <div className="grid grid-cols-7 bg-[#f8f9fa]">{days}</div>
         </div>
       </div>
     );
@@ -137,7 +136,7 @@ const PickupSchedules = () => {
   return (
     <div className="min-h-screen">
       <div
-        className="flex items-center gap-2 px-5 py-4"
+        className="bg-white-normal fixed top-0 z-50 flex h-14 w-full items-center gap-2 px-5"
         style={{ boxShadow: "0px 4px 4px 0px #00000040" }}
       >
         <button onClick={() => router.back()}>
@@ -146,10 +145,21 @@ const PickupSchedules = () => {
         <h1 className="text-lg font-bold">Pickup Schedules</h1>
       </div>
 
-      <div className="px-6 lg:flex lg:flex-row-reverse lg:py-0">
-        <div className="flex-1 py-6 lg:pl-5">{renderCalendar()}</div>
+      <div className="relative mt-14 px-6 lg:flex lg:flex-row-reverse lg:py-0">
+        <div className="lg: flex-1 py-6 lg:absolute lg:pl-5">
+          {renderCalendar()}
 
-        <div className="pt-6 pr-5 lg:border-r">
+          <div className="rounded-lg bg-[#f8f9fa] p-4">
+            <p className="text-sm text-[#333]">
+              Events for {format(currentDate, "MMM d, yyyy")}
+            </p>
+            <p className="text-center text-sm text-[#999] italic">
+              No events scheduled
+            </p>
+          </div>
+        </div>
+
+        <div className="pt-6 pr-5 lg:fixed lg:top-0 lg:left-0 lg:h-full lg:border-r lg:px-5">
           <h2 className="text-white-darker mb-6 text-xl">Legend</h2>
           <div className="space-y-6">
             <div>
