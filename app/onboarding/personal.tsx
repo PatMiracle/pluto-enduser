@@ -85,7 +85,7 @@ export default function PersonalDetails() {
       </div>
 
       <div className="flex justify-center gap-5 py-10">
-        <Button className="min-w-24" onClick={nextStep}>
+        <Button className="min-w-24" onClick={prevStep}>
           Previous
         </Button>
         <Button
