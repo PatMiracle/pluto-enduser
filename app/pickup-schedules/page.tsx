@@ -146,7 +146,7 @@ const PickupSchedules = () => {
       </div>
 
       <div className="relative mt-14 px-6 lg:flex lg:flex-row-reverse lg:py-0">
-        <div className="lg: flex-1 py-6 lg:absolute lg:pl-5">
+        <div className="lg: flex-1 py-6 lg:absolute lg:left-[305px] lg:w-[calc(100%-324px)] lg:pl-5">
           {renderCalendar()}
 
           <div className="rounded-lg bg-[#f8f9fa] p-4">
@@ -159,7 +159,7 @@ const PickupSchedules = () => {
           </div>
         </div>
 
-        <div className="pt-6 pr-5 lg:fixed lg:top-0 lg:left-0 lg:h-full lg:border-r lg:px-5">
+        <div className="pt-6 pr-5 lg:fixed lg:top-0 lg:left-0 lg:h-full lg:w-[305px] lg:border-r lg:px-5">
           <h2 className="text-white-darker mb-6 text-xl">Legend</h2>
           <div className="space-y-6">
             <div>
