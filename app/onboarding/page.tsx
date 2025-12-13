@@ -4,10 +4,10 @@ import { useAccountSetupContext } from "@/context/AccountSetupProvider";
 import Board from "./board";
 import StepProgressBar from "./step-progress";
 import { useAccountTypes } from "@/services/enum-api";
-import useOptions from "@/hooks/use-options";
 import PersonalDetails from "./personal";
 import BusinessDetails from "./business";
 import GovernmentDetails from "./government";
+import PickupLocations from "./pickup-location";
 
 export default function Onboarding() {
   const { currentStep, data } = useAccountSetupContext();
@@ -33,6 +33,8 @@ export default function Onboarding() {
             accountTypeCode == "government" && <GovernmentDetails />
           )}
         </>
+      ) : currentStep == 3 ? (
+        <PickupLocations />
       ) : (
         <></>
       )}
