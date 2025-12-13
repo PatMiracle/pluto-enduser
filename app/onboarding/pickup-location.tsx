@@ -1,6 +1,5 @@
 import { useAccountSetupContext } from "@/context/AccountSetupProvider";
 import { useModal } from "@/context/ModalProvider";
-import React from "react";
 import { MdAddCircleOutline, MdEdit, MdOutlineInfo } from "react-icons/md";
 import PickupForm from "./PickupForm";
 import { Modal } from "@/components/modal";
