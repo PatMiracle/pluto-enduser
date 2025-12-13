@@ -12,6 +12,7 @@ import {
 } from "react-icons/md";
 import LocationForm from "./LocationForm";
 import EditLocationForm from "./EditLocationForm";
+import Link from "next/link";
 
 export function AddLocation() {
   const { getModalProps, openModal } = useModal();
@@ -64,13 +65,15 @@ export function LocationCard({ data }: LocationCardProps) {
       </div>
 
       {/* Image */}
-      <Image
-        src={data.previewImage}
-        width={332}
-        height={187}
-        alt=""
-        className="h-[152px] w-full rounded bg-black/20 object-cover"
-      />
+      <Link href={`/pickup-schedules?id=${data.clientLocationId}`}>
+        <Image
+          src={data.previewImage}
+          width={332}
+          height={187}
+          alt=""
+          className="h-[152px] w-full rounded bg-black/20 object-cover"
+        />
+      </Link>
 
       {/* Address */}
       <div className="flex flex-col gap-1">

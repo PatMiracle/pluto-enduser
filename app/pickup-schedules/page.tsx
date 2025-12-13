@@ -27,6 +27,7 @@ import {
 const PickupSchedules = () => {
   // const searchParams = useSearchParams();
   // const id = searchParams.get("id");
+  // console.log(id);
 
   const router = useRouter();
 
