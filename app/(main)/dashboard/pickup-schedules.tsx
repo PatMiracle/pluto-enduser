@@ -7,26 +7,16 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import greenTruck from "@/public/icons/green-truck.svg";
 import Image from "next/image";
+import { chunkArray } from "@/lib/chunk-array";
 
 type Props = {
   data: CalendarEvent[] | undefined;
 };
 
 export default function PickupSchedules({ data }: Props) {
-  function chunkArray() {
-    if (!Array.isArray(data)) return [];
-
-    const n = 3;
-    const result = [];
-    for (let i = 0; i < data.length; i += n) {
-      result.push(data.slice(i, i + n));
-    }
-    return result;
-  }
-
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const chunks = chunkArray();
+  const chunks = data ? chunkArray(data, 3) : [];
 
   // update currentIndex every 3second
   useEffect(() => {

@@ -17,6 +17,9 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ProductPageSkeleton } from "./page-skeleton";
+import { useModal } from "@/context/ModalProvider";
+import { Modal } from "@/components/modal";
+import ProductsComparison from "./comparison";
 
 export default function Product() {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +29,7 @@ export default function Product() {
   const [liked, setLiked] = useState(false);
   const [imageInPreview, setImageInPreview] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+  const { openModal, getModalProps } = useModal();
 
   useEffect(() => {
     if (product) setImageInPreview(product.productImageURL);
@@ -156,7 +160,19 @@ export default function Product() {
           </div>
           {/* action btns */}
           <div className="grid gap-2 py-3">
-            <Button variant="secondary">Compare</Button>
+            <Modal
+              title="Compare"
+              {...getModalProps("compare-product")}
+              className="lg:w-11/12 lg:max-w-3xl"
+            >
+              <ProductsComparison id={id} />
+            </Modal>
+            <Button
+              onClick={() => openModal("compare-product")}
+              variant="secondary"
+            >
+              Compare
+            </Button>
             <Link href={`/rewards/${id}/checkout`}>
               <Button className="w-full">Claim Now</Button>
             </Link>

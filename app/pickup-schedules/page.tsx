@@ -141,11 +141,9 @@ const PickupSchedules = () => {
                 <YellowTruck className="size-4" />
               ))}
             {dayEvents && dayEvents?.length > 0 && (
-              <span className="bg-[#f8f9fa] px-2 py-1 text-[11px]">
+              <span className="hidden bg-[#f8f9fa] px-2 py-1 text-[11px] lg:inline">
                 {dayEvents.length}{" "}
-                <span className="hidden lg:inline">
-                  Event{dayEvents.length > 1 && "s"}
-                </span>
+                <span>Event{dayEvents.length > 1 && "s"}</span>
               </span>
             )}
           </span>
