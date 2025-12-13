@@ -65,7 +65,9 @@ const PickupSchedules = () => {
     );
   };
 
-  const goToNextMonth = () => {};
+  const goToNextMonth = () => {
+    setCurrentDate(addMonths(currentDate, 1));
+  };
 
   const goToPreviousMonth = () => {
     setCurrentDate(addMonths(currentDate, -1));
