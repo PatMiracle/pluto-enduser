@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUpdateUser } from "@/services/user-api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdApartment, MdClose, MdEdit, MdOutlineCottage } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
 import { useLGAs, useStates } from "@/services/enum-api";
@@ -86,7 +86,16 @@ const PersonalProfile = () => {
   const { data: rawLGAs } = useLGAs({ stateId: stateId! });
   const lgaOptions = useOptions(rawLGAs?.data, "lgaId", "lgaName");
 
-  const { isDefaultValue } = useStore(form.store, (s) => s);
+  const {
+    isDefaultValue,
+    values: { residentState },
+  } = useStore(form.store, (s) => s);
+
+  useEffect(() => {
+    if (!isDefaultValue) {
+      form.setFieldValue("lga", 0);
+    }
+  }, [residentState]);
 
   return (
     <div className="max-w-4xl px-5">
