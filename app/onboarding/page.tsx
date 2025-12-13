@@ -1,21 +1,41 @@
 "use client";
 
-import useAuthStore from "@/store/AuthStore";
+import { useAccountSetupContext } from "@/context/AccountSetupProvider";
 import Board from "./board";
 import StepProgressBar from "./step-progress";
-import AuthLayer from "../(main)/AuthLayer";
+import { useAccountTypes } from "@/services/enum-api";
+import useOptions from "@/hooks/use-options";
+import PersonalDetails from "./personal";
+import BusinessDetails from "./business";
+import GovernmentDetails from "./government";
 
 export default function Onboarding() {
-  const { user } = useAuthStore();
+  const { currentStep, data } = useAccountSetupContext();
 
-  if (user && !user.needsAccountSetup) {
-    window.location.replace("/dashboard");
-  }
+  const { data: rawAccountTypes } = useAccountTypes();
+
+  const accountTypeCode = rawAccountTypes?.find(
+    (e) => e.accountTypeId === data.accountType,
+  )?.accountTypeCode;
 
   return (
-    <AuthLayer>
-      <StepProgressBar activeIndex={0} />
-      <Board />
-    </AuthLayer>
+    <>
+      <StepProgressBar activeIndex={currentStep - 1} />
+      {currentStep == 1 ? (
+        <Board />
+      ) : currentStep == 2 ? (
+        <>
+          {accountTypeCode == "personal" ? (
+            <PersonalDetails />
+          ) : accountTypeCode == "business" ? (
+            <BusinessDetails />
+          ) : (
+            accountTypeCode == "government" && <GovernmentDetails />
+          )}
+        </>
+      ) : (
+        <></>
+      )}
+    </>
   );
 }

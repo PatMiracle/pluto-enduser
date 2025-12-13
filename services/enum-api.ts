@@ -144,13 +144,8 @@ export interface AccountType {
   description: string;
 }
 
-interface AccountTypeResponse {
-  data: AccountType[];
-  pagination: Pagination;
-}
-
 export const useAccountTypes = () =>
-  useApiQuery<AccountTypeResponse>(
+  usePaginatedQuery<PaginatedResponse<AccountType>>(
     "account-types",
     "/account-types",
     {},

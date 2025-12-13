@@ -35,6 +35,10 @@ export default function AuthLayer({ children }: Props) {
       window.location.replace("/onboarding");
     }
 
+    if (user && !user.needsAccountSetup && pathname == "/onboarding") {
+      window.location.replace("/dashboard");
+    }
+
     const client = clientAccount?.[0];
 
     if (user && user?.accountType !== "personal" && client) {
