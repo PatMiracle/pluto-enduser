@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUpdateUser } from "@/services/user-api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdApartment, MdClose, MdEdit } from "react-icons/md";
 import { IoCameraOutline } from "react-icons/io5";
 import { useStates } from "@/services/enum-api";
@@ -109,10 +109,16 @@ const GovernmentProfile = () => {
     setProfilePhoto(e.target.files?.[0] ?? null);
   };
 
+  const {
+    values: { orgMinistryId },
+  } = useStore(form.store);
+
+  // useEffect(()=>{}, [orgMinistryId])
+
   const { isDefaultValue } = useStore(form.store, (s) => s);
   const { data: rawStates } = useStates();
   const { data: ministries } = useOrgMinistries();
-  const { data: agencies } = useOrgAgencies();
+  const { data: agencies } = useOrgAgencies({ orgMinistryId });
   const orgMinistries = useOptions(
     ministries,
     "orgMinistryId",

@@ -82,8 +82,13 @@ export const useOrgMinistries = () =>
     "/org-ministries",
   );
 
-export const useOrgAgencies = () =>
+export const useOrgAgencies = (
+  p?: { orgMinistryId?: number },
+  o?: { enabled?: boolean },
+) =>
   usePaginatedQuery<PaginatedResponse<OrgAgency>>(
     "org-agencies",
     "/org-agencies",
+    { ...p },
+    { ...o },
   );
