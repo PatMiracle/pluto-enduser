@@ -25,6 +25,7 @@ interface Params {
   from?: string;
   to?: string;
   eventType?: string;
+  dropLocationId?: number;
 }
 
 export const useCalenderEvents = (params: Params) =>

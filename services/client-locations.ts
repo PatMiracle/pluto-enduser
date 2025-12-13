@@ -56,10 +56,15 @@ interface ClientLocationResponse {
   pagination: Pagination;
 }
 
-export const useClientLocations = () =>
+export const useClientLocations = (
+  p?: { clientLocationId?: number },
+  opts?: { enabled?: boolean },
+) =>
   useApiQuery<ClientLocationResponse>(
     "client-locations",
     "/user/client-locations",
+    { ...p },
+    { ...opts },
   );
 
 export const useCreateLocation = () => {

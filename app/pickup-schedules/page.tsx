@@ -23,22 +23,26 @@ import {
   CalendarEvent,
   useCalenderEvents,
 } from "@/services/calendar-events-api";
+import { useClientLocations } from "@/services/client-locations";
 
 const PickupSchedules = () => {
-  // const searchParams = useSearchParams();
-  // const id = searchParams.get("id");
-  // console.log(id);
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
   const router = useRouter();
-
   const [currentDate, setCurrentDate] = useState(new Date());
-
   const eventDetailsRef = useRef<HTMLDivElement>(null);
 
   const { data: events } = useCalenderEvents({
     from: format(startOfMonth(currentDate), "yyyy-MM-dd"),
     to: format(endOfMonth(currentDate), "yyyy-MM-dd"),
+    dropLocationId: id ? +id : undefined,
   });
+
+  const { data: locations } = useClientLocations(
+    { clientLocationId: id ? +id : undefined },
+    { enabled: !!id },
+  );
 
   const currentDateEvents = events?.filter(
     (e) =>
@@ -153,6 +157,11 @@ const PickupSchedules = () => {
 
     return (
       <div className="mb-6 overflow-hidden">
+        {id && (
+          <p className="mb-2 text-xl">
+            Pickup Schedule for: {locations && locations.data[0]?.address}
+          </p>
+        )}
         <p>{format(currentDate, "EEE, MMM d")}</p>
         <p className="bg-red-light text-red-normal my-2 flex items-start gap-1 rounded-md px-3 py-2 text-sm sm:items-center">
           <MdInfo className="shrink-0" />
