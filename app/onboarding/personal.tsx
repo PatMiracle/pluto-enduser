@@ -68,7 +68,9 @@ export default function PersonalDetails() {
           <LabeledSelect
             options={states}
             value={data.orgState}
-            onSelect={(v) => setData({ orgState: v as number })}
+            onSelect={(v) =>
+              setData({ orgState: v as number, orgLGA: undefined })
+            }
             placeholder="State"
             label="State"
             iconLeft={<MdApartment />}
@@ -104,7 +106,7 @@ export default function PersonalDetails() {
               toast.error("Enter a valid Nigerian phone number");
               return;
             }
-            setData({ orgEmail: user?.email });
+            setData({ orgEmail: user?.email, orgPhoneNo: phone });
             nextStep();
           }}
         >

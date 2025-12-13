@@ -12,14 +12,12 @@ import {
   useOrgMinistries,
 } from "@/services/client-account-api";
 import { useLGAs, useStates } from "@/services/enum-api";
-import useAuthStore from "@/store/AuthStore";
 import { MdApartment, MdCottage, MdMailOutline } from "react-icons/md";
 import { toast } from "sonner";
 import * as z from "zod";
 
 export default function GovernmentDetails() {
   const { data, setData, nextStep, prevStep } = useAccountSetupContext();
-  const { user } = useAuthStore();
 
   const { data: rawStates } = useStates();
   const states = useOptions(rawStates?.data, "stateId", "stateName");
@@ -100,7 +98,9 @@ export default function GovernmentDetails() {
           <LabeledSelect
             options={states}
             value={data.orgState}
-            onSelect={(v) => setData({ orgState: v as number })}
+            onSelect={(v) =>
+              setData({ orgState: v as number, orgLGA: undefined })
+            }
             placeholder="State"
             label="State"
             iconLeft={<MdApartment />}
