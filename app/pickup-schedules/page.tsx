@@ -1,22 +1,27 @@
 "use client";
-import React, { useState } from "react";
-import { ChevronLeft, Truck } from "lucide-react";
+import { useState } from "react";
+import { Truck } from "lucide-react";
+import { useSearchParams, useRouter } from "next/navigation";
+import {
+  MdChevronLeft,
+  MdChevronRight,
+  MdInfo,
+  MdKeyboardArrowDown,
+  MdKeyboardArrowLeft,
+} from "react-icons/md";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import GreenTruck from "@/public/green-truck";
+import YellowTruck from "@/public/yellow-truck";
+import BlueTruck from "@/public/blue-truck";
 
 const PickupSchedules = () => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  const router = useRouter();
+
   const [currentDate, setCurrentDate] = useState(new Date());
-
-  // Dummy schedule data
-  const scheduleData: Record<string, string[]> = {
-    "2024-12-4": ["garbage"],
-    "2024-12-6": ["garbage", "recycling"],
-    "2024-12-11": ["special"],
-    "2024-12-13": ["garbage"],
-    "2024-12-18": ["garbage", "recycling"],
-    "2024-12-20": ["special"],
-    "2024-12-25": ["holiday"],
-    "2024-12-27": ["garbage"],
-  };
-
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -26,12 +31,6 @@ const PickupSchedules = () => {
     const startingDayOfWeek = firstDay.getDay();
 
     return { daysInMonth, startingDayOfWeek };
-  };
-
-  const getDateKey = (day: number) => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    return `${year}-${month + 1}-${day}`;
   };
 
   const isToday = (day: number) => {
@@ -48,11 +47,11 @@ const PickupSchedules = () => {
     const days = [];
     const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    // Week day headers
     const headers = weekDays.map((day) => (
       <div
         key={day}
-        className="py-2 text-center text-sm font-semibold text-gray-600"
+        onClick={() => console.log(day)}
+        className="text-white-darker py-3 text-center text-sm"
       >
         {day}
       </div>
@@ -63,59 +62,71 @@ const PickupSchedules = () => {
       days.push(
         <div
           key={`empty-${i}`}
-          className="aspect-square border border-gray-200"
-        ></div>,
+          className="h-16 cursor-pointer border border-gray-200"
+        />,
       );
     }
 
     // Days of month
     for (let day = 1; day <= daysInMonth; day++) {
-      const dateKey = getDateKey(day);
-      const events = scheduleData[dateKey] || [];
       const isTodayCell = isToday(day);
+      const isSelectedDate = currentDate.getDate() == day;
 
       days.push(
-        <div
+        <button
           key={day}
-          className={`flex aspect-square flex-col items-center justify-start border border-gray-200 p-2 ${
-            isTodayCell ? "bg-green-50" : ""
-          }`}
+          onClick={() => {
+            setCurrentDate(
+              new Date(currentDate.getFullYear(), currentDate.getMonth(), day),
+            );
+          }}
+          className={cn(
+            "flex h-16 flex-col items-center justify-center border border-gray-200 p-2",
+            isTodayCell && "text-primary",
+            isSelectedDate && "bg-green-light text-primary",
+          )}
         >
-          <div
-            className={`mb-1 text-sm font-medium ${isTodayCell ? "text-green-600" : "text-gray-700"}`}
+          <span
+            className={cn(
+              "mb-1 text-sm font-medium",
+              isTodayCell ? "text-primary" : "text-gray-700",
+              isSelectedDate && "text-primary",
+            )}
           >
             {day}
-          </div>
-          <div className="flex flex-wrap justify-center gap-0.5">
-            {events.includes("garbage") && (
-              <div className="flex h-4 w-4 items-center justify-center rounded-sm bg-green-500">
-                <Truck size={10} className="text-white" />
-              </div>
-            )}
-            {events.includes("special") && (
-              <div className="flex h-4 w-4 items-center justify-center rounded-sm bg-yellow-500">
-                <Truck size={10} className="text-white" />
-              </div>
-            )}
-            {events.includes("recycling") && (
-              <div className="flex h-4 w-4 items-center justify-center rounded-sm bg-blue-500">
-                <Truck size={10} className="text-white" />
-              </div>
-            )}
-          </div>
-        </div>,
+          </span>
+          <span className="flex flex-wrap justify-center gap-0.5">
+            {/* event truck  icons here */}
+            <GreenTruck className="size-4 lg:size-5" />
+          </span>
+        </button>,
       );
     }
 
     return (
-      <div className="mb-6 overflow-hidden rounded-lg bg-white shadow-sm">
-        <div className="bg-green-600 py-3 text-center text-lg font-semibold text-white">
-          {currentDate.toLocaleDateString("en-US", {
-            month: "long",
-            year: "numeric",
-          })}
+      <div className="mb-6 overflow-hidden">
+        <p>{format(currentDate, "EEE, MMM d")}</p>
+        <p className="bg-red-light text-red-normal my-2 flex items-start gap-1 rounded-md px-3 py-2 text-sm sm:items-center">
+          <MdInfo className="shrink-0" />
+          Services are moved a day due to holiday, as indicated by the coloured
+          boxes
+        </p>
+        <div className="flex items-center justify-between py-3">
+          <button className="flex items-center gap-1">
+            <span>{format(currentDate, "MMMM yyyy")}</span>
+            <MdKeyboardArrowDown size={24} />
+          </button>
+          <div className="flex items-center gap-2.5">
+            <button>
+              <MdChevronLeft size={24} />
+            </button>
+            <span>Now</span>
+            <button>
+              <MdChevronRight size={24} />
+            </button>
+          </div>
         </div>
-        <div className="grid grid-cols-7">
+        <div className="grid grid-cols-7 border-t">
           {headers}
           {days}
         </div>
@@ -125,66 +136,46 @@ const PickupSchedules = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
       <div
-        className="flex items-center px-5 py-4"
+        className="flex items-center gap-2 px-5 py-4"
         style={{ boxShadow: "0px 4px 4px 0px #00000040" }}
       >
-        <button className="rounded-full p-1 transition-colors hover:bg-gray-100">
-          <ChevronLeft size={28} className="text-green-600" />
+        <button onClick={() => router.back()}>
+          <MdKeyboardArrowLeft size={28} className="text-primary" />
         </button>
         <h1 className="text-lg font-bold">Pickup Schedules</h1>
       </div>
 
-      {/* Content */}
-      <div className="mx-auto max-w-4xl px-6 py-6">
-        {/* Calendar */}
-        {renderCalendar()}
+      <div className="px-6 lg:flex lg:flex-row-reverse lg:py-0">
+        <div className="flex-1 py-6 lg:pl-5">{renderCalendar()}</div>
 
-        {/* Legend Section */}
-        <div className="rounded-lg bg-white p-6 shadow-sm">
-          <h2 className="mb-6 text-xl font-semibold text-gray-700">Legend</h2>
-
+        <div className="pt-6 pr-5 lg:border-r">
+          <h2 className="text-white-darker mb-6 text-xl">Legend</h2>
           <div className="space-y-6">
-            {/* Garbage Pickup */}
             <div>
-              <div className="mb-2 flex items-center gap-3">
-                <div className="flex h-6 w-6 items-center justify-center rounded bg-green-500">
-                  <Truck size={14} className="text-white" />
-                </div>
-                <h3 className="text-lg font-medium text-gray-900">
-                  Garbage Pickup
-                </h3>
+              <div className="mb-2 flex items-center gap-2">
+                <GreenTruck className="size-6" />
+                <span>Garbage Pickup</span>
               </div>
-              <p className="ml-9 text-sm leading-relaxed text-gray-600">
+              <p className="text-white-darker text-sm leading-relaxed">
                 Regular household waste collection service.
               </p>
             </div>
-
-            {/* Special Order/Request */}
             <div>
-              <div className="mb-2 flex items-center gap-3">
-                <div className="flex h-6 w-6 items-center justify-center rounded bg-yellow-500">
-                  <Truck size={14} className="text-white" />
-                </div>
-                <h3 className="text-lg font-medium text-gray-900">
-                  Special Order / Request
-                </h3>
+              <div className="mb-2 flex items-center gap-2">
+                <YellowTruck className="size-6" />
+                <span>Special Order / Request</span>
               </div>
-              <p className="ml-9 text-sm leading-relaxed text-gray-600">
+              <p className="text-white-darker text-sm leading-relaxed">
                 Street cleaning and maintenance service.
               </p>
             </div>
-
-            {/* Recycling */}
             <div>
-              <div className="mb-2 flex items-center gap-3">
-                <div className="flex h-6 w-6 items-center justify-center rounded bg-blue-500">
-                  <Truck size={14} className="text-white" />
-                </div>
-                <h3 className="text-lg font-medium text-gray-900">Recycling</h3>
+              <div className="mb-2 flex items-center gap-2">
+                <BlueTruck className="size-6" />
+                <span>Recycling</span>
               </div>
-              <p className="ml-9 text-sm leading-relaxed text-gray-600">
+              <p className="text-white-darker text-sm leading-relaxed">
                 Recycling of paper, plastics, and metals.
               </p>
             </div>
