@@ -29,8 +29,8 @@ import {
 import { useClientLocations } from "@/services/client-locations";
 
 const PickupSchedules = () => {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+//  const searchParams = useSearchParams();
+ // const id = searchParams.get("id");
 
   const router = useRouter();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -39,9 +39,10 @@ const PickupSchedules = () => {
   const { data: events } = useCalenderEvents({
     from: format(startOfMonth(currentDate), "yyyy-MM-dd"),
     to: format(endOfMonth(currentDate), "yyyy-MM-dd"),
-    dropLocationId: id ? +id : undefined,
+   // dropLocationId: id ? +id : undefined,
   });
 
+  const id = 0;
   const { data: locations } = useClientLocations(
     { clientLocationId: id ? +id : undefined },
     { enabled: !!id },
