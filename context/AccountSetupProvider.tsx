@@ -67,7 +67,10 @@ export default function AccountSetupProvider({
   const [currentStep, setCurrentStep] = useState(1);
 
   useEffect(() => {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    sessionStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ ...data, locations: [] }),
+    );
   }, [data]);
 
   useEffect(() => {
