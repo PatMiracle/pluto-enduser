@@ -3,7 +3,7 @@ import api from "@/lib/apiClient";
 import defaultErrorHandler from "@/lib/error-handler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-interface Landmark {
+export interface Landmark {
   postalCodeId: number;
   postalCode: string;
   landmarkName: string;

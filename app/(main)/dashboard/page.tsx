@@ -14,7 +14,10 @@ import useAuthStore from "@/store/AuthStore";
 export default function Dashboard() {
   const { user } = useAuthStore();
   const { data: dashboardData } = useDashboard();
-  const { data: calenderEvents } = useCalenderEvents({ pageSize: 9 });
+  const { data: calenderEvents } = useCalenderEvents({
+    pageSize: 9,
+    eventType: "pickup",
+  });
   const { data: serviceRequests } = useServiceRequests({ pageSize: 7 });
 
   return (
@@ -28,7 +31,7 @@ export default function Dashboard() {
             <StatCards data={dashboardData} />
           </section>
           <section className="lg:max-[40%] flex-1">
-            <PickupSchedules data={calenderEvents?.data} />
+            <PickupSchedules data={calenderEvents} />
           </section>
         </div>
       </div>
