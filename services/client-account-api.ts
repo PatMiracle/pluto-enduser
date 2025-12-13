@@ -64,6 +64,21 @@ export const useUpdateClient = () => {
   });
 };
 
+export const useCreateClient = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ ...data }: Partial<ClientAccount>) => {
+      const res = await api.post(`/user/client-accounts/`, data);
+      return res;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["client-account"],
+      });
+    },
+  });
+};
+
 export interface OrgMinistry {
   dateCreated: string;
   lastModified: string;

@@ -9,7 +9,6 @@ import BusinessDetails from "./business";
 import GovernmentDetails from "./government";
 import PickupLocations from "./pickup-location";
 import Summary from "./summary";
-import { Button } from "@/components/ui/button";
 
 export default function Onboarding() {
   const { currentStep, data } = useAccountSetupContext();
